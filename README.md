@@ -1,3 +1,2 @@
 # mood tracker
 
-// Yuumi saikouda!
