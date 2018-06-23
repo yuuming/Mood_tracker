@@ -1,0 +1,3 @@
+rootProject.name = 'mood_tracker'
+
+include ':app'
