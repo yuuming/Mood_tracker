@@ -1,1 +1,8 @@
-{ "presets": ["es2015"] }
+{ 
+    "presets": [
+        "react-native"
+    ],
+    "plugins":[
+        "transform-decorators-legacy"
+    ]
+}
