@@ -19,7 +19,13 @@ export default class SignIn extends Component {
         this.state = {
             email: '',
             password: '',
+            confirmedPassword: '',
+            isSignUpMode: false,
         };
+    }
+
+    switchMode = () => {
+        this.setState({ isSignUpMode: !this.state.isSignUpMode });
     }
 
     render() {
@@ -41,6 +47,33 @@ export default class SignIn extends Component {
                     value={this.state.password}
                     secureTextEntry
                 />
+                {this.state.isSignUpMode ?
+                    <View>
+                        <Text style={styles.textStyle}>Confirm Password</Text>
+                        <TextInput
+                            style={styles.textInputStyle}
+                            onChangeText={(confirmedPassword) => this.setState({ confirmedPassword })}
+                            value={this.state.confirmedPassword}
+                            secureTextEntry
+                            enablesReturnKeyAutomatically
+                            textContentType='password'
+                        />
+                    </View> :
+                    null
+                }
+                <TouchableOpacity>
+                    <View style={styles.signInButtonStyle}>
+                        <Text>{this.state.isSignUpMode ? 'Sign Up' : 'Sign In'}</Text>
+                    </View>
+                </TouchableOpacity>
+                <TouchableOpacity>
+                    <Text style={styles.touchableTextStyle}>Forgot your password?</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={this.switchMode}>
+                    <Text style={styles.touchableTextStyle}>
+                        {this.state.isSignUpMode ? 'Ready to sign in?' : 'Wanna create an account?'}
+                    </Text>
+                </TouchableOpacity>
             </View>
         );
     }
