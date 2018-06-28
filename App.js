@@ -13,6 +13,7 @@ import {
 } from 'react-native';
 import { Provider } from 'mobx-react';
 import RootStore from './store/RootStore';
+import SignIn from './screens/SignIn';
 
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' +
@@ -25,7 +26,8 @@ export default class App extends Component {
   render() {
     return (
       <Provider rootStore={new RootStore()}>
-        <View style={styles.container}>
+        <SignIn />
+        {/* <View style={styles.container}>
           <Text style={styles.welcome}>
             Welcome to React Native!
         </Text>
@@ -35,7 +37,7 @@ export default class App extends Component {
           <Text style={styles.instructions}>
             {instructions}
           </Text>
-        </View>
+        </View> */}
       </Provider>
     );
   }
