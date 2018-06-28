@@ -9,7 +9,7 @@ import { observer, inject } from 'mobx-react';
 @inject('rootStore')
 @observer
 export default class Monthly extends Component {
-        constructor(props) {
+    constructor(props) {
         super(props);
     }
 

@@ -5,7 +5,8 @@ import {
     StyleSheet,
     TouchableOpacity,
 } from 'react-native';
-import { observer, inject, Actions } from 'mobx-react';
+import { observer, inject } from 'mobx-react';
+import { Actions } from 'react-native-router-flux';
 
 @inject('rootStore')
 @observer
