@@ -3,7 +3,7 @@ import {
     View,
     Text,
     StyleSheet,
-} from 'react-native'
+} from 'react-native';
 import { observer, inject } from 'mobx-react';
 
 @inject('rootStore')
