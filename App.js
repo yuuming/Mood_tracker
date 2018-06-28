@@ -12,8 +12,8 @@ import {
   View
 } from 'react-native';
 import { Provider } from 'mobx-react';
-import RootStore from './store/RootStore';
-import SignIn from './screens/SignIn';
+import RootStore from './src/store/RootStore';
+import SignIn from './src/screens/SignIn';
 
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' +
