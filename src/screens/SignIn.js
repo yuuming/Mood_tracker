@@ -3,20 +3,25 @@ import {
     View,
     Text,
     StyleSheet,
+    TouchableOpacity,
 } from 'react-native'
-import { observer, inject } from 'mobx-react';
+import { observer, inject, Actions } from 'mobx-react';
 
 @inject('rootStore')
 @observer
 export default class SignIn extends Component {
-    constructor(props) {
+        constructor(props) {
         super(props);
     }
 
     render() {
         return (
             <View style={styles.container}>
+                <TouchableOpacity
+                    onPress={()=>{ Actions.monthly();}}
+                >
                 <Text>SignIn Page!</Text>
+                </TouchableOpacity>
             </View>
         );
     }
