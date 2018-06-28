@@ -15,6 +15,7 @@ export default class MainPage extends Component {
                         key='signIn'
                         component={SignIn}
                         initial
+                        hideNavBar
                     />
                     <Scene
                         key='monthly'
