@@ -32,15 +32,21 @@ export default class SignIn extends Component {
         this.setState({ isSignUpMode: !this.state.isSignUpMode });
     }
 
+    clearAllFields = () => {
+        this.setState({
+            email: '',
+            password: '',
+            confirmedPassword: ''
+        });
+    }
+
     isDone = () => {
         const { email, password, confirmedPassword, isSignUpMode } = this.state;
 
-        if (emailRegex.test(email) && passwordRegex.test(password)) {
-            this.accountStore.signIn(email, password);
-        } else if (!emailRegex.test(email)) {
+        if (!emailRegex.test(email)) {
             alert('email is wrong');
             return;
-        } else {
+        } else if (!passwordRegex.test(password)) {
             alert('password is wrong');
             return;
         }
@@ -50,8 +56,10 @@ export default class SignIn extends Component {
         } else if (!isSignUpMode) {
             this.accountStore.signIn(email, password);
         } else {
-            alert('please confirm your email again!');
+            alert('please confirm your password again!');
         }
+
+        this.clearAllFields();
     }
 
     render() {
@@ -94,6 +102,7 @@ export default class SignIn extends Component {
                         <Text>{this.state.isSignUpMode ? 'Sign Up' : 'Sign In'}</Text>
                     </View>
                 </TouchableOpacity>
+                {this.accountStore.authError !== null ? <Text style={styles.errorTextStyle}>{this.accountStore.authError}</Text> : null}
                 <TouchableOpacity>
                     <Text style={styles.touchableTextStyle}>Forgot your password?</Text>
                 </TouchableOpacity>
@@ -145,5 +154,13 @@ const styles = StyleSheet.create({
         textAlign: 'left',
         fontWeight: '300',
         fontSize: 14
-    }
+    },
+    errorTextStyle: {
+        marginLeft: 30,
+        marginTop: 10,
+        textAlign: 'center',
+        fontWeight: '600',
+        fontSize: 14,
+        color: 'red'
+    },
 });
