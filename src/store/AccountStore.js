@@ -6,4 +6,13 @@ export default class AccountStore {
   constructor(rootStore) {
     this.rootStore = rootStore;
   }
+
+  signUp = (email, password) => {
+    console.log(`Sign up with ${email} ${password}`);
+  }
+
+  signIn = (email, password) => {
+    console.log(`Sign in with ${email} ${password}`);
+  }
 }
+

@@ -11,6 +11,8 @@ import { observer, inject } from 'mobx-react';
 import { Actions } from 'react-native-router-flux';
 
 const { width } = Dimensions.get('window');
+const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$/;
 @inject('rootStore')
 @observer
 export default class SignIn extends Component {
@@ -22,10 +24,34 @@ export default class SignIn extends Component {
             confirmedPassword: '',
             isSignUpMode: false,
         };
+        this.rootStore = this.props.rootStore;
+        this.accountStore = this.rootStore.accountStore;
     }
 
     switchMode = () => {
         this.setState({ isSignUpMode: !this.state.isSignUpMode });
+    }
+
+    isDone = () => {
+        const { email, password, confirmedPassword, isSignUpMode } = this.state;
+
+        if (emailRegex.test(email) && passwordRegex.test(password)) {
+            this.accountStore.signIn(email, password);
+        } else if (!emailRegex.test(email)) {
+            alert('email is wrong');
+            return;
+        } else {
+            alert('password is wrong');
+            return;
+        }
+
+        if (isSignUpMode && (password === confirmedPassword)) {
+            this.accountStore.signUp(email, password);
+        } else if (!isSignUpMode) {
+            this.accountStore.signIn(email, password);
+        } else {
+            alert('please confirm your email again!');
+        }
     }
 
     render() {
@@ -61,7 +87,9 @@ export default class SignIn extends Component {
                     </View> :
                     null
                 }
-                <TouchableOpacity>
+                <TouchableOpacity
+                    onPress={this.isDone}
+                >
                     <View style={styles.signInButtonStyle}>
                         <Text>{this.state.isSignUpMode ? 'Sign Up' : 'Sign In'}</Text>
                     </View>
