@@ -1,4 +1,5 @@
 import firebase from 'react-native-firebase';
+import { Actions } from 'react-native-router-flux';
 import { observable } from 'mobx';
 import { WRONG_PASSWORD, USER_NOT_FOUND, EMAIL_ALREADY_IN_USE } from '../../Utils/Const';
 
@@ -9,37 +10,43 @@ export default class AccountStore {
     this.rootStore = rootStore;
   }
 
-  @observable isSignedInSuccessfully = null;
-  @observable user = null;
+  user = null;
+
+  @observable isPending = false;
   @observable authError = null;
 
   signUp = (email, password) => {
     this.authError = null;
+    this.isPending = true;
 
     firebase.auth().createUserAndRetrieveDataWithEmailAndPassword(email, password)
       .then((auth) => {
-        console.log(auth);
+        this.saveUser(auth.user._user);
       })
       .catch((err) => {
+        this.isPending = false;
+
         switch (err.code) {
           case 'auth/email-already-in-use':
             this.authError = EMAIL_ALREADY_IN_USE;
             break;
-          default: 
+          default:
             console.log(err);
-            this.isSignedInSuccessfully = false;
         }
       });
   }
 
   signIn = (email, password) => {
     this.authError = null;
+    this.isPending = true;
 
     firebase.auth().signInAndRetrieveDataWithEmailAndPassword(email, password)
       .then((auth) => {
-        this.isSignedInSuccessfully = true;
+        this.getUser(auth.user._user);
       })
       .catch((err) => {
+        this.isPending = false;
+
         switch (err.code) {
           case 'auth/wrong-password':
             this.authError = WRONG_PASSWORD;
@@ -50,10 +57,33 @@ export default class AccountStore {
           case 'auth/email-already-in-use':
             this.authError = EMAIL_ALREADY_IN_USE;
             break;
-          default: 
+          default:
             console.log(err);
-            this.isSignedInSuccessfully = false;
         }
       });
+  }
+
+  saveUser = (user) => {
+    db.collection('users').doc(user.uid)
+      .set({
+        joinedDate: new Date(),
+        email: user.email,
+        obtainedPalette: {}
+      })
+      .then(() => {
+        this.getUser(user);
+      })
+      .catch((err) => { console.log(err); });
+  }
+
+  getUser = (user) => {
+    db.collection('users').doc(user.uid)
+      .get()
+      .then((userRef) => {
+        this.user = userRef._data;
+        this.isPending = false;
+        Actions.monthly();
+      })
+      .catch((err) => { console.log(err); });
   }
 }

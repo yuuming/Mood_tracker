@@ -6,9 +6,9 @@ import {
     StyleSheet,
     TouchableOpacity,
     Dimensions,
+    ActivityIndicator
 } from 'react-native';
 import { observer, inject } from 'mobx-react';
-import { Actions } from 'react-native-router-flux';
 
 const { width } = Dimensions.get('window');
 const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -111,6 +111,9 @@ export default class SignIn extends Component {
                         {this.state.isSignUpMode ? 'Ready to sign in?' : 'Wanna create an account?'}
                     </Text>
                 </TouchableOpacity>
+                <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                    {this.accountStore.isPending ? <ActivityIndicator /> : null}
+                </View>
             </View>
         );
     }
