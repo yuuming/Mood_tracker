@@ -15,11 +15,14 @@ export default class MainPage extends Component {
                         key='signIn'
                         component={SignIn}
                         initial
+                        hideNavBar
                     />
-                    <Scene
-                        key='monthly'
-                        component={Monthly}
-                    />
+                    <Stack key='main'>
+                        <Scene
+                            key='monthly'
+                            component={Monthly}
+                        />
+                    </Stack>
                 </Stack>
             </Router>
         );

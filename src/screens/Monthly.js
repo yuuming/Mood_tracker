@@ -5,12 +5,21 @@ import {
     StyleSheet,
 } from 'react-native';
 import { observer, inject } from 'mobx-react';
+import { Actions } from 'react-native-router-flux';
+
 
 @inject('rootStore')
 @observer
 export default class Monthly extends Component {
     constructor(props) {
         super(props);
+        this.rootStore = this.props.rootStore;
+        this.accountStore = this.rootStore.accountStore;
+    }
+
+    componentWillMount() {
+        console.log(this.accountStore.user);
+        console.log(Actions.state);
     }
 
     render() {
