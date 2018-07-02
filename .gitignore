@@ -22,6 +22,27 @@ DerivedData
 *.xcuserstate
 project.xcworkspace
 
+# build products
+build/
+*.[oa]
+
+# repositories
+.hg
+.svn
+CVS
+
+# automatic backup files
+*~.nib
+*.swp
+*~
+*(Autosaved).rtfd/
+Backup[ ]of[ ]*.pages/
+Backup[ ]of[ ]*.key/
+Backup[ ]of[ ]*.numbers/
+
+# Cocoapods
+Pods/*
+
 # Gradle
 /build/
 /RNTester/android/app/build/
