@@ -1,7 +1,7 @@
 import firebase from 'react-native-firebase';
 import { Actions } from 'react-native-router-flux';
 import { observable } from 'mobx';
-import { WRONG_PASSWORD, USER_NOT_FOUND, EMAIL_ALREADY_IN_USE } from '../../Utils/Const';
+import { WRONG_PASSWORD, USER_NOT_FOUND, EMAIL_ALREADY_IN_USE } from '../../utils/Const';
 
 const db = firebase.firestore();
 
