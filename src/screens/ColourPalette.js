@@ -25,6 +25,7 @@ export default class ColourPalette extends Component {
     render() {
         return (
             <View style={styles.container}>
+            <Text>ColourPalette page!!</Text>
             <MoodPalette />
             </View>
 

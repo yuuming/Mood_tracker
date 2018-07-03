@@ -27,6 +27,11 @@ export default class Monthly extends Component {
         return (
             <View style={styles.container}>
                 <Text>Monthly page!</Text>
+            <View>
+            <TouchableOpacity onPress={() => Actions.colourPalette()}>
+               <Text>go to colourPalette page!</Text>
+            </TouchableOpacity>
+            </View>
             </View>
         );
     }
