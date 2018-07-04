@@ -40,7 +40,7 @@ export default class MoodPalette extends Component {
         <Text>C1</Text>
         </View>
         <View style={styles.colourSquare}>
-        <Text style={{backgroundColor: '#8478b6' }}>C2</Text>
+        <Text style={{ backgroundColor: '#8478b6' }}>C2</Text>
         </View>
         <View style={styles.colourSquare}>
         <Text>C3</Text>
@@ -51,8 +51,8 @@ export default class MoodPalette extends Component {
         <View style={styles.colourSquare}>
         <Text>C5</Text>
         </View>
-
         </View>
+        <Text style={styles.paletteName}>UNICORN</Text>
       </View>
       </ScrollView>
     );
@@ -78,6 +78,10 @@ const styles = StyleSheet.create({
   colourPalette: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    height: 60,
+  },
+  paletteName: {
+    flexDirection: 'row',
     height: 60,
   }
 });
