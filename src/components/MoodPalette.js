@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { observer, inject } from 'mobx-react';
 
 @inject('rootStore')
@@ -26,7 +26,7 @@ export default class MoodPalette extends Component {
     // if (moodImageURL) {
     console.log('this is called!');
     return (
-      <ScrollView style={{ flex: 1 }}>
+      <View style={{ flex: 1 }}>
       <View>
         <Image
           source={{
@@ -54,7 +54,7 @@ export default class MoodPalette extends Component {
         </View>
         <Text style={styles.paletteName}>UNICORN</Text>
       </View>
-      </ScrollView>
+      </View>
     );
   }
 
