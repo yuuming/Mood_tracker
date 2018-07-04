@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView } from 'react-native';
 import { observer, inject } from 'mobx-react';
 
 @inject('rootStore')
@@ -26,6 +26,7 @@ export default class MoodPalette extends Component {
     // if (moodImageURL) {
     console.log('this is called!');
     return (
+      <ScrollView style={{ flex: 1 }}>
       <View>
         <Image
           source={{
@@ -34,7 +35,26 @@ export default class MoodPalette extends Component {
           }}
           style={styles.moodPaletteImage}
         />
+        <View style={styles.colourPalette}>
+        <View style={styles.colourSquare}>
+        <Text>C1</Text>
+        </View>
+        <View style={styles.colourSquare}>
+        <Text style={{backgroundColor: '#8478b6' }}>C2</Text>
+        </View>
+        <View style={styles.colourSquare}>
+        <Text>C3</Text>
+        </View>
+        <View style={styles.colourSquare}>
+        <Text>C4</Text>
+        </View>
+        <View style={styles.colourSquare}>
+        <Text>C5</Text>
+        </View>
+
+        </View>
       </View>
+      </ScrollView>
     );
   }
 
@@ -46,8 +66,18 @@ export default class MoodPalette extends Component {
 
 const styles = StyleSheet.create({
   moodPaletteImage: {
-    height: 150,
-    width: 150,
+    height: 200,
+    width: 300,
     alignItems: 'center'
+  },
+  colourSquare: { 
+    flex: 1,
+    height: 60,
+    width: 60
+  },
+  colourPalette: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    height: 60,
   }
 });

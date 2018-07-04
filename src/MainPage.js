@@ -12,16 +12,17 @@ export default class MainPage extends Component {
         return (
             <Router>
                 <Stack key='root' >
-                    <Scene
+                    {/* <Scene
                         key='signIn'
                         component={SignIn}
                         initial
                         hideNavBar
-                    />
+                    /> */}
                     <Stack key='main'>
                         <Scene
                             key='monthly'
                             component={Monthly}
+                            initial
                         />
                         <Scene
                             key='colourPalette'
