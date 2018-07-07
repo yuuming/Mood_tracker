@@ -18,7 +18,7 @@ export default class MainPage extends Component {
                         initial
                         hideNavBar
                     /> */}
-                    <Stack key='main'>
+                    {/* <Stack key='main'> */}
                         <Scene
                             key='monthly'
                             component={Monthly}
@@ -28,7 +28,7 @@ export default class MainPage extends Component {
                             key='colourPalette'
                             component={ColourPalette}
                         />
-                    </Stack>
+                    {/* </Stack> */}
                 </Stack>
             </Router>
         );

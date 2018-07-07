@@ -21,6 +21,7 @@ export default class Monthly extends Component {
     componentWillMount() {
         console.log(this.accountStore.user);
         console.log(Actions.state);
+        this.rootStore.loadMoodPaletteList();
     }
 
     render() {
