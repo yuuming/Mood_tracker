@@ -4,6 +4,9 @@ import { observer, inject } from 'mobx-react';
 import { Actions } from 'react-native-router-flux';
 import { Calendar } from 'react-native-calendars';
 import _ from 'lodash';
+import firebase from 'react-native-firebase';
+
+const db = firebase.firestore();
 
 @inject('rootStore')
 @observer
@@ -32,6 +35,23 @@ export default class Monthly extends Component {
         });
     }
 
+    // update() {
+    //         db.collection('users').doc('nTagtkNQOddlqNyVmocDhU1NeaF3')
+    //             .collection('markedDates')
+    //             .doc('qyo9wDRp696WrDodIyds')
+    //             .update(test);
+    // }
+
+    checkDate = (date) => {
+        const today = new Date().toISOString().split('T')[0];
+ 
+        if (date <= today) {
+            Actions.addPost({ date, post: this.user.markedDates[date] });
+        } else {
+            alert('wrong!');
+        }        
+    }
+
     render() {
         return (
             <View style={styles.container}>
@@ -58,7 +78,7 @@ export default class Monthly extends Component {
                             },
                         }
                     }}
-                    onDayPress={(day) => { Actions.addPost({ date: day.dateString, post: this.user.markedDates[day.dateString] }); }}
+                    onDayPress={(day) => { this.checkDate(day.dateString); }}
                 />
                 <TouchableOpacity onPress={() => Actions.colourPalette()}>
                     <Text>go to colourPalette page!</Text>
@@ -124,10 +144,6 @@ const test = {
             container: {
                 backgroundColor: '#F6D9D8',
                 borderRadius: 0,
-                // width: 40,
-                // height: 40,
-                margin: 0,
-                padding: 0,
             },
             text: {
                 color: 'white',
@@ -165,14 +181,8 @@ const test = {
         comment: 'nothing special happened',
         customStyles: {
             container: {
-                alignItems: 'center',
-                justifyContent: 'center',
                 backgroundColor: '#EFCBE0',
                 borderRadius: 0,
-                padding: 0,
-                margin: 0,
-                // width: 40,
-                // height: 40
             },
             text: {
                 color: 'white',
