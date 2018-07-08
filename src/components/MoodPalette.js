@@ -1,6 +1,15 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Image, FlatList } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  FlatList,
+  Dimensions
+} from 'react-native';
 import { observer, inject } from 'mobx-react';
+
+const { width, height } = Dimensions.get('window');
 
 @inject('rootStore')
 @observer
@@ -84,9 +93,10 @@ export default class MoodPalette extends Component {
 
 const styles = StyleSheet.create({
   moodPaletteImage: {
-    height: 200,
-    width: 300,
-    alignItems: 'center'
+    height: height * 0.35,
+    width: width * 0.9,
+    alignItems: 'center',
+    borderTopLeftRadius: 8,
   },
   colourSquare: {
     flex: 1,
@@ -109,9 +119,6 @@ const styles = StyleSheet.create({
   },
   cardItemContainer: {
     flex: 1,
-    paddingVertical: 8,
-    paddingHorizontal: 12,
-    borderBottomWidth: 0,
     marginHorizontal: 8,
     marginVertical: 6,
     backgroundColor: 'white',
