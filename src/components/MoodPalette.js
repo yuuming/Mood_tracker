@@ -37,7 +37,7 @@ export default class MoodPalette extends Component {
     // if (moodImageURL) {
     console.log('renderMoodImage is called!');
     return (
-      <View style={{ flex: 1 }}>
+      <View style={styles.cardItemContainer}>
         <View style={{ borderRadius: 8, borderColor: '#95a8c6' }}>
           <Image
             source={{
@@ -53,7 +53,7 @@ export default class MoodPalette extends Component {
             {colorSquare(item.moodColors.unhappy)}
             {colorSquare(item.moodColors.bad)}
           </View>
-          <Text style={styles.paletteName}>UNICORN</Text>
+          <Text style={styles.paletteName}>{item.name}</Text>
         </View>
       </View>
     );
@@ -106,6 +106,16 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     top: 10,
     paddingLeft: 17
+  },
+  cardItemContainer: {
+    flex: 1,
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    borderBottomWidth: 0,
+    marginHorizontal: 8,
+    marginVertical: 6,
+    backgroundColor: 'white',
+    borderRadius: 8
   }
 });
 
