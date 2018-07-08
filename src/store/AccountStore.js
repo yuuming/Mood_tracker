@@ -12,7 +12,7 @@ export default class AccountStore {
   }
 
   user = null;
-  moodPalettes = {};
+  // moodPalettes = {};
 
   @observable isPending = false;
   @observable authError = null;
@@ -117,22 +117,20 @@ export default class AccountStore {
       .catch((err) => { console.log(err); });
   }
 
-  getMoodPalettes = () => {
-    db.collection('moodPalette').get()
-      .then((ref) => {
-        const docs = ref.docs;
+  // getMoodPalettes = () => {
+  //   db.collection('moodPalette').get()
+  //     .then((ref) => {
+  //       const docs = ref.docs;
 
-        _.forEach(docs, (doc) => {
-          console.log(doc.id);
-          console.log(doc.data());
-          this.moodPalettes[doc.id] = doc.data();
-        });
+  //       _.forEach(docs, (doc) => {
+  //         this.moodPalettes[doc.id] = doc.data();
+  //       });
 
-        this.isPending = false;
-        Actions.monthly({ year: '2018', month: '07' });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
+  //       this.isPending = false;
+  //       Actions.monthly({ year: '2018', month: '07' });
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // }
 }
