@@ -1,9 +1,5 @@
 import React, { Component } from 'react';
-import {
-    View,
-    Text,
-    StyleSheet,
-} from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { observer, inject } from 'mobx-react';
 import { Actions } from 'react-native-router-flux';
 import { Calendar } from 'react-native-calendars';
@@ -61,6 +57,9 @@ export default class Monthly extends Component {
                     }}
                     onDayPress={(day) => { Actions.addPost({ date: day.dateString, post: this.user.markedDates[day.dateString] }); }}
                 />
+                <TouchableOpacity onPress={() => Actions.colourPalette()}>
+                    <Text>go to colourPalette page!</Text>
+                </TouchableOpacity>
             </View>
         );
     }

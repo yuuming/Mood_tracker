@@ -2,7 +2,7 @@ import firebase from 'react-native-firebase';
 import { Actions } from 'react-native-router-flux';
 import { observable } from 'mobx';
 import _ from 'lodash';
-import { WRONG_PASSWORD, USER_NOT_FOUND, EMAIL_ALREADY_IN_USE } from '../../utils/Const';
+import { WRONG_PASSWORD, USER_NOT_FOUND, EMAIL_ALREADY_IN_USE } from '../../Utils/Const';
 
 const db = firebase.firestore();
 
@@ -105,6 +105,9 @@ export default class AccountStore {
                 _.forEach(docs, (doc) => {
                   this.user.selectedPalettes = doc.data();
                 });
+                
+                this.isPending = false;
+                Actions.monthly({ year: '2018', month: '07' });
               })
               .catch((err) => {
                 console.log(err);
