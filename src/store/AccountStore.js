@@ -100,8 +100,6 @@ export default class AccountStore {
               .then((subCollectionRef) => {
                 const docs = subCollectionRef.docs;
 
-                this.getMoodPalettes();
-
                 _.forEach(docs, (doc) => {
                   this.user.selectedPalettes = doc.data();
                 });
