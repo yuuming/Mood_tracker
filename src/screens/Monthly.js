@@ -7,6 +7,7 @@ import {
 import { observer, inject } from 'mobx-react';
 import { Actions } from 'react-native-router-flux';
 import { Calendar } from 'react-native-calendars';
+import _ from 'lodash';
 
 @inject('rootStore')
 @observer
@@ -16,53 +17,47 @@ export default class Monthly extends Component {
         this.rootStore = this.props.rootStore;
         this.accountStore = this.rootStore.accountStore;
         this.user = this.accountStore.user;
+        this.year = this.props.year;
+        this.month = this.props.month;
     }
 
     componentWillMount() {
-        console.log(this.user.markedDates);
+        const selectedPaletteID = this.user.selectedPalettes[this.year][this.month];
+        const selectedPalette = this.accountStore.moodPalettes[selectedPaletteID];
+
+        console.log(this.accountStore.moodPalettes);
+        console.log(this.user);
+
+        _.map(this.user.markedDates, (item) => {
+            console.log(item);
+            item.customStyles.container.backgroundColor = selectedPalette.moodColors[item.mood];
+        });
     }
 
     render() {
         return (
             <View style={styles.container}>
-                <Text>Monthly page!</Text>
                 <Calendar
                     style={{
                         width: 350,
                         height: 500
                     }}
-                    // markedDates={{
-                    //     '2018-07-20': { selected: true, textColor: 'black', endingDay: true, color: 'green' },
-                    //     '2018-07-22': { selected: true, endingDay: true, color: 'blue' },
-                    //     '2018-07-23': { selected: true, endingDay: true, color: 'blue', textColor: 'white' },
-                    //     '2018-07-04': { disabled: true, selected: true, endingDay: true, color: 'blue' }
-                    // }}
+                    // markedDates={test}
                     markedDates={this.user.markedDates}
-                    // markingType={'period'}
+                    markingType={'custom'}
                     // hideArrows
                     theme={{
-                        // arrowColor: 'black',
                         'stylesheet.calendar.header': {
                             monthText: {
-                                fontSize: 15,
+                                fontSize: 18,
                                 fontWeight: '600',
                                 margin: 10,
-                                borderWidth: 4,
                             },
                             arrow: {
                                 width: 0,
-                                height: 50,
+                                height: 0,
                                 padding: 10,
-                                borderWidth: 4,
-                                // color: 'black'
                             },
-                            week: {
-                                height: 30,
-                                marginTop: 5,
-                                flexDirection: 'row',
-                                justifyContent: 'space-between',
-                                borderWidth: 4,
-                            }
                         }
                     }}
                 />
@@ -79,3 +74,107 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
     },
 });
+
+const test = {
+    '2018-07-04': {
+        mood: 'unhappy',
+        comment: 'last hang-out with my friend',
+        customStyles: {
+            container: {
+                backgroundColor: '#E8B4E0',
+                borderRadius: 0,
+            },
+            text: {
+                color: 'white',
+            },
+        },
+    },
+    '2018-07-05': {
+        mood: 'bad',
+        comment: 'My friend left Canada today...',
+        customStyles: {
+            container: {
+                backgroundColor: '#F6D9D8',
+                borderRadius: 0,
+            },
+            text: {
+                color: 'white',
+            },
+        },
+    },
+    '2018-07-06': {
+        mood: 'high',
+        comment: 'Cakes from Thierry are always irresistable',
+        customStyles: {
+            container: {
+                backgroundColor: '#7EB6E2',
+                borderRadius: 0,
+            },
+            text: {
+                color: 'white',
+            },
+        },
+    },
+    '2018-07-02': {
+        mood: 'unhappy',
+        comment: 'I was sick',
+        customStyles: {
+            container: {
+                backgroundColor: '#F6D9D8',
+                borderRadius: 0,
+                // width: 40,
+                // height: 40,
+                margin: 0,
+                padding: 0,
+            },
+            text: {
+                color: 'white',
+            },
+        },
+    },
+    '2018-07-07': {
+        mood: 'happy',
+        comment: 'I watched the Deadpool 2!',
+        customStyles: {
+            container: {
+                backgroundColor: '#E8B4E0',
+                borderRadius: 0,
+            },
+            text: {
+                color: 'white',
+            },
+        },
+    },
+    '2018-07-08': {
+        mood: 'high',
+        comment: 'I felt fulfilled to implement some features',
+        customStyles: {
+            container: {
+                backgroundColor: '#DDF2F4',
+                borderRadius: 0,
+            },
+            text: {
+                color: 'white',
+            },
+        },
+    },
+    '2018-07-01': {
+        mood: 'neutral',
+        comment: 'nothing special happened',
+        customStyles: {
+            container: {
+                alignItems: 'center',
+                justifyContent: 'center',
+                backgroundColor: '#EFCBE0',
+                borderRadius: 0,
+                padding: 0,
+                margin: 0,
+                // width: 40,
+                // height: 40
+            },
+            text: {
+                color: 'white',
+            },
+        },
+    }
+};
