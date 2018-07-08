@@ -17,23 +17,19 @@ export default class MoodPalette extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: null,
-      loading: true
+      loading: true,
+      selectedPaletteName: null
     };
     this.rootStore = this.props.rootStore;
-    this.moodPaletteList = Object.values(this.rootStore.moodPaletteInfoList);
+    this.moodPaletteList = Object.values(this.rootStore.moodPaletteList);
   }
 
   componentWillMount() {
     console.log(this.moodPaletteList);
-    // console.log('moodPalette!!');
-    // this.rootStore.loadMoodPaletteList().then(
-    //   console.log('loadMoodPaletteList is called in moodPalette'),
-    //   this.setState({
-    //     moodPaletteList: this.rootStore.moodPaletteInfoList
-    //   })
-    // );
-    // console.log(this.state.moodPaletteList);
+    this.setState({
+      selectedPaletteName: this.moodPaletteList.name
+    });
+    console.log(this.state.selectedPaletteName);
   }
 
   // componentDidMount() {
@@ -96,7 +92,7 @@ const styles = StyleSheet.create({
     height: height * 0.35,
     width: width * 0.9,
     alignItems: 'center',
-    borderTopLeftRadius: 8,
+    borderTopLeftRadius: 8
   },
   colourSquare: {
     flex: 1,
