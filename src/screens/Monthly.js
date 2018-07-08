@@ -18,6 +18,7 @@ export default class Monthly extends Component {
         this.user = this.accountStore.user;
         this.year = this.props.year;
         this.month = this.props.month;
+        this.selectedPaletteID = this.user.selectedPalettes[this.year][this.month];
     }
 
     componentWillMount() {
@@ -44,12 +45,14 @@ export default class Monthly extends Component {
 
     checkDate = (date) => {
         const today = new Date().toISOString().split('T')[0];
- 
-        if (date <= today) {
-            Actions.addPost({ date, post: this.user.markedDates[date] });
+
+        if (date > today) {
+            alert('wait till this day comes! :)');
+        } else if (!this.user.markedDates[date]) {
+            alert('there is no record for this day! :(');
         } else {
-            alert('wrong!');
-        }        
+            Actions.addPost({ date, post: this.user.markedDates[date], selectedPaletteID: this.selectedPaletteID });
+        }
     }
 
     render() {
