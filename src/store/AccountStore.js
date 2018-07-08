@@ -1,7 +1,8 @@
 import firebase from 'react-native-firebase';
 import { Actions } from 'react-native-router-flux';
 import { observable } from 'mobx';
-import { WRONG_PASSWORD, USER_NOT_FOUND, EMAIL_ALREADY_IN_USE } from '../../Utils/Const';
+import _ from 'lodash';
+import { WRONG_PASSWORD, USER_NOT_FOUND, EMAIL_ALREADY_IN_USE } from '../../utils/Const';
 
 const db = firebase.firestore();
 
@@ -11,6 +12,7 @@ export default class AccountStore {
   }
 
   user = null;
+  // moodPalettes = {};
 
   @observable isPending = false;
   @observable authError = null;
@@ -81,9 +83,54 @@ export default class AccountStore {
       .get()
       .then((userRef) => {
         this.user = userRef._data;
-        this.isPending = false;
-        Actions.monthly();
+
+        db.collection('users').doc(user.uid)
+          .collection('markedDates').get()
+          .then((subCollectionRef) => {
+            const docs = subCollectionRef.docs;
+
+            _.forEach(docs, (doc) => {
+              this.user.markedDates = doc.data();
+            });
+          })
+          .then(() => {
+            //TODO: make another function !
+            db.collection('users').doc(user.uid)
+              .collection('selectedPalettes').get()
+              .then((subCollectionRef) => {
+                const docs = subCollectionRef.docs;
+
+                this.getMoodPalettes();
+
+                _.forEach(docs, (doc) => {
+                  this.user.selectedPalettes = doc.data();
+                });
+              })
+              .catch((err) => {
+                console.log(err);
+              });
+          })
+          .catch((err) => {
+            console.log(err);
+          });
       })
       .catch((err) => { console.log(err); });
   }
+
+  // getMoodPalettes = () => {
+  //   db.collection('moodPalette').get()
+  //     .then((ref) => {
+  //       const docs = ref.docs;
+
+  //       _.forEach(docs, (doc) => {
+  //         this.moodPalettes[doc.id] = doc.data();
+  //       });
+
+  //       this.isPending = false;
+  //       Actions.monthly({ year: '2018', month: '07' });
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // }
 }

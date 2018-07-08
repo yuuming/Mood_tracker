@@ -4,6 +4,7 @@ import { observer, inject } from 'mobx-react';
 import SignIn from './screens/SignIn';
 import Monthly from './screens/Monthly';
 import ColourPalette from './screens/ColourPalette';
+import AddPost from './screens/AddPost';
 
 @inject('rootStore')
 @observer
@@ -28,7 +29,10 @@ export default class MainPage extends Component {
                             key='colourPalette'
                             component={ColourPalette}
                         />
-                    {/* </Stack> */}
+                    <Scene
+                        key='addPost'
+                        component={AddPost}
+                    />
                 </Stack>
             </Router>
         );
