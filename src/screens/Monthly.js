@@ -21,7 +21,10 @@ export default class Monthly extends Component {
         const selectedPaletteID = this.user.selectedPalettes[this.year][this.month];
         const selectedPalette = this.rootStore.moodPaletteList[selectedPaletteID];
 
-        console.log(this.accountStore.moodPalettes);
+        console.log(this.rootStore.moodPaletteList);
+        console.log(selectedPaletteID);
+        console.log(selectedPalette);
+
         console.log(this.user);
 
         _.map(this.user.markedDates, (item) => {
