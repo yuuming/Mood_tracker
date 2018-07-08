@@ -29,7 +29,6 @@ export default class Monthly extends Component {
         console.log(this.user);
 
         _.map(this.user.markedDates, (item) => {
-            console.log(item);
             item.customStyles.container.backgroundColor = selectedPalette.moodColors[item.mood];
         });
     }
@@ -60,6 +59,7 @@ export default class Monthly extends Component {
                             },
                         }
                     }}
+                    onDayPress={(day) => { Actions.addPost({ date: day.dateString, post: this.user.markedDates[day.dateString] }); }}
                 />
             </View>
         );
