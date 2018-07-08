@@ -17,8 +17,6 @@
     "react-native-calendars": "^1.19.3",
     "react-native-firebase": "^4.2.0",
     "react-native-router-flux": "^4.0.0-beta.31",
-    "mobx": "^5.0.3",
-    "mobx-react": "^5.2.3",
     "jsc-android": "224109.0.0"
   },
   "devDependencies": {
