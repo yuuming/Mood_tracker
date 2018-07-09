@@ -5,7 +5,8 @@ import {
   StyleSheet,
   Image,
   FlatList,
-  Dimensions
+  Dimensions,
+  TouchableOpacity
 } from 'react-native';
 import { observer, inject } from 'mobx-react';
 
@@ -42,29 +43,37 @@ export default class MoodPalette extends Component {
     console.log(this.rootStore.moodPaletteList[this.selectedPaletteID]);
 
     return (
-      <View
-        style={
-          this.rootStore.moodPaletteList[this.selectedPaletteID].name ===
-          item.name
-            ? styles.selectedItemContainer
-            : styles.cardItemContainer
-        }
+      <TouchableOpacity
+        onPress={() => this.chatStore.enterAnyChatRoom(item)}
+        style={{
+          marginHorizontal: 8,
+          marginVertical: 6
+        }}
       >
-        <Image
-          source={{
-            uri: item.imgUrl || this.rootStore.defaultMoodPaletteImage
-          }}
-          style={styles.moodPaletteImage}
-        />
-        <View style={styles.colourPalette}>
-          {colorSquare(item.moodColors.high)}
-          {colorSquare(item.moodColors.happy)}
-          {colorSquare(item.moodColors.neutral)}
-          {colorSquare(item.moodColors.unhappy)}
-          {colorSquare(item.moodColors.bad)}
+        <View
+          style={
+            this.rootStore.moodPaletteList[this.selectedPaletteID].name ===
+            item.name
+              ? styles.selectedItemContainer
+              : styles.cardItemContainer
+          }
+        >
+          <Image
+            source={{
+              uri: item.imgUrl || this.rootStore.defaultMoodPaletteImage
+            }}
+            style={styles.moodPaletteImage}
+          />
+          <View style={styles.colourPalette}>
+            {colorSquare(item.moodColors.high)}
+            {colorSquare(item.moodColors.happy)}
+            {colorSquare(item.moodColors.neutral)}
+            {colorSquare(item.moodColors.unhappy)}
+            {colorSquare(item.moodColors.bad)}
+          </View>
+          <Text style={styles.paletteName}>{item.name}</Text>
         </View>
-        <Text style={styles.paletteName}>{item.name}</Text>
-      </View>
+      </TouchableOpacity>
     );
   };
 
