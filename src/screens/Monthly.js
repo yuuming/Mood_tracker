@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Platform, Modal, Button, Alert } from 'react-native';
 import { observer, inject } from 'mobx-react';
 import { Actions } from 'react-native-router-flux';
 import { Calendar } from 'react-native-calendars';
 import _ from 'lodash';
 import firebase from 'react-native-firebase';
+import AddPost from './AddPost';
 
 const db = firebase.firestore();
 
@@ -13,11 +14,17 @@ const db = firebase.firestore();
 export default class Monthly extends Component {
     constructor(props) {
         super(props);
+
+        this.state = {
+            isDialogVisible: false
+        };
+
         this.rootStore = this.props.rootStore;
         this.accountStore = this.rootStore.accountStore;
         this.user = this.accountStore.user;
         this.year = this.props.year;
         this.month = this.props.month;
+        this.date = null;
         this.selectedPaletteID = this.user.selectedPalettes[this.year][this.month];
     }
 
@@ -36,23 +43,63 @@ export default class Monthly extends Component {
         });
     }
 
-    // update() {
-    //         db.collection('users').doc('nTagtkNQOddlqNyVmocDhU1NeaF3')
-    //             .collection('markedDates')
-    //             .doc('qyo9wDRp696WrDodIyds')
-    //             .update(test);
-    // }
-
     checkDate = (date) => {
+        this.date = date;
         const today = new Date().toISOString().split('T')[0];
 
+        console.log(date);
         if (date > today) {
             alert('wait till this day comes! :)');
         } else if (!this.user.markedDates[date]) {
             alert('there is no record for this day! :(');
         } else {
-            Actions.addPost({ date, post: this.user.markedDates[date], selectedPaletteID: this.selectedPaletteID });
+            this.setState({ isDialogVisible: true });
         }
+
+        // console.log(this.state.isDialogVisible);
+        // if (this.state.isDialogVisible) {
+        //     console.log('test');
+        //     this.renderDialog(date, this.user.markedDates[date], this.selectedPaletteID);
+        //     // Actions.addPost({ date, post: this.user.markedDates[date], selectedPaletteID: this.selectedPaletteID });    
+        // }
+    }
+
+    renderDialog(date, selectedPaletteID) {
+        return (
+            <Modal
+                visible={this.state.isDialogVisible}
+                transparent
+                animationType={'fade'}
+                onRequestClose={() => { this.setState({ isDialogVisible: !this.state.isDialogVisible }); }}
+            >
+                <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+                    <View style={styles.Alert_Main_View}>
+                        <AddPost date={date} selectedPaletteID={selectedPaletteID} />
+                        {/* <Text style={styles.Alert_Title}>Custom Alert Dialog Title.</Text>
+                    <View style={{ width: '100%', height: 2, backgroundColor: '#fff' }} />
+                    <Text style={styles.Alert_Message}> Are You Sure(Alert Dialog Message). </Text>
+                    <View style={{ width: '100%', height: 1, backgroundColor: '#fff' }} />
+                    <View style={{ flexDirection: 'row', height: '30%' }}> */}
+                        {/* <TouchableOpacity
+                            style={styles.buttonStyle}
+                            onPress={this.ok_Button}
+                            activeOpacity={0.7}
+                        >
+                            <Text style={styles.TextStyle}> OK </Text>
+                        </TouchableOpacity>
+                        <View style={{ width: 1, height: '100%', backgroundColor: '#fff' }} />
+                        <TouchableOpacity
+                            style={styles.buttonStyle}
+                            onPress={() => { this.setState({ isDialogVisible: !this.state.isDialogVisible }); }}
+                            activeOpacity={0.7}
+                        >
+                            <Text style={styles.TextStyle}> CANCEL </Text> */}
+                        {/* </TouchableOpacity> */}
+                    </View>
+                </View>
+                {/* </View> */}
+            </Modal>
+        );
     }
 
     render() {
@@ -83,6 +130,7 @@ export default class Monthly extends Component {
                     }}
                     onDayPress={(day) => { this.checkDate(day.dateString); }}
                 />
+                {this.state.isDialogVisible ? this.renderDialog(this.date, this.selectedPaletteID) : null}
                 <TouchableOpacity onPress={() => Actions.colourPalette()}>
                     <Text>go to colourPalette page!</Text>
                 </TouchableOpacity>
@@ -98,98 +146,46 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: 'white',
     },
-});
-
-const test = {
-    '2018-07-04': {
-        mood: 'unhappy',
-        comment: 'last hang-out with my friend',
-        customStyles: {
-            container: {
-                backgroundColor: '#E8B4E0',
-                borderRadius: 0,
-            },
-            text: {
-                color: 'white',
-            },
-        },
+    MainContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: (Platform.OS === 'ios') ? 20 : 0
     },
-    '2018-07-05': {
-        mood: 'bad',
-        comment: 'My friend left Canada today...',
-        customStyles: {
-            container: {
-                backgroundColor: '#F6D9D8',
-                borderRadius: 0,
-            },
-            text: {
-                color: 'white',
-            },
-        },
+    Alert_Main_View: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: '#f4f4f4',
+        height: 350,
+        width: '90%',
+        borderWidth: 1,
+        borderColor: '#fff',
+        borderRadius: 7,
     },
-    '2018-07-06': {
-        mood: 'high',
-        comment: 'Cakes from Thierry are always irresistable',
-        customStyles: {
-            container: {
-                backgroundColor: '#7EB6E2',
-                borderRadius: 0,
-            },
-            text: {
-                color: 'white',
-            },
-        },
+    Alert_Title: {
+        fontSize: 25,
+        color: 'black',
+        textAlign: 'center',
+        padding: 10,
+        height: '28%'
     },
-    '2018-07-02': {
-        mood: 'unhappy',
-        comment: 'I was sick',
-        customStyles: {
-            container: {
-                backgroundColor: '#F6D9D8',
-                borderRadius: 0,
-            },
-            text: {
-                color: 'white',
-            },
-        },
+    Alert_Message: {
+        fontSize: 22,
+        color: 'black',
+        textAlign: 'center',
+        padding: 10,
+        height: '42%'
     },
-    '2018-07-07': {
-        mood: 'happy',
-        comment: 'I watched the Deadpool 2!',
-        customStyles: {
-            container: {
-                backgroundColor: '#E8B4E0',
-                borderRadius: 0,
-            },
-            text: {
-                color: 'white',
-            },
-        },
+    buttonStyle: {
+        width: '50%',
+        height: '100%',
+        justifyContent: 'center',
+        alignItems: 'center'
     },
-    '2018-07-08': {
-        mood: 'high',
-        comment: 'I felt fulfilled to implement some features',
-        customStyles: {
-            container: {
-                backgroundColor: '#DDF2F4',
-                borderRadius: 0,
-            },
-            text: {
-                color: 'white',
-            },
-        },
-    },
-    '2018-07-01': {
-        mood: 'neutral',
-        comment: 'nothing special happened',
-        customStyles: {
-            container: {
-                backgroundColor: '#EFCBE0',
-                borderRadius: 0,
-            },
-            text: {
-                color: 'white',
-            },
-        },
+    TextStyle: {
+        color: 'black',
+        textAlign: 'center',
+        fontSize: 22,
+        marginTop: -5
     }
-};
+});
