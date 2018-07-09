@@ -4,9 +4,7 @@ import {
     Text,
     TextInput,
     StyleSheet,
-    TouchableOpacity,
-    Dimensions,
-    ActivityIndicator
+    ScrollView,
 } from 'react-native';
 import { observer, inject } from 'mobx-react';
 import _ from 'lodash';
@@ -53,8 +51,9 @@ export default class AddPost extends Component {
                     {colorSquare(this.palette.unhappy)}
                     {colorSquare(this.palette.bad)}
                 </View>
-                <Text style={styles.textStyle}>{this.date}</Text>
-                <Text style={styles.textStyle}>{this.post.comment}</Text>
+                <ScrollView style={{ width: '90%', backgroundColor: 'white', margin: 15 }}>
+                    <Text style={styles.textStyle}>{this.post.comment}</Text>
+                </ScrollView>
             </View>
         );
     }
@@ -62,10 +61,10 @@ export default class AddPost extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        // flex: 1,
+        flex: 1,
         justifyContent: 'center',
-        alignItems: 'flex-start',
-        backgroundColor: '#F5FCFF',
+        alignItems: 'center',
+        marginTop: 15,
     },
     textStyle: {
         marginLeft: 30,
