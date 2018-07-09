@@ -21,9 +21,10 @@ export default class RootStore {
           console.log('loadMoodePaletteList in RootStore');
           const moodPaletteInfo = querySnapshot.docs[i].data();
           console.log(moodPaletteInfo);
-          // this.moodPaletteList = moodPaletteInfo;
           this.moodPaletteList[querySnapshot.docs[i].id] = moodPaletteInfo;
-          // this.moodPaletteList = querySnapshot.docs.data();
+          console.log(this.moodPaletteList[querySnapshot.docs[i].id]);
+          console.log('===moodPaletteList.id===', this.moodPaletteList.id);
+
           console.log(this.moodPaletteList);
         }
       });

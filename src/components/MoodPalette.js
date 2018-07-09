@@ -21,53 +21,55 @@ export default class MoodPalette extends Component {
       selectedPaletteName: null
     };
     this.rootStore = this.props.rootStore;
+    this.accountStore = this.rootStore.accountStore;
+    this.user = this.accountStore.user;
+    this.selectedPaletteID = this.props.selectedPaletteID;
+    this.currentPaletteID = this.user.currentPalette;
     this.moodPaletteList = Object.values(this.rootStore.moodPaletteList);
+    this.moodPaletteListWithId = this.rootStore.moodPaletteList;
   }
 
   componentWillMount() {
     console.log(this.moodPaletteList);
-    this.setState({
-      selectedPaletteName: this.moodPaletteList.name
-    });
-    console.log(this.state.selectedPaletteName);
+    console.log(this.user);
+    console.log('====moodPaletteListWithID====', this.moodPaletteListWithId);
+    console.log('this.currentPaletteID', this.currentPaletteID);
   }
 
-  // componentDidMount() {
-  //   this.setState({
-  //     moodImageURL: this.rootStore.moodImageURL
-  //   });
-  // }
-
   renderMoodImage = ({ item }) => {
-    // if (moodImageURL) {
     console.log('renderMoodImage is called!');
+    console.log('=====ITEM=====', item);
+    console.log(this.rootStore.moodPaletteList[this.selectedPaletteID]);
+
     return (
-      <View style={styles.cardItemContainer}>
-        <View style={{ borderRadius: 8, borderColor: '#95a8c6' }}>
-          <Image
-            source={{
-              // uri: this.rootStore.defaultMoodPaletteImage
-              uri: item.imgUrl || this.rootStore.defaultMoodPaletteImage
-            }}
-            style={styles.moodPaletteImage}
-          />
-          <View style={styles.colourPalette}>
-            {colorSquare(item.moodColors.high)}
-            {colorSquare(item.moodColors.happy)}
-            {colorSquare(item.moodColors.neutral)}
-            {colorSquare(item.moodColors.unhappy)}
-            {colorSquare(item.moodColors.bad)}
-          </View>
-          <Text style={styles.paletteName}>{item.name}</Text>
+      <View
+        style={
+          this.rootStore.moodPaletteList[this.selectedPaletteID].name ===
+          item.name
+            ? styles.selectedItemContainer
+            : styles.cardItemContainer
+        }
+      >
+        <Image
+          source={{
+            uri: item.imgUrl || this.rootStore.defaultMoodPaletteImage
+          }}
+          style={styles.moodPaletteImage}
+        />
+        <View style={styles.colourPalette}>
+          {colorSquare(item.moodColors.high)}
+          {colorSquare(item.moodColors.happy)}
+          {colorSquare(item.moodColors.neutral)}
+          {colorSquare(item.moodColors.unhappy)}
+          {colorSquare(item.moodColors.bad)}
         </View>
+        <Text style={styles.paletteName}>{item.name}</Text>
       </View>
     );
   };
 
   render() {
     console.log('mood palette is called!');
-    // console.log(this.state.moodColours.bad);
-
     return (
       <View style={{ flex: 1 }}>
         <FlatList
@@ -78,21 +80,17 @@ export default class MoodPalette extends Component {
       </View>
     );
   }
-
-  // render() {
-  //   console.log('mood palette is called!');
-  //   console.log(this.state.moodColours.bad);
-
-  //   return <View>{this.renderMoodImage()}</View>;
-  // }
 }
 
 const styles = StyleSheet.create({
   moodPaletteImage: {
     height: height * 0.35,
     width: width * 0.9,
-    alignItems: 'center',
-    borderTopLeftRadius: 8
+    resizeMode: 'stretch'
+    // alignItems: 'center'
+    // borderTopLeftRadius: 8,
+    // borderTopRightRadius: 8
+    // borderRadius: 10
   },
   colourSquare: {
     flex: 1,
@@ -107,18 +105,34 @@ const styles = StyleSheet.create({
   paletteName: {
     flexDirection: 'row',
     height: 60,
-    color: '#95a8c6',
+    color: '#3c3642',
     fontSize: 20,
     fontWeight: '500',
     top: 10,
-    paddingLeft: 17
+    paddingLeft: 17,
+    paddingTop: 10
   },
   cardItemContainer: {
     flex: 1,
     marginHorizontal: 8,
-    marginVertical: 6,
-    backgroundColor: 'white',
-    borderRadius: 8
+    marginVertical: 8,
+    backgroundColor: '#ffffff',
+    borderRadius: 8,
+    borderColor: '#95a8c6',
+    borderWidth: 1
+  },
+  selectedItemContainer: {
+    flex: 1,
+    marginHorizontal: 8,
+    marginVertical: 8,
+    backgroundColor: '#ffffff',
+    borderRadius: 8,
+    shadowColor: '#68dbf6',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.9,
+    shadowRadius: 8,
+    borderWidth: 1,
+    borderColor: '#95a8c6'
   }
 });
 
