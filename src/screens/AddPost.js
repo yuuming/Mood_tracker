@@ -9,6 +9,7 @@ import {
     ActivityIndicator
 } from 'react-native';
 import { observer, inject } from 'mobx-react';
+import _ from 'lodash';
 
 @inject('rootStore')
 @observer
@@ -19,17 +20,26 @@ export default class AddPost extends Component {
         this.rootStore = this.props.rootStore;
         this.accountStore = this.rootStore.accountStore;
         this.selectedPaletteID = this.props.selectedPaletteID;
+        this.palette = this.rootStore.moodPaletteList[this.selectedPaletteID].moodColors;
+        this.date = this.props.date;
+        this.post = this.accountStore.user.markedDates[this.date];
     }
 
     componentWillMount() {
-        console.log(this.props.post);
         console.log(this.props);
-        console.log(this.rootStore.moodPaletteList[this.selectedPaletteID]);
+        // console.log(this.props.post);
+        // console.log(this.props);
+        // console.log(this.rootStore.moodPaletteList[this.selectedPaletteID]);
     }
 
-    renderColorPalette() {
+    // renderColorPalette = () => {
+    //     const palette = Object.values(this.rootStore.moodPaletteList[this.selectedPaletteID].moodColors);
+    //     console.log(palette);
+    //     console.log(this.rootStore.moodPaletteList[this.selectedPaletteID].moodColors);
 
-    }
+    //     // return
+
+    // }
 
     render() {
         return (
@@ -37,10 +47,14 @@ export default class AddPost extends Component {
                 <View
                     style={{ flexDirection: 'row' }}
                 >
-                    {colorSquare(this.props.post.selectedColor)}
+                    {colorSquare(this.palette.high)}
+                    {colorSquare(this.palette.happy)}
+                    {colorSquare(this.palette.neutral)}
+                    {colorSquare(this.palette.unhappy)}
+                    {colorSquare(this.palette.bad)}
                 </View>
-                <Text style={styles.textStyle}>{this.props.date}</Text>
-                <Text style={styles.textStyle}>{this.props.post.comment}</Text>
+                <Text style={styles.textStyle}>{this.date}</Text>
+                <Text style={styles.textStyle}>{this.post.comment}</Text>
             </View>
         );
     }
@@ -48,7 +62,7 @@ export default class AddPost extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
+        // flex: 1,
         justifyContent: 'center',
         alignItems: 'flex-start',
         backgroundColor: '#F5FCFF',
@@ -66,7 +80,7 @@ const colorSquare = color => (
     <View
         style={{
             backgroundColor: color,
-            flex: 1,
+            // flex: 1,
             height: 60,
             width: 60
         }}
