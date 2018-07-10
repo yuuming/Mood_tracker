@@ -15,7 +15,6 @@ export default class AccountStore {
     this.rootStore = rootStore;
   }
 
-  @observable user = null;
   // moodPalettes = {};
 
   @observable isPending = false;

@@ -9,6 +9,7 @@ import {
   TouchableOpacity
 } from 'react-native';
 import { observer, inject } from 'mobx-react';
+import _ from 'lodash';
 
 const { width, height } = Dimensions.get('window');
 
@@ -19,13 +20,13 @@ export default class MoodPalette extends Component {
     super(props);
     this.state = {
       loading: true,
-      selectedPaletteName: null
+      selectedPaletteName: null,
+      selectedPaletteID: this.props.selectedPaletteID
     };
     this.rootStore = this.props.rootStore;
     this.accountStore = this.rootStore.accountStore;
     this.user = this.accountStore.user;
-    this.selectedPaletteID = this.props.selectedPaletteID;
-    this.currentPaletteID = this.user.currentPalette;
+    // this.selectedPaletteID = this.props.selectedPaletteID;
     this.moodPaletteList = Object.values(this.rootStore.moodPaletteList);
     this.moodPaletteListWithId = this.rootStore.moodPaletteList;
   }
@@ -34,17 +35,30 @@ export default class MoodPalette extends Component {
     console.log(this.moodPaletteList);
     console.log(this.user);
     console.log('====moodPaletteListWithID====', this.moodPaletteListWithId);
-    console.log('this.currentPaletteID', this.currentPaletteID);
   }
 
   renderMoodImage = ({ item }) => {
-    console.log('renderMoodImage is called!');
-    console.log('=====ITEM=====', item);
-    console.log(this.rootStore.moodPaletteList[this.selectedPaletteID]);
+    // console.log('renderMoodImage is called!');
+    // console.log('=====ITEM=====', item);
+    // console.log(this.rootStore.moodPaletteList[this.state.selectedPaletteID]);
 
+    // console.log(item.log);
     return (
       <TouchableOpacity
-        onPress={() => this.chatStore.enterAnyChatRoom(item)}
+        onPress={() => {
+          this.setState(
+            {
+              selectedPaletteID: _.findKey(
+                this.moodPaletteListWithId,
+                palette => palette.name === item.name
+              )
+            },
+            () => {
+              console.log(item.name);
+              console.log(this.state.selectedPaletteID);
+            }
+          );
+        }}
         style={{
           marginHorizontal: 8,
           marginVertical: 6
@@ -52,7 +66,7 @@ export default class MoodPalette extends Component {
       >
         <View
           style={
-            this.rootStore.moodPaletteList[this.selectedPaletteID].name ===
+            this.moodPaletteListWithId[this.state.selectedPaletteID].name ===
             item.name
               ? styles.selectedItemContainer
               : styles.cardItemContainer

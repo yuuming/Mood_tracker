@@ -16,7 +16,9 @@ export default class Monthly extends Component {
     this.year = this.props.year;
     this.month = this.props.month;
     this.selectedPaletteID = this.user.selectedPalettes[this.year][this.month];
-    this.selectedPalette = this.rootStore.moodPaletteList[this.selectedPaletteID];
+    this.selectedPalette = this.rootStore.moodPaletteList[
+      this.selectedPaletteID
+    ];
   }
 
   componentWillMount() {
@@ -27,8 +29,9 @@ export default class Monthly extends Component {
     console.log(this.user);
 
     _.map(this.user.markedDates, item => {
-      item.customStyles.container.backgroundColor =
-        this.selectedPalette.moodColors[item.mood];
+      item.customStyles.container.backgroundColor = this.selectedPalette.moodColors[
+        item.mood
+      ];
     });
   }
 
