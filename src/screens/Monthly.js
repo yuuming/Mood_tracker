@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Platform, Modal, Button, Alert } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Modal } from 'react-native';
 import { observer, inject } from 'mobx-react';
 import { Actions } from 'react-native-router-flux';
 import { Calendar } from 'react-native-calendars';
@@ -37,6 +37,8 @@ export default class Monthly extends Component {
 
         _.map(this.user.markedDates, (item) => {
             item.customStyles.container.backgroundColor = selectedPalette.moodColors[item.mood];
+            item.customStyles.container.borderRadius = 0;
+            item.customStyles.text.color = 'white';
         });
     }
 
@@ -87,14 +89,14 @@ export default class Monthly extends Component {
             >
                 <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                     <View style={styles.Alert_Main_View}>
-                        <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop: 10 }}>
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', marginTop: 15 }}>
                             <TouchableOpacity
                                 onPress={() => { this.setState({ isDialogVisible: !this.state.isDialogVisible }); }}
                             >
                                 <Text>Close</Text>
                             </TouchableOpacity>
                             <Text>{this.date}</Text>
-                            <Text>{this.user.markedDates[date] ? '' : 'Post'}</Text>
+                            <Text>{this.user.markedDates[date] ? '' : 'Done'}</Text>
                         </View>
                         <AddPost date={date} selectedPaletteID={selectedPaletteID} />
                     </View>
