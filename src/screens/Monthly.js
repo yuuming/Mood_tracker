@@ -65,9 +65,9 @@ export default class Monthly extends Component {
             return;
         }
 
-        if (date === today) {
-            this.setState({ isDialogVisible: true });
-        }
+        // if (date === today) {
+        //     this.setState({ isDialogVisible: true });
+        // }
 
         if (!this.user.markedDates[date] && date !== today) {
             alert('there is no record for this day! :(');
@@ -91,10 +91,10 @@ export default class Monthly extends Component {
                             <TouchableOpacity
                                 onPress={() => { this.setState({ isDialogVisible: !this.state.isDialogVisible }); }}
                             >
-                                <Text>Cancel</Text>
+                                <Text>Close</Text>
                             </TouchableOpacity>
                             <Text>{this.date}</Text>
-                            <Text>Post</Text>
+                            <Text>{this.user.markedDates[date] ? '' : 'Post'}</Text>
                         </View>
                         <AddPost date={date} selectedPaletteID={selectedPaletteID} />
                     </View>
