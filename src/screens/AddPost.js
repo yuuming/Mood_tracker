@@ -5,9 +5,12 @@ import {
     TextInput,
     StyleSheet,
     ScrollView,
+    TouchableOpacity,
 } from 'react-native';
 import { observer, inject } from 'mobx-react';
 import _ from 'lodash';
+
+const MOODS = ['high', 'happy', 'neutral', 'unhappy', 'bad'];
 
 @inject('rootStore')
 @observer
@@ -21,35 +24,50 @@ export default class AddPost extends Component {
         this.palette = this.rootStore.moodPaletteList[this.selectedPaletteID].moodColors;
         this.date = this.props.date;
         this.post = this.accountStore.user.markedDates[this.date];
+
+        this.state = {
+            colorForToday: this.palette[this.post.mood]
+        };
     }
 
     componentWillMount() {
-        console.log(this.props);
+        // console.log(this.props);
         // console.log(this.props.post);
         // console.log(this.props);
+        // console.log(this.colorForToday);
         // console.log(this.rootStore.moodPaletteList[this.selectedPaletteID]);
     }
 
-    // renderColorPalette = () => {
-    //     const palette = Object.values(this.rootStore.moodPaletteList[this.selectedPaletteID].moodColors);
-    //     console.log(palette);
-    //     console.log(this.rootStore.moodPaletteList[this.selectedPaletteID].moodColors);
+    renderMoodSettingBar() {
+        console.log('function called!');
 
-    //     // return
-
-    // }
+        return (
+            _.map(MOODS, (mood) =>
+                <TouchableOpacity
+                    onPress={() => { this.setState({ colorForToday: this.palette[mood] }); }}
+                    activeOpacity={1}
+                >
+                    <View
+                        style={{
+                            flex: 1,
+                            backgroundColor: this.palette[mood],
+                            height: 60,
+                            width: 60,
+                            borderColor: this.state.colorForToday === this.palette[mood] ? 'blue' : null,
+                            borderWidth: this.state.colorForToday === this.palette[mood] ? 2 : 0
+                        }}
+                    />
+                </TouchableOpacity>
+            ));
+    }
 
     render() {
         return (
             <View style={styles.container}>
                 <View
-                    style={{ flexDirection: 'row' }}
+                    style={{ width: '90%', height: 60, flexDirection: 'row' }}
                 >
-                    {colorSquare(this.palette.high)}
-                    {colorSquare(this.palette.happy)}
-                    {colorSquare(this.palette.neutral)}
-                    {colorSquare(this.palette.unhappy)}
-                    {colorSquare(this.palette.bad)}
+                    {this.renderMoodSettingBar()}
                 </View>
                 <ScrollView style={{ width: '90%', backgroundColor: 'white', margin: 15 }}>
                     <Text style={styles.textStyle}>{this.post.comment}</Text>
@@ -62,7 +80,7 @@ export default class AddPost extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'center',
+        justifyContent: 'space-between',
         alignItems: 'center',
         marginTop: 15,
     },
@@ -76,12 +94,16 @@ const styles = StyleSheet.create({
 });
 
 const colorSquare = color => (
-    <View
-        style={{
-            backgroundColor: color,
-            // flex: 1,
-            height: 60,
-            width: 60
-        }}
-    />
+    <TouchableOpacity
+        onPress={() => { console.log(color, colorForToday); }}
+    >
+        <View
+            style={{
+                backgroundColor: color,
+                // flex: 1,
+                height: 60,
+                width: 60,
+            }}
+        />
+    </TouchableOpacity>
 );
