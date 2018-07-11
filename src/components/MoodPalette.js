@@ -20,13 +20,13 @@ export default class MoodPalette extends Component {
     super(props);
     this.state = {
       loading: true,
+      selectedPaletteID: this.props.selectedPaletteID,
       selectedPaletteName: null,
-      selectedPaletteID: this.props.selectedPaletteID
+      load: false
     };
     this.rootStore = this.props.rootStore;
     this.accountStore = this.rootStore.accountStore;
     this.user = this.accountStore.user;
-    // this.selectedPaletteID = this.props.selectedPaletteID;
     this.moodPaletteList = Object.values(this.rootStore.moodPaletteList);
     this.moodPaletteListWithId = this.rootStore.moodPaletteList;
   }
@@ -35,70 +35,63 @@ export default class MoodPalette extends Component {
     console.log(this.moodPaletteList);
     console.log(this.user);
     console.log('====moodPaletteListWithID====', this.moodPaletteListWithId);
+    this.setState({
+      selectedPaletteName: this.moodPaletteListWithId[
+        this.state.selectedPaletteID
+      ].name
+    });
   }
 
-  renderMoodImage = ({ item }) => {
-    // console.log('renderMoodImage is called!');
-    // console.log('=====ITEM=====', item);
-    // console.log(this.rootStore.moodPaletteList[this.state.selectedPaletteID]);
-
-    // console.log(item.log);
-    return (
-      <TouchableOpacity
-        onPress={() => {
-          this.setState(
-            {
-              selectedPaletteID: _.findKey(
-                this.moodPaletteListWithId,
-                palette => palette.name === item.name
-              )
-            },
-            () => {
-              console.log(item.name);
-              console.log(this.state.selectedPaletteID);
-            }
-          );
-        }}
-        style={{
-          marginHorizontal: 8,
-          marginVertical: 6
-        }}
+  renderMoodImage = ({ item }) => (
+    <TouchableOpacity
+      onPress={() => {
+        console.log('renderMoodImage is called!!!!');
+        this.setState({
+          // load: !this.state.load,
+          // selectedPaletteID: _.findKey(
+          //   this.moodPaletteListWithId,
+          //   palette => palette.name === item.name
+          // ),
+          selectedPaletteName: item.name
+        });
+      }}
+    >
+      <View
+        style={
+          this.state.selectedPaletteName === item.name
+            ? styles.selectedItemContainer
+            : styles.cardItemContainer
+        }
       >
-        <View
-          style={
-            this.moodPaletteListWithId[this.state.selectedPaletteID].name ===
-            item.name
-              ? styles.selectedItemContainer
-              : styles.cardItemContainer
-          }
-        >
-          <Image
-            source={{
-              uri: item.imgUrl || this.rootStore.defaultMoodPaletteImage
-            }}
-            style={styles.moodPaletteImage}
-          />
-          <View style={styles.colourPalette}>
-            {colorSquare(item.moodColors.high)}
-            {colorSquare(item.moodColors.happy)}
-            {colorSquare(item.moodColors.neutral)}
-            {colorSquare(item.moodColors.unhappy)}
-            {colorSquare(item.moodColors.bad)}
-          </View>
-          <Text style={styles.paletteName}>{item.name}</Text>
+        <Image
+          source={{
+            uri: item.imgUrl || this.rootStore.defaultMoodPaletteImage
+          }}
+          style={styles.moodPaletteImage}
+        />
+        <View style={styles.colourPalette}>
+          {colorSquare(item.moodColors.high)}
+          {colorSquare(item.moodColors.happy)}
+          {colorSquare(item.moodColors.neutral)}
+          {colorSquare(item.moodColors.unhappy)}
+          {colorSquare(item.moodColors.bad)}
         </View>
-      </TouchableOpacity>
-    );
-  };
+        <Text style={styles.paletteName}>{item.name}</Text>
+      </View>
+    </TouchableOpacity>
+  );
 
   render() {
     console.log('mood palette is called!');
+    console.log(this.state.load);
     return (
       <View style={{ flex: 1 }}>
         <FlatList
           data={this.moodPaletteList}
           keyExtractor={item => item.id}
           renderItem={item => this.renderMoodImage(item)}
+          extraData={this.state.selectedPaletteName}
+          removeClippedSubviews={false}
         />
       </View>
     );
