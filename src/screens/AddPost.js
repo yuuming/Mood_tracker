@@ -24,6 +24,8 @@ export default class AddPost extends Component {
         this.palette = this.rootStore.moodPaletteList[this.selectedPaletteID].moodColors;
         this.date = this.props.date;
         this.post = this.accountStore.user.markedDates[this.date];
+        this.today = new Date().toISOString().split('T')[0];
+        this.isToday = (this.today === this.date);
 
         this.state = {
             colorForToday: ''
@@ -37,21 +39,20 @@ export default class AddPost extends Component {
                 colorForToday: this.palette[this.post.mood]
             });
         }
-
-        // console.log(this.props);
-        // console.log(this.props.post);
-        // console.log(this.props);
-        // console.log(this.colorForToday);
-        // console.log(this.rootStore.moodPaletteList[this.selectedPaletteID]);
     }
 
     renderMoodSettingBar() {
         console.log('function called!');
 
         return (
-            _.map(MOODS, (mood) =>
+            _.map(MOODS, (mood, index) =>
                 <TouchableOpacity
-                    onPress={() => { this.setState({ colorForToday: this.palette[mood] }); }}
+                    key={index}
+                    onPress={() => {
+                        if (this.isToday) {
+                            this.setState({ colorForToday: this.palette[mood] });
+                        }
+                    }}
                     activeOpacity={1}
                 >
                     <View
