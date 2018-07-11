@@ -26,11 +26,18 @@ export default class AddPost extends Component {
         this.post = this.accountStore.user.markedDates[this.date];
 
         this.state = {
-            colorForToday: this.palette[this.post.mood]
+            colorForToday: ''
         };
     }
 
     componentWillMount() {
+        console.log(this.post);
+        if (this.post) {
+            this.setState({
+                colorForToday: this.palette[this.post.mood]
+            });
+        }
+
         // console.log(this.props);
         // console.log(this.props.post);
         // console.log(this.props);
@@ -70,7 +77,10 @@ export default class AddPost extends Component {
                     {this.renderMoodSettingBar()}
                 </View>
                 <ScrollView style={{ width: '90%', backgroundColor: 'white', margin: 15 }}>
-                    <Text style={styles.textStyle}>{this.post.comment}</Text>
+                    {this.post ?
+                        <Text style={styles.textStyle}>{this.post.comment || ''}</Text> :
+                        <TextInput />
+                    }
                 </ScrollView>
             </View>
         );
