@@ -83,14 +83,20 @@ export default class AccountStore {
       .get()
       .then((userRef) => {
         this.user = userRef._data;
+        this.user.markedDates = {};
 
         db.collection('users').doc(user.uid)
           .collection('markedDates').get()
           .then((subCollectionRef) => {
             const docs = subCollectionRef.docs;
-
+            console.log(this.user);
+            console.log(docs);
             _.forEach(docs, (doc) => {
-              this.user.markedDates = doc.data();
+              // this.user.markedDates = doc.data();
+              this.user.markedDates[doc.data().date] = {
+                comment: doc.data().comment,
+                mood: doc.data().mood
+              };
             });
           })
           .then(() => {
