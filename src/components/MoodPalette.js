@@ -22,14 +22,12 @@ export default class MoodPalette extends Component {
       loading: true,
       selectedPaletteID: this.props.selectedPaletteID,
       selectedPaletteName: null
-      // load: false
     };
     this.rootStore = this.props.rootStore;
     this.accountStore = this.rootStore.accountStore;
     this.user = this.accountStore.user;
     this.moodPaletteList = Object.values(this.rootStore.moodPaletteList);
     this.moodPaletteListWithId = this.rootStore.moodPaletteList;
-    // this.selectedPaletteID = this.rootStore.selectedPaletteID;
   }
 
   componentWillMount() {
@@ -49,11 +47,6 @@ export default class MoodPalette extends Component {
       onPress={() => {
         console.log('renderMoodImage is called!!!!');
         this.setState({
-          // load: !this.state.load,
-          // selectedPaletteID: _.findKey(
-          //   this.moodPaletteListWithId,
-          //   palette => palette.name === item.name
-          // ),
           selectedPaletteName: item.name
         });
         this.rootStore.selectedPaletteID = _.findKey(
@@ -89,7 +82,6 @@ export default class MoodPalette extends Component {
 
   render() {
     console.log('mood palette is called!');
-    // console.log(this.state.load);
     return (
       <View style={{ flex: 1 }}>
         <Text style={styles.selectPaletteMessage}>

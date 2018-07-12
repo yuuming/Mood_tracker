@@ -16,7 +16,7 @@ export default class ColourPaletteBar extends Component {
   backButton() {
     console.log('==============palette');
     return (
-      <View style={{ flex: 1, flexDirection: 'row', paddingLeft: 8 }}>
+      <View style={styles.backButton}>
         <TouchableOpacity
           onPress={() => Actions.pop()}
           style={{ paddingRight: 10 }}
@@ -29,9 +29,7 @@ export default class ColourPaletteBar extends Component {
 
   doneButton() {
     return (
-      <View
-        style={{ flex: 1, flexDirection: 'row', justifyContent: 'flex-end' }}
-      >
+      <View style={styles.doneButton}>
         <TouchableOpacity
           onPress={() => {
             this.props.rootStore.updateSelectPalette();
@@ -40,17 +38,7 @@ export default class ColourPaletteBar extends Component {
           style={{ paddingRight: 10 }}
         >
           <View>
-            <Text
-              style={{
-                paddingRight: 14,
-                minWidth: 32,
-                minHeight: 32,
-                fontSize: 18,
-                colour: '#7F8C8D'
-              }}
-            >
-              Done
-            </Text>
+            <Text style={styles.doneButtonFont}>Done</Text>
           </View>
         </TouchableOpacity>
       </View>
@@ -77,5 +65,21 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between'
   },
-  navBarItem: {}
+  doneButtonFont: {
+    paddingRight: 14,
+    minWidth: 32,
+    minHeight: 32,
+    fontSize: 18
+    // colour: '#7F8C8D'
+  },
+  doneButton: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'flex-end'
+  },
+  backButton: {
+    flex: 1,
+    flexDirection: 'row',
+    paddingLeft: 8
+  }
 });
