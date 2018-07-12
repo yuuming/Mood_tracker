@@ -92,6 +92,9 @@ export default class MoodPalette extends Component {
     // console.log(this.state.load);
     return (
       <View style={{ flex: 1 }}>
+        <Text style={styles.selectPaletteMessage}>
+          Pick a palette for this month!
+        </Text>
         <FlatList
           data={this.moodPaletteList}
           keyExtractor={item => item.name}
@@ -124,6 +127,15 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     height: 60
   },
+  selectPaletteMessage: {
+    flexDirection: 'row',
+    color: '#3c3642',
+    height: 60,
+    fontSize: 20,
+    fontWeight: '500',
+    paddingTop: 10,
+    textAlign: 'center'
+  },
   paletteName: {
     flexDirection: 'row',
     height: 60,
@@ -149,12 +161,12 @@ const styles = StyleSheet.create({
     marginVertical: 8,
     backgroundColor: '#ffffff',
     borderRadius: 8,
-    shadowColor: '#68dbf6',
+    shadowColor: '#4169e1',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.9,
     shadowRadius: 8,
     borderWidth: 1,
-    borderColor: '#95a8c6'
+    borderColor: '#4169e1'
   }
 });
 
