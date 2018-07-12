@@ -18,11 +18,13 @@ export default class Monthly extends Component {
 
         this.rootStore = this.props.rootStore;
         this.accountStore = this.rootStore.accountStore;
+        this.diaryStore = this.rootStore.diaryStore;
         this.user = this.accountStore.user;
         this.year = this.props.year;
         this.month = this.props.month;
         this.date = null;
         this.selectedPaletteID = this.user.selectedPalettes[this.year][this.month];
+        this.dataSource = {};
     }
 
     componentWillMount() {
@@ -36,9 +38,18 @@ export default class Monthly extends Component {
         console.log(this.user);
 
         _.map(this.user.markedDates, (item) => {
-            item.customStyles.container.backgroundColor = selectedPalette.moodColors[item.mood];
-            item.customStyles.container.borderRadius = 0;
-            item.customStyles.text.color = 'white';
+            console.log(this.user.markedDates);
+            console.log(item);
+
+            item.customStyles = {
+                container: {
+                    backgroundColor: selectedPalette.moodColors[item.mood],
+                    borderRadius: 0
+                },
+                text: {
+                    color: 'white'
+                }
+            };
         });
     }
 
@@ -106,6 +117,7 @@ export default class Monthly extends Component {
     }
 
     render() {
+        console.log(this.user.markedDates);
         return (
             <View style={styles.container}>
                 <Calendar
