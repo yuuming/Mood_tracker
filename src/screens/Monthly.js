@@ -24,7 +24,7 @@ export default class Monthly extends Component {
         this.month = this.props.month;
         this.date = null;
         this.selectedPaletteID = this.user.selectedPalettes[this.year][this.month];
-        this.dataSource = {};
+        this.isToday = null;
     }
 
     componentWillMount() {
@@ -70,9 +70,9 @@ export default class Monthly extends Component {
     checkDate = (date) => {
         this.date = date;
         const today = new Date().toISOString().split('T')[0];
-
-        console.log(today);
-        console.log(date);
+        this.isToday = (date === today);
+        console.log(`today's date : ${today}`);
+        console.log(`selected date : ${date}`);
         if (date > today) {
             alert('wait till this day comes! :)');
             return;
@@ -88,6 +88,21 @@ export default class Monthly extends Component {
         }
 
         this.setState({ isDialogVisible: true });
+    }
+
+    storeDiary = () => {
+        console.log(this.diaryStore.comment);
+        console.log(this.diaryStore.mood);
+        console.log(this.diaryStore.date);
+        if (this.diaryStore.comment && this.diaryStore.mood) {
+            this.diaryStore.writeDiary()
+                .then(() => {
+                    this.setState({ isDialogVisible: false });
+                })
+                .catch((err) => { console.log(err); });
+        } else {
+            alert('Fill out every field !');
+        }
     }
 
     renderDialog(date, selectedPaletteID) {
@@ -107,7 +122,11 @@ export default class Monthly extends Component {
                                 <Text>Close</Text>
                             </TouchableOpacity>
                             <Text>{this.date}</Text>
-                            <Text>{this.user.markedDates[date] ? '' : 'Done'}</Text>
+                            <TouchableOpacity
+                                onPress={() => { this.storeDiary(); }}
+                            >
+                                <Text>{this.isToday ? 'Done' : ''}</Text>
+                            </TouchableOpacity>
                         </View>
                         <AddPost date={date} selectedPaletteID={selectedPaletteID} />
                     </View>

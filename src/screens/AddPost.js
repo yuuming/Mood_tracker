@@ -20,19 +20,24 @@ export default class AddPost extends Component {
 
         this.rootStore = this.props.rootStore;
         this.accountStore = this.rootStore.accountStore;
+        this.diaryStore = this.rootStore.diaryStore;
         this.selectedPaletteID = this.props.selectedPaletteID;
         this.palette = this.rootStore.moodPaletteList[this.selectedPaletteID].moodColors;
         this.date = this.props.date;
         this.post = this.accountStore.user.markedDates[this.date];
         this.today = new Date().toISOString().split('T')[0];
         this.isToday = (this.today === this.date);
+        this.mood = '';
 
         this.state = {
-            colorForToday: ''
+            colorForToday: '',
+            comment: ''
         };
     }
 
     componentWillMount() {
+        this.diaryStore.date = this.date;
+
         console.log(this.post);
         if (this.post) {
             this.setState({
@@ -51,6 +56,8 @@ export default class AddPost extends Component {
                     onPress={() => {
                         if (this.isToday) {
                             this.setState({ colorForToday: this.palette[mood] });
+                            this.mood = mood;
+                            this.diaryStore.mood = mood;
                         }
                     }}
                     activeOpacity={1}
@@ -78,9 +85,12 @@ export default class AddPost extends Component {
                     {this.renderMoodSettingBar()}
                 </View>
                 <ScrollView style={{ width: '90%', backgroundColor: 'white', margin: 15 }}>
-                    {this.post ?
+                    {!this.isToday ?
                         <Text style={styles.textStyle}>{this.post.comment || ''}</Text> :
-                        <TextInput />
+                        <TextInput
+                            onChangeText={comment => this.diaryStore.comment = comment}
+                            value={this.post.comment}
+                        />
                     }
                 </ScrollView>
             </View>
@@ -103,18 +113,3 @@ const styles = StyleSheet.create({
         fontSize: 16
     },
 });
-
-const colorSquare = color => (
-    <TouchableOpacity
-        onPress={() => { console.log(color, colorForToday); }}
-    >
-        <View
-            style={{
-                backgroundColor: color,
-                // flex: 1,
-                height: 60,
-                width: 60,
-            }}
-        />
-    </TouchableOpacity>
-);

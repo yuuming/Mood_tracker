@@ -19,20 +19,13 @@ export default class DiaryStore {
     //     mood: this.mood
     // };
 
-
-    writeDiary = () => {
-        // const date1 = this.date; //2018-07-05
-        // const obj = {
-        //     comment: this.comment,
-        //     mood: this.mood,
-        //     date: date1
-        // };
-
-        // db.collection('users')
-        //     .doc(this.accountStore.user.uid)
-        //     .collection('markedDates')
-        //     .doc('201807')
-        //     .add(diary);
-    }
-
+    writeDiary = () =>
+        db.collection('users')
+            .doc(this.accountStore.user.id)
+            .collection('markedDates')
+            .update({
+                comment: this.comment,
+                mood: this.mood,
+                date: this.date
+            });
 }
