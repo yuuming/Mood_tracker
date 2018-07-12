@@ -28,11 +28,11 @@ export default class Monthly extends Component {
 
     console.log(this.user);
 
-    _.map(this.user.markedDates, item => {
-      item.customStyles.container.backgroundColor = this.selectedPalette.moodColors[
-        item.mood
-      ];
-    });
+    // _.map(this.user.markedDates, item => {
+    //   item.customStyles.container.backgroundColor = this.selectedPalette.moodColors[
+    //     item.mood
+    //   ];
+    // });
   }
 
   render() {
@@ -70,7 +70,7 @@ export default class Monthly extends Component {
         />
         <TouchableOpacity
           onPress={() =>
-            Actions.colourPalette({
+            Actions.ColourPalette({
               selectedPaletteID: this.selectedPaletteID
             })
           }

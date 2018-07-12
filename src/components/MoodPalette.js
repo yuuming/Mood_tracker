@@ -9,7 +9,7 @@ import {
   TouchableOpacity
 } from 'react-native';
 import { observer, inject } from 'mobx-react';
-import _ from 'lodash';
+// import _ from 'lodash';
 
 const { width, height } = Dimensions.get('window');
 
@@ -21,8 +21,8 @@ export default class MoodPalette extends Component {
     this.state = {
       loading: true,
       selectedPaletteID: this.props.selectedPaletteID,
-      selectedPaletteName: null,
-      load: false
+      selectedPaletteName: null
+      // load: false
     };
     this.rootStore = this.props.rootStore;
     this.accountStore = this.rootStore.accountStore;
@@ -44,6 +44,7 @@ export default class MoodPalette extends Component {
 
   renderMoodImage = ({ item }) => (
     <TouchableOpacity
+      key={item.name}
       onPress={() => {
         console.log('renderMoodImage is called!!!!');
         this.setState({
@@ -83,12 +84,12 @@ export default class MoodPalette extends Component {
 
   render() {
     console.log('mood palette is called!');
-    console.log(this.state.load);
+    // console.log(this.state.load);
     return (
       <View style={{ flex: 1 }}>
         <FlatList
           data={this.moodPaletteList}
-          keyExtractor={item => item.id}
+          keyExtractor={item => item.name}
           renderItem={item => this.renderMoodImage(item)}
           extraData={this.state.selectedPaletteName}
           removeClippedSubviews={false}
