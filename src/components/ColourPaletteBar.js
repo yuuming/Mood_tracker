@@ -35,6 +35,7 @@ export default class ColourPaletteBar extends Component {
         <TouchableOpacity
           onPress={() => {
             this.props.rootStore.updateSelectPalette();
+            Actions.pop();
           }}
           style={{ paddingRight: 10 }}
         >
