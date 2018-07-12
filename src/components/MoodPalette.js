@@ -9,7 +9,7 @@ import {
   TouchableOpacity
 } from 'react-native';
 import { observer, inject } from 'mobx-react';
-// import _ from 'lodash';
+import _ from 'lodash';
 
 const { width, height } = Dimensions.get('window');
 
@@ -29,11 +29,12 @@ export default class MoodPalette extends Component {
     this.user = this.accountStore.user;
     this.moodPaletteList = Object.values(this.rootStore.moodPaletteList);
     this.moodPaletteListWithId = this.rootStore.moodPaletteList;
+    // this.selectedPaletteID = this.rootStore.selectedPaletteID;
   }
 
   componentWillMount() {
     console.log(this.moodPaletteList);
-    console.log(this.user);
+    console.log(this.user.currentPalette);
     console.log('====moodPaletteListWithID====', this.moodPaletteListWithId);
     this.setState({
       selectedPaletteName: this.moodPaletteListWithId[
@@ -55,6 +56,10 @@ export default class MoodPalette extends Component {
           // ),
           selectedPaletteName: item.name
         });
+        this.rootStore.selectedPaletteID = _.findKey(
+          this.moodPaletteListWithId,
+          palette => palette.name === item.name
+        );
       }}
     >
       <View

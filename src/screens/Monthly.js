@@ -3,7 +3,6 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { observer, inject } from 'mobx-react';
 import { Actions } from 'react-native-router-flux';
 import { Calendar } from 'react-native-calendars';
-import _ from 'lodash';
 
 @inject('rootStore')
 @observer
