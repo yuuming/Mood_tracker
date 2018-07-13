@@ -13,6 +13,18 @@ export default class RootStore {
   }
   moodPaletteList = {};
 
+  getToday = () => {
+    const today = new Date();
+    var month = '' + (today.getMonth() + 1);
+    var day = '' + today.getDate();
+    const year = today.getFullYear();
+
+    if (month.length < 2) { month = '0' + month; }
+    if (day.length < 2) { day = '0' + day; }
+
+    return [year, month, day].join('-');
+  }
+
   loadMoodPaletteList = () =>
     db
       .collection('moodPalette')
