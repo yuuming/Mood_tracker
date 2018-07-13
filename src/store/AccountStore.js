@@ -97,7 +97,8 @@ export default class AccountStore {
               // this.user.markedDates = doc.data();
               this.user.markedDates[doc.data().date] = {
                 comment: doc.data().comment,
-                mood: doc.data().mood
+                mood: doc.data().mood,
+                id: doc.id
               };
             });
           })
