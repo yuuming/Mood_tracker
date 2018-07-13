@@ -14,6 +14,7 @@ export default class DiaryStore {
     comment = '';
     mood = '';
     date = null;
+    id = '';
     // diary[this.date] = {
     //     comment: this.comment,
     //     mood: this.mood
@@ -23,6 +24,17 @@ export default class DiaryStore {
         db.collection('users')
             .doc(this.accountStore.user.id)
             .collection('markedDates')
+            .add({
+                comment: this.comment,
+                mood: this.mood,
+                date: this.date
+            });
+
+    editDiary = () =>
+        db.collection('users')
+            .doc(this.accountStore.user.id)
+            .collection('markedDates')
+            .doc(this.id)
             .update({
                 comment: this.comment,
                 mood: this.mood,

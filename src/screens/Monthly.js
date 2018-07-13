@@ -95,11 +95,19 @@ export default class Monthly extends Component {
         console.log(this.diaryStore.mood);
         console.log(this.diaryStore.date);
         if (this.diaryStore.comment && this.diaryStore.mood) {
+            if (this.diaryStore.id !== '') {
+                this.diaryStore.editDiary()
+                    .then(() => {
+                        this.setState({ isDialogVisible: false });
+                    })
+                    .catch((err) => { console.log(err); });
+            } else {
                 this.diaryStore.writeDiary()
                     .then(() => {
                         this.setState({ isDialogVisible: false });
                     })
                     .catch((err) => { console.log(err); });
+            }
         } else {
             alert('Fill out every field !');
         }
