@@ -94,7 +94,7 @@ export default class AddPost extends Component {
                         <Text style={styles.textStyle}>{this.post.comment || ''}</Text> :
                         <TextInput
                             onChangeText={comment => this.diaryStore.comment = comment}
-                            value={this.post.comment}
+                            value={this.post ? this.post.comment : ''}
                         />
                     }
                 </ScrollView>
