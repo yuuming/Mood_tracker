@@ -69,7 +69,7 @@ export default class Monthly extends Component {
 
     checkDate = (date) => {
         this.date = date;
-        const today = new Date().toISOString().split('T')[0];
+        const today = this.rootStore.getToday();
         this.isToday = (date === today);
         console.log(`today's date : ${today}`);
         console.log(`selected date : ${date}`);
@@ -95,11 +95,11 @@ export default class Monthly extends Component {
         console.log(this.diaryStore.mood);
         console.log(this.diaryStore.date);
         if (this.diaryStore.comment && this.diaryStore.mood) {
-            this.diaryStore.writeDiary()
-                .then(() => {
-                    this.setState({ isDialogVisible: false });
-                })
-                .catch((err) => { console.log(err); });
+                this.diaryStore.writeDiary()
+                    .then(() => {
+                        this.setState({ isDialogVisible: false });
+                    })
+                    .catch((err) => { console.log(err); });
         } else {
             alert('Fill out every field !');
         }

@@ -25,7 +25,7 @@ export default class AddPost extends Component {
         this.palette = this.rootStore.moodPaletteList[this.selectedPaletteID].moodColors;
         this.date = this.props.date;
         this.post = this.accountStore.user.markedDates[this.date];
-        this.today = new Date().toISOString().split('T')[0];
+        this.today = this.rootStore.getToday();
         this.isToday = (this.today === this.date);
         this.mood = '';
 
@@ -43,7 +43,12 @@ export default class AddPost extends Component {
             this.setState({
                 colorForToday: this.palette[this.post.mood]
             });
-        }
+
+            if (this.post.id) {
+                this.diaryStore.id = this.post.id;
+                console.log('AddPost', this.post.id);
+            }
+        }        
     }
 
     renderMoodSettingBar() {
