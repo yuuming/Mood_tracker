@@ -51,9 +51,12 @@ export default class AddPost extends Component {
         }        
     }
 
-    renderMoodSettingBar() {
-        console.log('function called!');
+    componentWillUnmount() {
+        console.log('cleareData is called');
+        this.diaryStore.clearData();
+    }
 
+    renderMoodSettingBar() {
         return (
             _.map(MOODS, (mood, index) =>
                 <TouchableOpacity

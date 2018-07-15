@@ -40,4 +40,11 @@ export default class DiaryStore {
                 mood: this.mood,
                 date: this.date
             });
+
+    clearData = () => {
+        this.comment = '';
+        this.mood = '';
+        this.date = '';
+        this.id = '';
+    }
 }
