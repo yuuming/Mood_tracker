@@ -199,7 +199,11 @@ export default class Monthly extends Component {
         {this.state.isDialogVisible
           ? this.renderDialog(this.date, this.selectedPaletteID)
           : null}
-        <TouchableOpacity onPress={() => Actions.ColourPalette()}>
+        <TouchableOpacity
+          onPress={() =>
+            Actions.ColourPalette({ selectedPaletteID: this.selectedPaletteID })
+          }
+        >
           <Text>go to colourPalette page!</Text>
         </TouchableOpacity>
       </View>
