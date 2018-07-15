@@ -1,189 +1,196 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Modal } from 'react-native';
 import { observer, inject } from 'mobx-react';
 import { Actions } from 'react-native-router-flux';
 import { Calendar } from 'react-native-calendars';
 import _ from 'lodash';
+import AddPost from './AddPost';
 
 @inject('rootStore')
 @observer
 export default class Monthly extends Component {
-  constructor(props) {
-    super(props);
-    this.rootStore = this.props.rootStore;
-    this.accountStore = this.rootStore.accountStore;
-    this.user = this.accountStore.user;
-    this.year = this.props.year;
-    this.month = this.props.month;
-    this.selectedPaletteID = this.user.selectedPalettes[this.year][this.month];
-    this.selectedPalette = this.rootStore.moodPaletteList[
-      this.selectedPaletteID
-    ];
-  }
+    constructor(props) {
+        super(props);
 
-  componentWillMount() {
-    console.log(this.rootStore.moodPaletteList);
-    console.log(this.selectedPaletteID);
-    console.log(this.selectedPalette);
-    console.log(this.user);
-  }
+        this.state = {
+            isDialogVisible: false
+        };
 
-  render() {
-    return (
-      <View style={styles.container}>
-        <Calendar
-          style={{
-            width: 350,
-            height: 500
-          }}
-          // markedDates={test}
-          markedDates={this.user.markedDates}
-          markingType={'custom'}
-          // hideArrows
-          theme={{
-            'stylesheet.calendar.header': {
-              monthText: {
-                fontSize: 18,
-                fontWeight: '600',
-                margin: 10
-              },
-              arrow: {
-                width: 0,
-                height: 0,
-                padding: 10
-              }
+        this.rootStore = this.props.rootStore;
+        this.accountStore = this.rootStore.accountStore;
+        this.diaryStore = this.rootStore.diaryStore;
+        this.user = this.accountStore.user;
+        this.year = this.props.year;
+        this.month = this.props.month;
+        this.date = null;
+        this.selectedPaletteID = this.user.selectedPalettes[this.year][this.month];
+        this.isToday = null;
+    }
+
+    componentWillMount() {
+        console.log(this.rootStore.moodPaletteList);
+        console.log(this.selectedPaletteID);
+        console.log(this.selectedPalette);
+
+        console.log(this.user);
+
+        _.map(this.user.markedDates, (item) => {
+            console.log(this.user.markedDates);
+            console.log(item);
+
+            item.customStyles = {
+                container: {
+                    backgroundColor: selectedPalette.moodColors[item.mood],
+                    borderRadius: 0
+                },
+                text: {
+                    color: 'white'
+                }
+            };
+        });
+    }
+
+    // checkDate = (date) => {
+    //     this.date = date;
+    //     const today = new Date().toISOString().split('T')[0];
+
+    //     console.log(date);
+    //     if (date > today) {
+    //         alert('wait till this day comes! :)');
+    //     } else if (!this.user.markedDates[date]) {
+    //         alert('there is no record for this day! :(');
+    //     } else {
+    //         this.setState({ isDialogVisible: true });
+    //     }
+    // }
+
+    checkDate = (date) => {
+        this.date = date;
+        const today = this.rootStore.getToday();
+        this.isToday = (date === today);
+        console.log(`today's date : ${today}`);
+        console.log(`selected date : ${date}`);
+        if (date > today) {
+            alert('wait till this day comes! :)');
+            return;
+        }
+
+        // if (date === today) {
+        //     this.setState({ isDialogVisible: true });
+        // }
+
+        if (!this.user.markedDates[date] && date !== today) {
+            alert('there is no record for this day! :(');
+            return;
+        }
+
+        this.setState({ isDialogVisible: true });
+    }
+
+    storeDiary = () => {
+        console.log(this.diaryStore.comment);
+        console.log(this.diaryStore.mood);
+        console.log(this.diaryStore.date);
+        if (this.diaryStore.comment && this.diaryStore.mood) {
+            if (this.diaryStore.id !== '') {
+                this.diaryStore.editDiary()
+                    .then(() => {
+                        this.setState({ isDialogVisible: false });
+                    })
+                    .catch((err) => { console.log(err); });
+            } else {
+                this.diaryStore.writeDiary()
+                    .then(() => {
+                        this.setState({ isDialogVisible: false });
+                    })
+                    .catch((err) => { console.log(err); });
             }
-          }}
-          onDayPress={day => {
-            Actions.addPost({
-              date: day.dateString,
-              post: this.user.markedDates[day.dateString]
-            });
-          }}
-        />
-        <TouchableOpacity
-          onPress={() =>
-            Actions.ColourPalette({
-              selectedPaletteID: this.selectedPaletteID
-            })
-          }
-        >
-          <Text>go to colourPalette page!</Text>
-        </TouchableOpacity>
-      </View>
-    );
-  }
+        } else {
+            alert('Fill out every field !');
+        }
+    }
+
+    renderDialog(date, selectedPaletteID) {
+        return (
+            <Modal
+                visible={this.state.isDialogVisible}
+                transparent
+                animationType={'fade'}
+                onRequestClose={() => { this.setState({ isDialogVisible: !this.state.isDialogVisible }); }}
+            >
+                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                    <View style={styles.Alert_Main_View}>
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', marginTop: 15 }}>
+                            <TouchableOpacity
+                                onPress={() => { this.setState({ isDialogVisible: !this.state.isDialogVisible }); }}
+                            >
+                                <Text>Close</Text>
+                            </TouchableOpacity>
+                            <Text>{this.date}</Text>
+                            <TouchableOpacity
+                                onPress={() => { this.storeDiary(); }}
+                            >
+                                <Text>{this.isToday ? 'Done' : ''}</Text>
+                            </TouchableOpacity>
+                        </View>
+                        <AddPost date={date} selectedPaletteID={selectedPaletteID} />
+                    </View>
+                </View>
+            </Modal>
+        );
+    }
+
+    render() {
+        console.log(this.user.markedDates);
+        return (
+            <View style={styles.container}>
+                <Calendar
+                    style={{
+                        width: 350,
+                        height: 500
+                    }}
+                    markedDates={this.user.markedDates}
+                    markingType={'custom'}
+                    // hideArrows
+                    theme={{
+                        'stylesheet.calendar.header': {
+                            monthText: {
+                                fontSize: 18,
+                                fontWeight: '600',
+                                margin: 10,
+                            },
+                            arrow: {
+                                width: 0,
+                                height: 0,
+                                padding: 10,
+                            },
+                        }
+                    }}
+                    onDayPress={(day) => { this.checkDate(day.dateString); }}
+                />
+                {this.state.isDialogVisible ? this.renderDialog(this.date, this.selectedPaletteID) : null}
+                <TouchableOpacity onPress={() => Actions.colourPalette()}>
+                    <Text>go to colourPalette page!</Text>
+                </TouchableOpacity>
+            </View>
+        );
+    }
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'white'
-  }
-});
-
-const test = {
-  '2018-07-04': {
-    mood: 'unhappy',
-    comment: 'last hang-out with my friend',
-    customStyles: {
-      container: {
-        backgroundColor: '#E8B4E0',
-        borderRadius: 0
-      },
-      text: {
-        color: 'white'
-      }
-    }
-  },
-  '2018-07-05': {
-    mood: 'bad',
-    comment: 'My friend left Canada today...',
-    customStyles: {
-      container: {
-        backgroundColor: '#F6D9D8',
-        borderRadius: 0
-      },
-      text: {
-        color: 'white'
-      }
-    }
-  },
-  '2018-07-06': {
-    mood: 'high',
-    comment: 'Cakes from Thierry are always irresistable',
-    customStyles: {
-      container: {
-        backgroundColor: '#7EB6E2',
-        borderRadius: 0
-      },
-      text: {
-        color: 'white'
-      }
-    }
-  },
-  '2018-07-02': {
-    mood: 'unhappy',
-    comment: 'I was sick',
-    customStyles: {
-      container: {
-        backgroundColor: '#F6D9D8',
-        borderRadius: 0,
-        // width: 40,
-        // height: 40,
-        margin: 0,
-        padding: 0
-      },
-      text: {
-        color: 'white'
-      }
-    }
-  },
-  '2018-07-07': {
-    mood: 'happy',
-    comment: 'I watched the Deadpool 2!',
-    customStyles: {
-      container: {
-        backgroundColor: '#E8B4E0',
-        borderRadius: 0
-      },
-      text: {
-        color: 'white'
-      }
-    }
-  },
-  '2018-07-08': {
-    mood: 'high',
-    comment: 'I felt fulfilled to implement some features',
-    customStyles: {
-      container: {
-        backgroundColor: '#DDF2F4',
-        borderRadius: 0
-      },
-      text: {
-        color: 'white'
-      }
-    }
-  },
-  '2018-07-01': {
-    mood: 'neutral',
-    comment: 'nothing special happened',
-    customStyles: {
-      container: {
-        alignItems: 'center',
+    container: {
+        flex: 1,
         justifyContent: 'center',
-        backgroundColor: '#EFCBE0',
-        borderRadius: 0,
-        padding: 0,
-        margin: 0
-        // width: 40,
-        // height: 40
-      },
-      text: {
-        color: 'white'
-      }
-    }
-  }
-};
+        alignItems: 'center',
+        backgroundColor: 'white',
+    },
+    Alert_Main_View: {
+        justifyContent: 'space-around',
+        backgroundColor: '#f4f4f4',
+        height: 300,
+        width: '90%',
+        borderWidth: 1,
+        borderColor: '#fff',
+        borderRadius: 7,
+    },
+});
