@@ -21,7 +21,7 @@ export default class ColourPalette extends Component {
     return (
       <View style={styles.container}>
         {/* <Text>ColourPalette page!!</Text> */}
-        <MoodPalette />
+        <MoodPalette selectedPaletteID={this.props.selectedPaletteID} />
       </View>
     );
   }
@@ -32,6 +32,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'blue'
+    backgroundColor: '#ffffff'
   }
 });
