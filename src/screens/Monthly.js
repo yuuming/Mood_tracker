@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { observer, inject } from 'mobx-react';
 import { Actions } from 'react-native-router-flux';
 import { Calendar } from 'react-native-calendars';
+import _ from 'lodash';
 
 @inject('rootStore')
 @observer
@@ -24,14 +25,7 @@ export default class Monthly extends Component {
     console.log(this.rootStore.moodPaletteList);
     console.log(this.selectedPaletteID);
     console.log(this.selectedPalette);
-
     console.log(this.user);
-
-    // _.map(this.user.markedDates, item => {
-    //   item.customStyles.container.backgroundColor = this.selectedPalette.moodColors[
-    //     item.mood
-    //   ];
-    // });
   }
 
   render() {
