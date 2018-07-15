@@ -7,7 +7,7 @@ import {
   View
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
-import { Icon } from 'react-native-elements';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 import { observer, inject } from 'mobx-react';
 
 @inject('rootStore')
