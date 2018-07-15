@@ -20,13 +20,28 @@ export default class Yearly extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text>Yealy page!</Text>
-        {/* <Text>ColourPalette page!!</Text> */}
-        {/* <MoodPalette selectedPaletteID={this.props.selectedPaletteID} /> */}
+        <View style={styles.colourPalette}>
+          {monthSquare('blue', 'May', 'Happy')}
+        </View>
       </View>
     );
   }
 }
+
+const monthSquare = (color, month, mood) => (
+  <View
+    style={{
+      height: 110,
+      width: 80,
+      borderWidth: 1
+    }}
+  >
+    <View style={{ backgroundColor: color, height: 70, width: 80 }} />
+
+    <Text>{month}</Text>
+    <Text>{mood}</Text>
+  </View>
+);
 
 const styles = StyleSheet.create({
   container: {
