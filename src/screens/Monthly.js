@@ -28,12 +28,9 @@ export default class Monthly extends Component {
     }
 
     componentWillMount() {
-        const selectedPaletteID = this.user.selectedPalettes[this.year][this.month];
-        const selectedPalette = this.rootStore.moodPaletteList[selectedPaletteID];
-
         console.log(this.rootStore.moodPaletteList);
-        console.log(selectedPaletteID);
-        console.log(selectedPalette);
+        console.log(this.selectedPaletteID);
+        console.log(this.selectedPalette);
 
         console.log(this.user);
 

@@ -2,7 +2,11 @@ import firebase from 'react-native-firebase';
 import { Actions } from 'react-native-router-flux';
 import { observable } from 'mobx';
 import _ from 'lodash';
-import { WRONG_PASSWORD, USER_NOT_FOUND, EMAIL_ALREADY_IN_USE } from '../../Utils/Const';
+import {
+  WRONG_PASSWORD,
+  USER_NOT_FOUND,
+  EMAIL_ALREADY_IN_USE
+} from '../../Utils/Const';
 
 const db = firebase.firestore();
 
@@ -11,7 +15,6 @@ export default class AccountStore {
     this.rootStore = rootStore;
   }
 
-  user = null;
   // moodPalettes = {};
 
   @observable isPending = false;
@@ -21,11 +24,13 @@ export default class AccountStore {
     this.authError = null;
     this.isPending = true;
 
-    firebase.auth().createUserAndRetrieveDataWithEmailAndPassword(email, password)
-      .then((auth) => {
+    firebase
+      .auth()
+      .createUserAndRetrieveDataWithEmailAndPassword(email, password)
+      .then(auth => {
         this.saveUser(auth.user._user);
       })
-      .catch((err) => {
+      .catch(err => {
         this.isPending = false;
 
         switch (err.code) {
@@ -36,17 +41,19 @@ export default class AccountStore {
             console.log(err);
         }
       });
-  }
+  };
 
   signIn = (email, password) => {
     this.authError = null;
     this.isPending = true;
 
-    firebase.auth().signInAndRetrieveDataWithEmailAndPassword(email, password)
-      .then((auth) => {
+    firebase
+      .auth()
+      .signInAndRetrieveDataWithEmailAndPassword(email, password)
+      .then(auth => {
         this.getUser(auth.user._user);
       })
-      .catch((err) => {
+      .catch(err => {
         this.isPending = false;
 
         switch (err.code) {
@@ -63,10 +70,11 @@ export default class AccountStore {
             console.log(err);
         }
       });
-  }
+  };
 
-  saveUser = (user) => {
-    db.collection('users').doc(user.uid)
+  saveUser = user => {
+    db.collection('users')
+      .doc(user.uid)
       .set({
         id: user.uid,
         joinedDate: new Date(),
@@ -76,17 +84,19 @@ export default class AccountStore {
       .then(() => {
         this.getUser(user);
       })
-      .catch((err) => { console.log(err); });
-  }
+      .catch(err => {
+        console.log(err);
+      });
+  };
 
-  getUser = (user) => {
-    db.collection('users').doc(user.uid)
+  getUser = user => {
+    db.collection('users')
+      .doc(user.uid)
       .get()
-      .then((userRef) => {
+      .then(userRef => {
         this.user = userRef._data;
         this.user.markedDates = {};
 
-        //TODO: make another function !
         db.collection('users').doc(user.uid)
           .collection('markedDates').get()
           .then((subCollectionRef) => {
@@ -105,16 +115,16 @@ export default class AccountStore {
           .then(() => {
             this.getSelectedPalettes();
           })
-          .catch((err) => {
+          .catch(err => {
             console.log(err);
           });
       })
-      .catch((err) => { console.log(err); });
-  }
+      .catch(err => {
+        console.log(err);
+      });
+  };
 
   getSelectedPalettes = () => {
-
-    console.log(this.user);
     db.collection('users').doc(this.user.id)
       .collection('selectedPalettes').get()
       .then((subCollectionRef) => {
