@@ -23,7 +23,7 @@ export default class Monthly extends Component {
     this.year = this.props.year;
     this.month = this.props.month;
     this.date = null;
-    this.selectedPaletteID = this.user.selectedPalettes[this.year][this.month];
+    this.selectedPaletteID = this.user.currentPalette;
     this.isToday = null;
   }
 
