@@ -206,6 +206,9 @@ export default class Monthly extends Component {
         >
           <Text>go to colourPalette page!</Text>
         </TouchableOpacity>
+        <TouchableOpacity onPress={() => Actions.Yearly()}>
+          <Text>Yearly Page!</Text>
+        </TouchableOpacity>
       </View>
     );
   }

@@ -7,6 +7,7 @@ import ColourPalette from './screens/ColourPalette';
 import AddPost from './screens/AddPost';
 import ColourPaletteBar from './components/ColourPaletteBar';
 import MoodPalette from './components/MoodPalette';
+import Yearly from './screens/Yearly';
 
 @inject('rootStore')
 @observer
@@ -14,21 +15,10 @@ export default class MainPage extends Component {
   render() {
     return (
       <Router>
-        <Stack 
-        key="root" 
-        hideNavBar
-        >
-          <Scene 
-          key="signIn" 
-          component={SignIn} 
-          initial hideNavBar 
-          />
+        <Stack key="root" hideNavBar>
+          <Scene key="signIn" component={SignIn} initial hideNavBar />
           {/* <Stack key='main'> */}
-          <Scene 
-          key="monthly" 
-          component={Monthly} 
-          hideNavBar 
-          />
+          <Scene key="monthly" component={Monthly} hideNavBar />
           <Scene
             key="ColourPalette"
             title="Colour Palette"
@@ -37,15 +27,18 @@ export default class MainPage extends Component {
             navBar={ColourPaletteBar}
           />
           <Scene
+            key="Yearly"
+            component={Yearly}
+            // hideNavBar={false}
+            // navBar={ColourPaletteBar}
+          />
+          <Scene
             key="MoodPalette"
             component={MoodPalette}
             // hideNavBar={false}
             // navBar={ColourPaletteBar}
           />
-          <Scene 
-          key="addPost" 
-          component={AddPost} 
-          />
+          <Scene key="addPost" component={AddPost} />
         </Stack>
       </Router>
     );
