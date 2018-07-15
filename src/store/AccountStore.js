@@ -76,6 +76,7 @@ export default class AccountStore {
     db.collection('users')
       .doc(user.uid)
       .set({
+        id: user.uid,
         joinedDate: new Date(),
         email: user.email,
         obtainedPalette: {}
@@ -94,37 +95,25 @@ export default class AccountStore {
       .get()
       .then(userRef => {
         this.user = userRef._data;
+        this.user.markedDates = {};
 
-        db.collection('users')
-          .doc(user.uid)
-          .collection('markedDates')
-          .get()
-          .then(subCollectionRef => {
+        db.collection('users').doc(user.uid)
+          .collection('markedDates').get()
+          .then((subCollectionRef) => {
             const docs = subCollectionRef.docs;
-
-            _.forEach(docs, doc => {
-              this.user.markedDates = doc.data();
+            console.log(this.user);
+            console.log(docs);
+            _.forEach(docs, (doc) => {
+              // this.user.markedDates = doc.data();
+              this.user.markedDates[doc.data().date] = {
+                comment: doc.data().comment,
+                mood: doc.data().mood,
+                id: doc.id
+              };
             });
           })
           .then(() => {
-            //TODO: make another function !
-            db.collection('users')
-              .doc(user.uid)
-              .collection('selectedPalettes')
-              .get()
-              .then(subCollectionRef => {
-                const docs = subCollectionRef.docs;
-
-                _.forEach(docs, doc => {
-                  this.user.selectedPalettes = doc.data();
-                });
-
-                this.isPending = false;
-                Actions.monthly({ year: '2018', month: '07' });
-              })
-              .catch(err => {
-                console.log(err);
-              });
+            this.getSelectedPalettes();
           })
           .catch(err => {
             console.log(err);
@@ -134,6 +123,24 @@ export default class AccountStore {
         console.log(err);
       });
   };
+
+  getSelectedPalettes = () => {
+    db.collection('users').doc(this.user.id)
+      .collection('selectedPalettes').get()
+      .then((subCollectionRef) => {
+        const docs = subCollectionRef.docs;
+
+        _.forEach(docs, (doc) => {
+          this.user.selectedPalettes = doc.data();
+        });
+
+        this.isPending = false;
+        Actions.monthly({ year: '2018', month: '07' });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
 
   // getMoodPalettes = () => {
   //   db.collection('moodPalette').get()
