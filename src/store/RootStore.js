@@ -1,5 +1,6 @@
 import firebase from 'react-native-firebase';
 import AccountStore from './AccountStore';
+import _ from 'lodash';
 
 const db = firebase.firestore();
 
@@ -17,17 +18,12 @@ export default class RootStore {
       .collection('moodPalette')
       .get()
       .then(querySnapshot => {
-        console.log(querySnapshot);
-        for (let i = 0; i < querySnapshot.docs.length; ++i) {
+        _.forEach(querySnapshot.docs, doc => {
           console.log('loadMoodePaletteList in RootStore');
-          const moodPaletteInfo = querySnapshot.docs[i].data();
-          console.log(moodPaletteInfo);
-          this.moodPaletteList[querySnapshot.docs[i].id] = moodPaletteInfo;
-          console.log(this.moodPaletteList[querySnapshot.docs[i].id]);
-          console.log('===moodPaletteList.id===', this.moodPaletteList.id);
-
+          const moodPaletteInfo = doc.data();
+          this.moodPaletteList[doc.id] = moodPaletteInfo;
           console.log(this.moodPaletteList);
-        }
+        });
       });
 
   updateSelectPalette() {
