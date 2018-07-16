@@ -48,20 +48,6 @@ export default class Monthly extends Component {
     });
   }
 
-  // checkDate = (date) => {
-  //     this.date = date;
-  //     const today = new Date().toISOString().split('T')[0];
-
-  //     console.log(date);
-  //     if (date > today) {
-  //         alert('wait till this day comes! :)');
-  //     } else if (!this.user.markedDates[date]) {
-  //         alert('there is no record for this day! :(');
-  //     } else {
-  //         this.setState({ isDialogVisible: true });
-  //     }
-  // }
-
   checkDate = date => {
     this.date = date;
     const today = this.rootStore.getToday();
@@ -72,10 +58,6 @@ export default class Monthly extends Component {
       alert('wait till this day comes! :)');
       return;
     }
-
-    // if (date === today) {
-    //     this.setState({ isDialogVisible: true });
-    // }
 
     if (!this.user.markedDates[date] && date !== today) {
       alert('there is no record for this day! :(');
