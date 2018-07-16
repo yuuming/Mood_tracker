@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Modal } from 'react-native';
 import { observer, inject } from 'mobx-react';
+import { toJS } from 'mobx';
 import { Actions } from 'react-native-router-flux';
 import { Calendar } from 'react-native-calendars';
 import _ from 'lodash';
@@ -28,15 +29,11 @@ export default class Monthly extends Component {
   }
 
   componentWillMount() {
-    console.log(this.rootStore.moodPaletteList);
-    console.log(this.selectedPaletteID);
-    console.log(this.selectedPalette);
-
     console.log(this.user);
     const selectedPalette = this.rootStore.moodPaletteList[this.user.currentPalette];
 
-    _.map(this.user.markedDates, item => {
-      console.log(this.user.markedDates);
+    console.log(this.diaryStore.records);
+    _.map(this.diaryStore.records, item => {
       console.log(item);
 
       item.customStyles = {
@@ -89,9 +86,6 @@ export default class Monthly extends Component {
   };
 
   storeDiary = () => {
-    console.log(this.diaryStore.comment);
-    console.log(this.diaryStore.mood);
-    console.log(this.diaryStore.date);
     if (this.diaryStore.comment && this.diaryStore.mood) {
       if (this.diaryStore.id !== '') {
         this.diaryStore
@@ -165,7 +159,7 @@ export default class Monthly extends Component {
   }
 
   render() {
-    console.log(this.user.markedDates);
+    console.log(toJS(this.diaryStore.records));
     return (
       <View style={styles.container}>
         <Calendar
@@ -173,7 +167,7 @@ export default class Monthly extends Component {
             width: 350,
             height: 500
           }}
-          markedDates={this.user.markedDates}
+          markedDates={toJS(this.diaryStore.records)}
           markingType={'custom'}
           // hideArrows
           theme={{
