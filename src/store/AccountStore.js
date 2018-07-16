@@ -15,7 +15,6 @@ export default class AccountStore {
     this.rootStore = rootStore;
   }
 
-  // moodPalettes = {};
 
   @observable isPending = false;
   @observable authError = null;
@@ -110,6 +109,8 @@ export default class AccountStore {
                 mood: doc.data().mood,
                 id: doc.id
               };
+
+              this.rootStore.diaryStore.records = this.user.markedDates;
             });
           })
           .then(() => {
