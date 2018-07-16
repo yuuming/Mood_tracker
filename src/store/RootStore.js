@@ -17,8 +17,8 @@ export default class RootStore {
 
   getToday = () => {
     const today = new Date();
-    var month = '' + (today.getMonth() + 1);
-    var day = '' + today.getDate();
+    let month = '' + (today.getMonth() + 1);
+    let day = '' + today.getDate();
     const year = today.getFullYear();
 
     if (month.length < 2) { month = '0' + month; }
