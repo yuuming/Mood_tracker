@@ -40,24 +40,17 @@ export default class RootStore {
         });
       });
 
-  updateSelectPalette() {
-    console.log('updateSelectPalette is called');
-    const user = this.accountStore.user;
-    console.log(user);
-    console.log(this.selectedPaletteID);
-
-    console.log('inside the block');
-
+  updateSelectPalette = () =>
     db.collection('users')
-      .doc(user.id)
+      .doc(this.accountStore.user.id)
       .update({
         currentPalette: this.selectedPaletteID
       })
       .then(() => {
         console.log('successful');
+        this.accountStore.updateCurrentPalette(this.selectedPaletteID);
       })
-      .catch(err => {
-        console.log(err);
-      });
-  }
+      // .catch(err => {
+      //   console.log(err);
+      // });
 }
