@@ -8,6 +8,7 @@ import AddPost from './screens/AddPost';
 import ColourPaletteBar from './components/ColourPaletteBar';
 import MoodPalette from './components/MoodPalette';
 import Yearly from './screens/Yearly';
+import YearlyBar from './components/YearlyBar';
 
 @inject('rootStore')
 @observer
@@ -29,8 +30,8 @@ export default class MainPage extends Component {
           <Scene
             key="Yearly"
             component={Yearly}
-            // hideNavBar={false}
-            // navBar={ColourPaletteBar}
+            hideNavBar={false}
+            navBar={YearlyBar}
           />
           <Scene
             key="MoodPalette"
