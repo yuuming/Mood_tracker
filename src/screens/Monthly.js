@@ -24,15 +24,14 @@ export default class Monthly extends Component {
     this.year = this.props.year;
     this.month = this.props.month;
     this.date = null;
-    this.selectedPaletteID = this.user.currentPalette;
+    this.selectedPaletteID = this.accountStore.currentPaletteID;
     this.isToday = null;
   }
 
   componentWillMount() {
-    console.log(this.user);
-    const selectedPalette = this.rootStore.moodPaletteList[this.user.currentPalette];
+    const selectedPalette = this.rootStore.moodPaletteList[this.selectedPaletteID];
 
-    console.log(this.diaryStore.records);
+    console.log('먼슬리');
     _.map(this.diaryStore.records, item => {
       console.log(item);
 
@@ -47,7 +46,7 @@ export default class Monthly extends Component {
       };
     });
   }
-
+  
   checkDate = date => {
     this.date = date;
     const today = this.rootStore.getToday();
@@ -141,7 +140,9 @@ export default class Monthly extends Component {
   }
 
   render() {
-    console.log(toJS(this.diaryStore.records));
+    console.log(this.accountStore.user.currentPalette);
+    console.log(this.accountStore.currentPaletteID);
+    console.log('렌더링');
     return (
       <View style={styles.container}>
         <Calendar
@@ -180,6 +181,7 @@ export default class Monthly extends Component {
         >
           <Text>go to colourPalette page!</Text>
         </TouchableOpacity>
+        <Text>{this.accountStore.currentPaletteID}</Text>
       </View>
     );
   }
