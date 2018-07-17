@@ -1,6 +1,6 @@
 import firebase from 'react-native-firebase';
 import { Actions } from 'react-native-router-flux';
-import { observable } from 'mobx';
+import { observable, action } from 'mobx';
 import _ from 'lodash';
 import {
   WRONG_PASSWORD,
@@ -15,9 +15,17 @@ export default class AccountStore {
     this.rootStore = rootStore;
   }
 
-
+  user = {};
+  
+  @observable currentPaletteID = '';
   @observable isPending = false;
   @observable authError = null;
+
+  @action 
+  async updateCurrentPalette(paletteID) {
+    console.log(paletteID);
+    this.currentPaletteID = paletteID;
+  }
 
   signUp = (email, password) => {
     this.authError = null;
@@ -95,6 +103,8 @@ export default class AccountStore {
       .then(userRef => {
         this.user = userRef._data;
         this.user.markedDates = {};
+
+        this.updateCurrentPalette(userRef.data().currentPalette);
 
         db.collection('users').doc(user.uid)
           .collection('markedDates').get()
