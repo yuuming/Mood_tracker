@@ -24,17 +24,14 @@ export default class Monthly extends Component {
     this.year = this.props.year;
     this.month = this.props.month;
     this.date = null;
-    this.selectedPaletteID = this.accountStore.currentPaletteID;
+    this.selectedPaletteID = this.props.selectedPaletteID;
     this.isToday = null;
   }
 
   componentWillMount() {
     const selectedPalette = this.rootStore.moodPaletteList[this.selectedPaletteID];
 
-    console.log('먼슬리');
     _.map(this.diaryStore.records, item => {
-      console.log(item);
-
       item.customStyles = {
         container: {
           backgroundColor: selectedPalette.moodColors[item.mood],
@@ -46,7 +43,27 @@ export default class Monthly extends Component {
       };
     });
   }
-  
+
+  componentWillUpdate() {
+    const selectedPalette = this.rootStore.moodPaletteList[this.accountStore.currentPaletteID];
+
+    if (this.props.selectedPaletteID !== this.accountStore.currentPaletteID) {
+      _.map(this.diaryStore.records, item => {
+        item.customStyles = {
+          container: {
+            backgroundColor: selectedPalette.moodColors[item.mood],
+            borderRadius: 0
+          },
+          text: {
+            color: 'white'
+          }
+        };
+      });
+    }
+
+    this.selectedPaletteID = this.accountStore.currentPaletteID;
+  }
+
   checkDate = date => {
     this.date = date;
     const today = this.rootStore.getToday();
