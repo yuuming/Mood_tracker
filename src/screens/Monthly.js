@@ -29,6 +29,17 @@ export default class Monthly extends Component {
   }
 
   componentWillMount() {
+    this.formatRecordObject();
+  }
+
+  componentWillUpdate() {
+    if (this.props.selectedPaletteID !== this.accountStore.currentPaletteID) {
+      this.selectedPaletteID = this.accountStore.currentPaletteID;
+      this.formatRecordObject();
+    }
+  }
+
+  formatRecordObject() {
     const selectedPalette = this.rootStore.moodPaletteList[this.selectedPaletteID];
 
     _.map(this.diaryStore.records, item => {
@@ -42,26 +53,6 @@ export default class Monthly extends Component {
         }
       };
     });
-  }
-
-  componentWillUpdate() {
-    const selectedPalette = this.rootStore.moodPaletteList[this.accountStore.currentPaletteID];
-
-    if (this.props.selectedPaletteID !== this.accountStore.currentPaletteID) {
-      _.map(this.diaryStore.records, item => {
-        item.customStyles = {
-          container: {
-            backgroundColor: selectedPalette.moodColors[item.mood],
-            borderRadius: 0
-          },
-          text: {
-            color: 'white'
-          }
-        };
-      });
-    }
-
-    this.selectedPaletteID = this.accountStore.currentPaletteID;
   }
 
   checkDate = date => {
