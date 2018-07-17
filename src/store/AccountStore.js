@@ -146,7 +146,7 @@ export default class AccountStore {
         });
 
         this.isPending = false;
-        Actions.monthly({ year: '2018', month: '07' });
+        Actions.monthly({ year: '2018', month: '07', selectedPaletteID: this.currentPaletteID });
       })
       .catch((err) => {
         console.log(err);
