@@ -14,7 +14,8 @@ export default class Monthly extends Component {
     super(props);
 
     this.state = {
-      isDialogVisible: false
+      isDialogVisible: false,
+      isCalendarMode: true,
     };
 
     this.rootStore = this.props.rootStore;
@@ -26,6 +27,7 @@ export default class Monthly extends Component {
     this.date = null;
     this.selectedPaletteID = this.props.selectedPaletteID;
     this.isToday = null;
+    this.selectedPalette = this.rootStore.moodPaletteList[this.selectedPaletteID];
   }
 
   componentWillMount() {
