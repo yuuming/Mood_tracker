@@ -22,6 +22,7 @@ export default class DiaryStore {
     async updateRecords(id) {
         this.records[this.date] = {
             comment: this.comment,
+            date: this.date,
             mood: this.mood,
             id,
             customStyles: {
