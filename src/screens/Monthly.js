@@ -189,7 +189,13 @@ export default class Monthly extends Component {
         >
           <Text>go to colourPalette page!</Text>
         </TouchableOpacity>
-        <Text>{this.accountStore.currentPaletteID}</Text>
+        <TouchableOpacity
+          onPress={() =>
+            this.setState({ isCalendarMode: !this.state.isCalendarMode })
+          }
+        >
+          <Text>different Mode</Text>
+        </TouchableOpacity>
       </View>
     );
   }
