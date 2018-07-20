@@ -31,15 +31,34 @@ export default class Yearly extends Component {
 const monthSquare = (color, month, mood) => (
   <View
     style={{
-      height: 110,
-      width: 80,
-      borderWidth: 1
+      height: 120,
+      width: 90,
+      borderWidth: 1,
+      borderColor: '#95a8c6'
     }}
   >
-    <View style={{ backgroundColor: color, height: 70, width: 80 }} />
+    <View style={{ backgroundColor: color, height: 70, width: 90 }} />
 
-    <Text>{month}</Text>
-    <Text>{mood}</Text>
+    <Text
+      style={{
+        fontSize: 20,
+        fontWeight: '300',
+        color: '#3c3642',
+        paddingLeft: 5
+      }}
+    >
+      {month}
+    </Text>
+    <Text
+      style={{
+        fontSize: 15,
+        fontWeight: '100',
+        color: '#3c3642',
+        paddingLeft: 5
+      }}
+    >
+      {mood}
+    </Text>
   </View>
 );
 
