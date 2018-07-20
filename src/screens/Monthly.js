@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Modal } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Modal, FlatList } from 'react-native';
 import { observer, inject } from 'mobx-react';
 import { toJS } from 'mobx';
 import { Actions } from 'react-native-router-flux';
@@ -102,6 +102,28 @@ export default class Monthly extends Component {
     }
   };
 
+  renderDiary(item) {
+    console.log(item);
+    return (
+      <View style={{ padding: 30, margin: 30, height: 350, borderWidth: 1, borderColor: 'gray' }}>
+        <View style={{ flexDirection: 'row', marginBottom: 30 }}>
+          <View
+            style={{
+              backgroundColor: this.selectedPalette.moodColors[item.item.mood],
+              height: 60,
+              width: 60,
+            }}
+          />
+          <View style={{ justifyContent: 'space-around', marginLeft: 30 }}>
+            <Text>{item.item.date}</Text>
+            <Text>{item.item.mood}</Text>
+          </View>
+        </View>
+        <Text>{item.item.comment}</Text>
+      </View>
+    );
+  }
+
   renderDialog(date, selectedPaletteID) {
     return (
       <Modal
@@ -153,34 +175,46 @@ export default class Monthly extends Component {
     console.log(this.accountStore.user.currentPalette);
     console.log(this.accountStore.currentPaletteID);
     console.log('렌더링');
+
+    this.formatRecordObject();
+
     return (
       <View style={styles.container}>
-        <Calendar
-          style={{
-            width: 350,
-            height: 500
-          }}
-          markedDates={toJS(this.diaryStore.records)}
-          markingType={'custom'}
-          // hideArrows
-          theme={{
-            'stylesheet.calendar.header': {
-              monthText: {
-                fontSize: 18,
-                fontWeight: '600',
-                margin: 10
-              },
-              arrow: {
-                width: 0,
-                height: 0,
-                padding: 10
+        {this.state.isCalendarMode ?
+          <Calendar
+            style={{
+              width: 350,
+              height: 500
+            }}
+            markedDates={toJS(this.diaryStore.records)}
+            markingType={'custom'}
+            // hideArrows
+            theme={{
+              'stylesheet.calendar.header': {
+                monthText: {
+                  fontSize: 18,
+                  fontWeight: '600',
+                  margin: 10
+                },
+                arrow: {
+                  width: 0,
+                  height: 0,
+                  padding: 10
+                }
               }
-            }
-          }}
-          onDayPress={day => {
-            this.checkDate(day.dateString);
-          }}
-        />
+            }}
+            onDayPress={day => {
+              this.checkDate(day.dateString);
+            }}
+          />
+          :
+          <FlatList
+            style={{ width: '100%' }}
+            data={Object.values(this.diaryStore.records)}
+            keyExtractor={item => item.id}
+            renderItem={item => this.renderDiary(item)}
+          />
+        }
         {this.state.isDialogVisible
           ? this.renderDialog(this.date, this.selectedPaletteID)
           : null}
@@ -198,7 +232,7 @@ export default class Monthly extends Component {
         >
           <Text>different Mode</Text>
         </TouchableOpacity>
-      </View>
+      </View >
     );
   }
 }
