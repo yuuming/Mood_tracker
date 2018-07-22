@@ -210,7 +210,7 @@ export default class Monthly extends Component {
           :
           <FlatList
             style={{ width: '100%' }}
-            data={Object.values(this.diaryStore.records)}
+            data={_.sortBy(this.diaryStore.records, record => record.date)}
             keyExtractor={item => item.id}
             renderItem={item => this.renderDiary(item)}
           />
