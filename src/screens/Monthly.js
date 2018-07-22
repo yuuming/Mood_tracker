@@ -111,6 +111,9 @@ export default class Monthly extends Component {
   };
 
   renderDiary(item) {
+    const month = item.item.date.charAt(5) + item.item.date.charAt(6);
+
+    if (month === this.month) {
       return (
         <View style={{ padding: 30, margin: 30, height: 350, borderWidth: 1, borderColor: 'gray' }}>
           <View style={{ flexDirection: 'row', marginBottom: 30 }}>
@@ -130,6 +133,8 @@ export default class Monthly extends Component {
         </View>
       );
     }
+    return null;
+  }
 
   renderDialog(date, selectedPaletteID) {
     return (
