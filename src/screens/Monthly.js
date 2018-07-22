@@ -76,6 +76,14 @@ export default class Monthly extends Component {
     this.setState({ isDialogVisible: true });
   };
 
+  handleChangedMonth = (month) => {
+    if (month.toString().length !== 1) {
+      this.month = month.toString();
+    } else {
+      this.month = `0${month}`;
+    }
+  }
+
   storeDiary = () => {
     if (this.diaryStore.comment && this.diaryStore.mood) {
       if (this.diaryStore.id !== '') {
@@ -103,26 +111,25 @@ export default class Monthly extends Component {
   };
 
   renderDiary(item) {
-    console.log(item);
-    return (
-      <View style={{ padding: 30, margin: 30, height: 350, borderWidth: 1, borderColor: 'gray' }}>
-        <View style={{ flexDirection: 'row', marginBottom: 30 }}>
-          <View
-            style={{
-              backgroundColor: this.selectedPalette.moodColors[item.item.mood],
-              height: 60,
-              width: 60,
-            }}
-          />
-          <View style={{ justifyContent: 'space-around', marginLeft: 30 }}>
-            <Text>{item.item.date}</Text>
-            <Text>{item.item.mood}</Text>
+      return (
+        <View style={{ padding: 30, margin: 30, height: 350, borderWidth: 1, borderColor: 'gray' }}>
+          <View style={{ flexDirection: 'row', marginBottom: 30 }}>
+            <View
+              style={{
+                backgroundColor: this.selectedPalette.moodColors[item.item.mood],
+                height: 60,
+                width: 60,
+              }}
+            />
+            <View style={{ justifyContent: 'space-around', marginLeft: 30 }}>
+              <Text>{item.item.date}</Text>
+              <Text>{item.item.mood}</Text>
+            </View>
           </View>
+          <Text>{item.item.comment}</Text>
         </View>
-        <Text>{item.item.comment}</Text>
-      </View>
-    );
-  }
+      );
+    }
 
   renderDialog(date, selectedPaletteID) {
     return (
@@ -206,6 +213,7 @@ export default class Monthly extends Component {
             onDayPress={day => {
               this.checkDate(day.dateString);
             }}
+            onMonthChange={(month) => { this.handleChangedMonth(month.month); }}
           />
           :
           <FlatList
