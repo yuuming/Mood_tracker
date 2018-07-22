@@ -116,7 +116,7 @@ const styles = StyleSheet.create({
         marginTop: 15,
     },
     textStyle: {
-        marginTop: 20,
+        margin: 20,
         textAlign: 'left',
         fontWeight: '600',
         fontSize: 16
