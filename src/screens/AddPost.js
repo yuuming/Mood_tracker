@@ -98,6 +98,8 @@ export default class AddPost extends Component {
                         <TextInput
                             onChangeText={(comment) => { this.diaryStore.comment = comment; }}
                             value={this.post ? this.post.comment : ''}
+                            multiline
+                            maxLength={470}
                         />
                     }
                 </ScrollView>
@@ -114,7 +116,6 @@ const styles = StyleSheet.create({
         marginTop: 15,
     },
     textStyle: {
-        marginLeft: 30,
         marginTop: 20,
         textAlign: 'left',
         fontWeight: '600',
