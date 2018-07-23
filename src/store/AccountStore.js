@@ -1,6 +1,6 @@
 import firebase from 'react-native-firebase';
 import { Actions } from 'react-native-router-flux';
-import { observable } from 'mobx';
+import { observable, action } from 'mobx';
 import _ from 'lodash';
 import {
   WRONG_PASSWORD,
@@ -15,11 +15,17 @@ export default class AccountStore {
     this.rootStore = rootStore;
   }
 
-  // moodPalettes = {};
   user = {};
-
+  
+  @observable currentPaletteID = '';
   @observable isPending = false;
   @observable authError = null;
+
+  @action 
+  async updateCurrentPalette(paletteID) {
+    console.log(paletteID);
+    this.currentPaletteID = paletteID;
+  }
 
   signUp = (email, password) => {
     this.authError = null;
@@ -98,6 +104,8 @@ export default class AccountStore {
         this.user = userRef._data;
         this.user.markedDates = {};
 
+        this.updateCurrentPalette(userRef.data().currentPalette);
+
         db.collection('users').doc(user.uid)
           .collection('markedDates').get()
           .then((subCollectionRef) => {
@@ -112,6 +120,8 @@ export default class AccountStore {
                 mood: doc.data().mood,
                 id: doc.id
               };
+
+              this.rootStore.diaryStore.records = this.user.markedDates;
             });
           })
           .then(() => {
@@ -137,7 +147,7 @@ export default class AccountStore {
         });
 
         this.isPending = false;
-        Actions.monthly({ year: '2018', month: '07' });
+        Actions.monthly({ year: '2018', month: '07', selectedPaletteID: this.currentPaletteID });
       })
       .catch((err) => {
         console.log(err);

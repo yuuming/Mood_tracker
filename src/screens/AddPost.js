@@ -24,7 +24,7 @@ export default class AddPost extends Component {
         this.selectedPaletteID = this.props.selectedPaletteID;
         this.palette = this.rootStore.moodPaletteList[this.selectedPaletteID].moodColors;
         this.date = this.props.date;
-        this.post = this.accountStore.user.markedDates[this.date];
+        this.post = this.diaryStore.records[this.date];
         this.today = this.rootStore.getToday();
         this.isToday = (this.today === this.date);
         this.mood = '';
@@ -48,7 +48,7 @@ export default class AddPost extends Component {
                 this.diaryStore.id = this.post.id;
                 console.log('AddPost', this.post.id);
             }
-        }        
+        }
     }
 
     componentWillUnmount() {
@@ -96,8 +96,10 @@ export default class AddPost extends Component {
                     {!this.isToday ?
                         <Text style={styles.textStyle}>{this.post.comment || ''}</Text> :
                         <TextInput
-                            onChangeText={comment => this.diaryStore.comment = comment}
+                            onChangeText={(comment) => { this.diaryStore.comment = comment; }}
                             value={this.post ? this.post.comment : ''}
+                            multiline
+                            maxLength={470}
                         />
                     }
                 </ScrollView>
@@ -114,8 +116,7 @@ const styles = StyleSheet.create({
         marginTop: 15,
     },
     textStyle: {
-        marginLeft: 30,
-        marginTop: 20,
+        margin: 20,
         textAlign: 'left',
         fontWeight: '600',
         fontSize: 16
