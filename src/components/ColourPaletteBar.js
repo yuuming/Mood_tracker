@@ -32,8 +32,14 @@ export default class ColourPaletteBar extends Component {
       <View style={styles.doneButton}>
         <TouchableOpacity
           onPress={() => {
-            this.props.rootStore.updateSelectPalette();
-            Actions.pop();
+            this.props.rootStore.updateSelectPalette()
+              .then(() => {
+                Actions.pop();
+              })
+              .catch((err) => {
+                console.log(err);
+                alert('Please try it again!');
+              });
           }}
           style={{ paddingRight: 10 }}
         >

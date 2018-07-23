@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Modal } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Modal, FlatList } from 'react-native';
 import { observer, inject } from 'mobx-react';
+import { toJS } from 'mobx';
 import { Actions } from 'react-native-router-flux';
 import { Calendar } from 'react-native-calendars';
 import _ from 'lodash';
@@ -13,7 +14,8 @@ export default class Monthly extends Component {
     super(props);
 
     this.state = {
-      isDialogVisible: false
+      isDialogVisible: false,
+      isCalendarMode: true,
     };
 
     this.rootStore = this.props.rootStore;
@@ -23,24 +25,26 @@ export default class Monthly extends Component {
     this.year = this.props.year;
     this.month = this.props.month;
     this.date = null;
-    this.selectedPaletteID = this.user.selectedPalettes[this.year][this.month];
+    this.selectedPaletteID = this.props.selectedPaletteID;
     this.isToday = null;
+    this.selectedPalette = this.rootStore.moodPaletteList[this.selectedPaletteID];
   }
 
   componentWillMount() {
-    console.log(this.rootStore.moodPaletteList);
-    console.log(this.selectedPaletteID);
-    console.log(this.selectedPalette);
+    this.formatRecordObject();
+  }
 
-    console.log(this.user);
-    const selectedPalette = this.rootStore.moodPaletteList[
-      this.user.currentPalette
-    ];
+  componentWillUpdate() {
+    if (this.props.selectedPaletteID !== this.accountStore.currentPaletteID) {
+      this.selectedPaletteID = this.accountStore.currentPaletteID;
+      this.formatRecordObject();
+    }
+  }
 
-    _.map(this.user.markedDates, item => {
-      console.log(this.user.markedDates);
-      console.log(item);
+  formatRecordObject() {
+    const selectedPalette = this.rootStore.moodPaletteList[this.selectedPaletteID];
 
+    _.map(this.diaryStore.records, item => {
       item.customStyles = {
         container: {
           backgroundColor: selectedPalette.moodColors[item.mood],
@@ -53,20 +57,6 @@ export default class Monthly extends Component {
     });
   }
 
-  // checkDate = (date) => {
-  //     this.date = date;
-  //     const today = new Date().toISOString().split('T')[0];
-
-  //     console.log(date);
-  //     if (date > today) {
-  //         alert('wait till this day comes! :)');
-  //     } else if (!this.user.markedDates[date]) {
-  //         alert('there is no record for this day! :(');
-  //     } else {
-  //         this.setState({ isDialogVisible: true });
-  //     }
-  // }
-
   checkDate = date => {
     this.date = date;
     const today = this.rootStore.getToday();
@@ -78,10 +68,6 @@ export default class Monthly extends Component {
       return;
     }
 
-    // if (date === today) {
-    //     this.setState({ isDialogVisible: true });
-    // }
-
     if (!this.user.markedDates[date] && date !== today) {
       alert('there is no record for this day! :(');
       return;
@@ -90,10 +76,15 @@ export default class Monthly extends Component {
     this.setState({ isDialogVisible: true });
   };
 
+  handleChangedMonth = (month) => {
+    if (month.toString().length !== 1) {
+      this.month = month.toString();
+    } else {
+      this.month = `0${month}`;
+    }
+  }
+
   storeDiary = () => {
-    console.log(this.diaryStore.comment);
-    console.log(this.diaryStore.mood);
-    console.log(this.diaryStore.date);
     if (this.diaryStore.comment && this.diaryStore.mood) {
       if (this.diaryStore.id !== '') {
         this.diaryStore
@@ -118,6 +109,32 @@ export default class Monthly extends Component {
       alert('Fill out every field !');
     }
   };
+
+  renderDiary(item) {
+    const month = item.item.date.charAt(5) + item.item.date.charAt(6);
+
+    if (month === this.month) {
+      return (
+        <View style={{ padding: 30, margin: 30, height: 350, borderWidth: 1, borderColor: 'gray' }}>
+          <View style={{ flexDirection: 'row', marginBottom: 30 }}>
+            <View
+              style={{
+                backgroundColor: this.selectedPalette.moodColors[item.item.mood],
+                height: 60,
+                width: 60,
+              }}
+            />
+            <View style={{ justifyContent: 'space-around', marginLeft: 30 }}>
+              <Text>{item.item.date}</Text>
+              <Text>{item.item.mood}</Text>
+            </View>
+          </View>
+          <Text>{item.item.comment}</Text>
+        </View>
+      );
+    }
+    return null;
+  }
 
   renderDialog(date, selectedPaletteID) {
     return (
@@ -167,35 +184,50 @@ export default class Monthly extends Component {
   }
 
   render() {
-    console.log(this.user.markedDates);
+    console.log(this.accountStore.user.currentPalette);
+    console.log(this.accountStore.currentPaletteID);
+    console.log('렌더링');
+
+    // this.formatRecordObject();
+
     return (
       <View style={styles.container}>
-        <Calendar
-          style={{
-            width: 350,
-            height: 500
-          }}
-          markedDates={this.user.markedDates}
-          markingType={'custom'}
-          // hideArrows
-          theme={{
-            'stylesheet.calendar.header': {
-              monthText: {
-                fontSize: 18,
-                fontWeight: '600',
-                margin: 10
-              },
-              arrow: {
-                width: 0,
-                height: 0,
-                padding: 10
+        {this.state.isCalendarMode ?
+          <Calendar
+            style={{
+              width: 350,
+              height: 500
+            }}
+            markedDates={toJS(this.diaryStore.records)}
+            markingType={'custom'}
+            // hideArrows
+            theme={{
+              'stylesheet.calendar.header': {
+                monthText: {
+                  fontSize: 18,
+                  fontWeight: '600',
+                  margin: 10
+                },
+                arrow: {
+                  width: 0,
+                  height: 0,
+                  padding: 10
+                }
               }
-            }
-          }}
-          onDayPress={day => {
-            this.checkDate(day.dateString);
-          }}
-        />
+            }}
+            onDayPress={day => {
+              this.checkDate(day.dateString);
+            }}
+            onMonthChange={(month) => { this.handleChangedMonth(month.month); }}
+          />
+          :
+          <FlatList
+            style={{ width: '100%' }}
+            data={_.sortBy(this.diaryStore.records, record => record.date)}
+            keyExtractor={item => item.id}
+            renderItem={item => this.renderDiary(item)}
+          />
+        }
         {this.state.isDialogVisible
           ? this.renderDialog(this.date, this.selectedPaletteID)
           : null}
@@ -206,7 +238,17 @@ export default class Monthly extends Component {
         >
           <Text>go to colourPalette page!</Text>
         </TouchableOpacity>
-      </View>
+        <TouchableOpacity onPress={() => Actions.Yearly({ year: this.year })}>
+          <Text>Yearly Page!</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() =>
+            this.setState({ isCalendarMode: !this.state.isCalendarMode })
+          }
+        >
+          <Text>different Mode</Text>
+        </TouchableOpacity>
+      </View >
     );
   }
 }

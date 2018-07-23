@@ -17,8 +17,8 @@ export default class RootStore {
 
   getToday = () => {
     const today = new Date();
-    var month = '' + (today.getMonth() + 1);
-    var day = '' + today.getDate();
+    let month = '' + (today.getMonth() + 1);
+    let day = '' + today.getDate();
     const year = today.getFullYear();
 
     if (month.length < 2) { month = '0' + month; }
@@ -40,24 +40,17 @@ export default class RootStore {
         });
       });
 
-  updateSelectPalette() {
-    console.log('updateSelectPalette is called');
-    const user = this.accountStore.user;
-    console.log(user);
-    console.log(this.selectedPaletteID);
-
-    console.log('inside the block');
-
+  updateSelectPalette = () =>
     db.collection('users')
-      .doc(user.id)
+      .doc(this.accountStore.user.id)
       .update({
         currentPalette: this.selectedPaletteID
       })
       .then(() => {
         console.log('successful');
+        this.accountStore.updateCurrentPalette(this.selectedPaletteID);
       })
-      .catch(err => {
-        console.log(err);
-      });
-  }
+      // .catch(err => {
+      //   console.log(err);
+      // });
 }
