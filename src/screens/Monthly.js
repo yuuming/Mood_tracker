@@ -188,7 +188,7 @@ export default class Monthly extends Component {
     console.log(this.accountStore.currentPaletteID);
     console.log('렌더링');
 
-    this.formatRecordObject();
+    // this.formatRecordObject();
 
     return (
       <View style={styles.container}>
@@ -237,6 +237,9 @@ export default class Monthly extends Component {
           }
         >
           <Text>go to colourPalette page!</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => Actions.Yearly({ year: this.year })}>
+          <Text>Yearly Page!</Text>
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() =>
