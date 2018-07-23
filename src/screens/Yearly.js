@@ -17,24 +17,51 @@ export default class Yearly extends Component {
   constructor(props) {
     super(props);
     this.rootStore = this.props.rootStore;
+    this.diaryStore = this.rootStore.diaryStore;
     this.accountStore = this.rootStore.accountStore;
     this.user = this.accountStore.user;
     this.markedDateArray = [];
+    this.year = this.props.year;
+    this.test = {};
+    this.obj = {};
   }
 
   componentWillMount() {
-    console.log(this.user.markedDates);
-    const markedDateArray = _.sortBy(this.user.markedDates, o => o.date);
+    console.log(this.diaryStore.records);
+    const markedDateArray = _.sortBy(this.diaryStore.records, o => o.date);
     this.markedDateArray = markedDateArray;
+
+    this.test[this.year] = [];
+
 
     _.forEach(this.markedDateArray, markedDate => {
       console.log(markedDate.date);
       const year = markedDate.date.slice(0, 4);
       const month = markedDate.date.charAt(5) + markedDate.date.charAt(6);
+      const parsedMonth = parseInt(month, 10);
+      console.log(typeof parsedMonth);
+      console.log(parsedMonth);
 
-      console.log(year);
-      console.log(month);
+      // this.test.year[parsedMonth - 1] = {
+      //   mood: markedDate.mood
+      // };
+
+      if (this.props.year === year) {
+        this.obj[parsedMonth][markedDate.date] = {
+          mood: markedDate.mood
+        };  
+      }
+
+      
+      // this.test.year.push({
+        
+      // });
     });
+    console.log(this.test);
+
+    // for (i = 0; i < parsedMonth; i++) {
+
+    // }
   }
   // renderYearlyMood = ({ item }) => (
   //   <TouchableOpacity
@@ -52,16 +79,26 @@ export default class Yearly extends Component {
   // );
   // }
 
+  renderYearlyMood(item, index) {
+    console.log('test');
+    console.log(item);
+    return (
+      <View key={index}>
+        <Text>{item.mood}</Text>
+      </View>
+    );
+  }
+
   render() {
     return (
       <View>
-        <Text>haha</Text>
-        {/* <FlatList
-          numColumns={3}
-          keyExtractor={item => item.id}
-          data={this.markedDateArray}
-          renderItem={item => this.renderYearlyMood(item)}
-        /> */}
+        {/* <Text>haha</Text> */}
+        <FlatList
+          // numColumns={3}
+          keyExtractor={item => item.index}
+          data={this.test[this.props.year]}
+          renderItem={(item, index) => this.renderYearlyMood(item, index)}
+        />
       </View>
     );
   }
