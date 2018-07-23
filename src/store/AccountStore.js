@@ -121,6 +121,7 @@ export default class AccountStore {
                 id: doc.id
               };
 
+              this.updateCurrentPalette(this.user.currentPalette);
               this.rootStore.diaryStore.records = this.user.markedDates;
             });
           })
