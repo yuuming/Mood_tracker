@@ -16,6 +16,7 @@ export default class AccountStore {
   }
 
   // moodPalettes = {};
+  user = {};
 
   @observable isPending = false;
   @observable authError = null;
@@ -107,6 +108,7 @@ export default class AccountStore {
               // this.user.markedDates = doc.data();
               this.user.markedDates[doc.data().date] = {
                 comment: doc.data().comment,
+                date: doc.data().date,
                 mood: doc.data().mood,
                 id: doc.id
               };
