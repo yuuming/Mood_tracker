@@ -27,22 +27,27 @@ export default class AddPost extends Component {
         this.post = this.diaryStore.records[this.date];
         this.today = this.rootStore.getToday();
         this.isToday = (this.today === this.date);
-        this.mood = '';
 
         this.state = {
             colorForToday: '',
-            comment: ''
+            comment: '',
+            mood: ''
         };
     }
 
     componentWillMount() {
         this.diaryStore.date = this.date;
 
-        console.log(this.post);
+        // check if it's about editing diary
         if (this.post) {
             this.setState({
-                colorForToday: this.palette[this.post.mood]
+                colorForToday: this.palette[this.post.mood],
+                comment: this.post.comment,
+                mood: this.post.mood
             });
+
+            this.diaryStore.comment = this.post.comment;
+            this.diaryStore.mood = this.post.mood;
 
             if (this.post.id) {
                 this.diaryStore.id = this.post.id;
@@ -63,8 +68,10 @@ export default class AddPost extends Component {
                     key={index}
                     onPress={() => {
                         if (this.isToday) {
-                            this.setState({ colorForToday: this.palette[mood] });
-                            this.mood = mood;
+                            this.setState({
+                                colorForToday: this.palette[mood],
+                                mood
+                            });
                             this.diaryStore.mood = mood;
                         }
                     }}
@@ -97,7 +104,7 @@ export default class AddPost extends Component {
                         <Text style={styles.textStyle}>{this.post.comment || ''}</Text> :
                         <TextInput
                             onChangeText={(comment) => { this.diaryStore.comment = comment; }}
-                            value={this.post ? this.post.comment : ''}
+                            value={this.post ? this.state.comment : ''}
                             multiline
                             maxLength={470}
                         />
