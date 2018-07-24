@@ -86,10 +86,10 @@ export default class Monthly extends Component {
 
   renderCalendar() {
     const selectedPalette = this.rootStore.moodPaletteList[this.accountStore.currentPaletteID];
-    const test = {};
+    const datasource = {};
     
     _.map(this.diaryStore.records, item => {
-      test[item.date] = {
+      datasource[item.date] = {
         mood: item.mood,
         comment: item.comment,
         date: item.date,
@@ -112,7 +112,7 @@ export default class Monthly extends Component {
           width: 350,
           height: 500
         }}
-        markedDates={test}
+        markedDates={datasource}
         markingType={'custom'}
         // hideArrows
         theme={{
