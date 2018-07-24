@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Modal, FlatList } from 'react-native';
 import { observer, inject } from 'mobx-react';
-import { toJS } from 'mobx';
 import { Actions } from 'react-native-router-flux';
 import { Calendar } from 'react-native-calendars';
 import _ from 'lodash';
