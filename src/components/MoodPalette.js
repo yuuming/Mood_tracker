@@ -18,15 +18,17 @@ const { width, height } = Dimensions.get('window');
 export default class MoodPalette extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      selectedPaletteID: this.props.selectedPaletteID,
-      selectedPaletteName: null
-    };
+
     this.rootStore = this.props.rootStore;
     this.accountStore = this.rootStore.accountStore;
     this.user = this.accountStore.user;
     this.moodPaletteList = Object.values(this.rootStore.moodPaletteList);
     this.moodPaletteListWithId = this.rootStore.moodPaletteList;
+
+    this.state = {
+      selectedPaletteID: this.props.rootStore.accountStore.currentPaletteID,
+      selectedPaletteName: null
+    };
   }
 
   componentWillMount() {

@@ -121,6 +121,7 @@ export default class AccountStore {
                 id: doc.id
               };
 
+              this.updateCurrentPalette(this.user.currentPalette);
               this.rootStore.diaryStore.records = this.user.markedDates;
             });
           })
@@ -147,7 +148,7 @@ export default class AccountStore {
         });
 
         this.isPending = false;
-        Actions.monthly({ year: '2018', month: '07', selectedPaletteID: this.currentPaletteID });
+        Actions.monthly({ year: '2018', month: '07' });
       })
       .catch((err) => {
         console.log(err);
