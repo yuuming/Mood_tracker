@@ -21,7 +21,7 @@ export default class ColourPalette extends Component {
     return (
       <View style={styles.container}>
         {/* <Text>ColourPalette page!!</Text> */}
-        <MoodPalette selectedPaletteID={this.props.selectedPaletteID} />
+        <MoodPalette />
       </View>
     );
   }
