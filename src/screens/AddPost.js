@@ -21,7 +21,7 @@ export default class AddPost extends Component {
         this.rootStore = this.props.rootStore;
         this.accountStore = this.rootStore.accountStore;
         this.diaryStore = this.rootStore.diaryStore;
-        this.selectedPaletteID = this.props.selectedPaletteID;
+        this.selectedPaletteID = this.accountStore.currentPaletteID;
         this.palette = this.rootStore.moodPaletteList[this.selectedPaletteID].moodColors;
         this.date = this.props.date;
         this.post = this.diaryStore.records[this.date];
