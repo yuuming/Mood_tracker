@@ -25,37 +25,38 @@ export default class Monthly extends Component {
     this.year = this.props.year;
     this.month = this.props.month;
     this.date = null;
-    this.selectedPaletteID = this.props.selectedPaletteID;
     this.isToday = null;
-    this.selectedPalette = this.rootStore.moodPaletteList[this.selectedPaletteID];
+    this.selectedPalette = this.rootStore.moodPaletteList[this.accountStore.currentPaletteID];
   }
 
-  componentWillMount() {
-    this.formatRecordObject();
-  }
+  // componentWillMount() {
+  //   this.formatRecordObject();
+  // }
 
-  componentWillUpdate() {
-    if (this.props.selectedPaletteID !== this.accountStore.currentPaletteID) {
-      this.selectedPaletteID = this.accountStore.currentPaletteID;
-      this.formatRecordObject();
-    }
-  }
+  // componentWillUpdate() {
+  //   if (this.props.selectedPaletteID !== this.accountStore.currentPaletteID) {
+  //     this.selectedPaletteID = this.accountStore.currentPaletteID;
+  //     this.formatRecordObject();
+  //   }
+  // }
 
-  formatRecordObject() {
-    const selectedPalette = this.rootStore.moodPaletteList[this.selectedPaletteID];
+  // formatRecordObject() {
+  //   const selectedPalette = this.rootStore.moodPaletteList[this.selectedPaletteID];
 
-    _.map(this.diaryStore.records, item => {
-      item.customStyles = {
-        container: {
-          backgroundColor: selectedPalette.moodColors[item.mood],
-          borderRadius: 0
-        },
-        text: {
-          color: 'white'
-        }
-      };
-    });
-  }
+  //   console.log();
+
+  //   _.map(this.diaryStore.records, item => {
+  //     item.customStyles = {
+  //       container: {
+  //         backgroundColor: selectedPalette.moodColors[item.mood],
+  //         borderRadius: 0
+  //       },
+  //       text: {
+  //         color: 'white'
+  //       }
+  //     };
+  //   });
+  // }
 
   checkDate = date => {
     this.date = date;
@@ -109,6 +110,59 @@ export default class Monthly extends Component {
       alert('Fill out every field !');
     }
   };
+
+  renderCalendar() {
+    const selectedPalette = this.rootStore.moodPaletteList[this.accountStore.currentPaletteID];
+    const test = {};
+    
+    _.map(this.diaryStore.records, item => {
+      test[item.date] = {
+        mood: item.mood,
+        comment: item.comment,
+        date: item.date,
+        id: item.id,
+        customStyles: {
+          container: {
+            backgroundColor: selectedPalette.moodColors[item.mood],
+            borderRadius: 0
+          },
+          text: {
+            color: 'white'
+          }
+        }
+      };
+    });
+    
+    return (
+      <Calendar
+        style={{
+          width: 350,
+          height: 500
+        }}
+        markedDates={test}
+        markingType={'custom'}
+        // hideArrows
+        theme={{
+          'stylesheet.calendar.header': {
+            monthText: {
+              fontSize: 18,
+              fontWeight: '600',
+              margin: 10
+            },
+            arrow: {
+              width: 0,
+              height: 0,
+              padding: 10
+            }
+          }
+        }}
+        onDayPress={day => {
+          this.checkDate(day.dateString);
+        }}
+        onMonthChange={(month) => { this.handleChangedMonth(month.month); }}
+      />
+    );
+  }
 
   renderDiary(item) {
     const month = item.item.date.charAt(5) + item.item.date.charAt(6);
@@ -193,33 +247,7 @@ export default class Monthly extends Component {
     return (
       <View style={styles.container}>
         {this.state.isCalendarMode ?
-          <Calendar
-            style={{
-              width: 350,
-              height: 500
-            }}
-            markedDates={toJS(this.diaryStore.records)}
-            markingType={'custom'}
-            // hideArrows
-            theme={{
-              'stylesheet.calendar.header': {
-                monthText: {
-                  fontSize: 18,
-                  fontWeight: '600',
-                  margin: 10
-                },
-                arrow: {
-                  width: 0,
-                  height: 0,
-                  padding: 10
-                }
-              }
-            }}
-            onDayPress={day => {
-              this.checkDate(day.dateString);
-            }}
-            onMonthChange={(month) => { this.handleChangedMonth(month.month); }}
-          />
+          this.renderCalendar()
           :
           <FlatList
             style={{ width: '100%' }}
