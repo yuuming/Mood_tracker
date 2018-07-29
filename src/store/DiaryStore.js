@@ -25,16 +25,7 @@ export default class DiaryStore {
             comment: this.comment,
             date: this.date,
             mood: this.mood,
-            id,
-            customStyles: {
-                container: {
-                    backgroundColor: this.rootStore.moodPaletteList[this.accountStore.user.currentPalette].moodColors[this.mood],
-                    borderRadius: 0
-                },
-                text: {
-                    color: 'white'
-                }
-            }
+            id
         };
     }
 
