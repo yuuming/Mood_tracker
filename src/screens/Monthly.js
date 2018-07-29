@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Modal, FlatList } from 'react-native';
 import { observer, inject } from 'mobx-react';
-import { toJS } from 'mobx';
 import { Actions } from 'react-native-router-flux';
 import { Calendar } from 'react-native-calendars';
 import _ from 'lodash';
@@ -21,42 +20,15 @@ export default class Monthly extends Component {
     this.rootStore = this.props.rootStore;
     this.accountStore = this.rootStore.accountStore;
     this.diaryStore = this.rootStore.diaryStore;
+
     this.user = this.accountStore.user;
     this.year = this.props.year;
     this.month = this.props.month;
     this.date = null;
-    this.selectedPaletteID = this.props.selectedPaletteID;
     this.isToday = null;
-    this.selectedPalette = this.rootStore.moodPaletteList[this.selectedPaletteID];
   }
 
-  componentWillMount() {
-    this.formatRecordObject();
-  }
-
-  componentWillUpdate() {
-    if (this.props.selectedPaletteID !== this.accountStore.currentPaletteID) {
-      this.selectedPaletteID = this.accountStore.currentPaletteID;
-      this.formatRecordObject();
-    }
-  }
-
-  formatRecordObject() {
-    const selectedPalette = this.rootStore.moodPaletteList[this.selectedPaletteID];
-
-    _.map(this.diaryStore.records, item => {
-      item.customStyles = {
-        container: {
-          backgroundColor: selectedPalette.moodColors[item.mood],
-          borderRadius: 0
-        },
-        text: {
-          color: 'white'
-        }
-      };
-    });
-  }
-
+  // to check whether it's today or not
   checkDate = date => {
     this.date = date;
     const today = this.rootStore.getToday();
@@ -76,16 +48,21 @@ export default class Monthly extends Component {
     this.setState({ isDialogVisible: true });
   };
 
-  handleChangedMonth = (month) => {
+  // to assign new value to the current month variable which you're seeing
+  handleChangedDate = (date) => {
+    const { year, month } = date;
+    
     if (month.toString().length !== 1) {
       this.month = month.toString();
     } else {
       this.month = `0${month}`;
     }
+
+    this.year = year;
   }
 
   storeDiary = () => {
-    if (this.diaryStore.comment && this.diaryStore.mood) {
+    if (this.diaryStore.comment && (this.diaryStore.mood || this.diaryStore.originalMood)) {
       if (this.diaryStore.id !== '') {
         this.diaryStore
           .editDiary()
@@ -110,16 +87,71 @@ export default class Monthly extends Component {
     }
   };
 
-  renderDiary(item) {
-    const month = item.item.date.charAt(5) + item.item.date.charAt(6);
+  renderCalendar() {
+    const selectedPalette = this.rootStore.moodPaletteList[this.accountStore.currentPaletteID];
+    const datasource = {};
+    
+    _.map(this.diaryStore.records, item => {
+      datasource[item.date] = {
+        mood: item.mood,
+        comment: item.comment,
+        date: item.date,
+        id: item.id,
+        customStyles: {
+          container: {
+            backgroundColor: selectedPalette.moodColors[item.mood],
+            borderRadius: 0
+          },
+          text: {
+            color: 'white'
+          }
+        }
+      };
+    });
 
-    if (month === this.month) {
+    return (
+      <Calendar
+        style={{
+          width: 350,
+          height: 500
+        }}
+        markedDates={datasource}
+        markingType={'custom'}
+        // hideArrows
+        theme={{
+          'stylesheet.calendar.header': {
+            monthText: {
+              fontSize: 18,
+              fontWeight: '600',
+              margin: 10
+            },
+            arrow: {
+              width: 0,
+              height: 0,
+              padding: 10
+            }
+          }
+        }}
+        onDayPress={day => {
+          this.checkDate(day.dateString);
+        }}
+        onMonthChange={(date) => { this.handleChangedDate(date); }}
+      />
+    );
+  }
+
+  renderDiary(item) {
+    const year = item.item.date.slice(0, 4);
+    const month = item.item.date.charAt(5) + item.item.date.charAt(6);
+    const selectedPalette = this.rootStore.moodPaletteList[this.accountStore.currentPaletteID];
+
+    if (month === this.month && year === this.year) {
       return (
         <View style={{ padding: 30, margin: 30, height: 350, borderWidth: 1, borderColor: 'gray' }}>
           <View style={{ flexDirection: 'row', marginBottom: 30 }}>
             <View
               style={{
-                backgroundColor: this.selectedPalette.moodColors[item.item.mood],
+                backgroundColor: selectedPalette.moodColors[item.item.mood],
                 height: 60,
                 width: 60,
               }}
@@ -136,7 +168,7 @@ export default class Monthly extends Component {
     return null;
   }
 
-  renderDialog(date, selectedPaletteID) {
+  renderDialog(date) {
     return (
       <Modal
         visible={this.state.isDialogVisible}
@@ -176,7 +208,7 @@ export default class Monthly extends Component {
                 <Text>{this.isToday ? 'Done' : ''}</Text>
               </TouchableOpacity>
             </View>
-            <AddPost date={date} selectedPaletteID={selectedPaletteID} />
+            <AddPost date={date} />
           </View>
         </View>
       </Modal>
@@ -184,42 +216,10 @@ export default class Monthly extends Component {
   }
 
   render() {
-    console.log(this.accountStore.user.currentPalette);
-    console.log(this.accountStore.currentPaletteID);
-    console.log('렌더링');
-
-    // this.formatRecordObject();
-
     return (
       <View style={styles.container}>
         {this.state.isCalendarMode ?
-          <Calendar
-            style={{
-              width: 350,
-              height: 500
-            }}
-            markedDates={toJS(this.diaryStore.records)}
-            markingType={'custom'}
-            // hideArrows
-            theme={{
-              'stylesheet.calendar.header': {
-                monthText: {
-                  fontSize: 18,
-                  fontWeight: '600',
-                  margin: 10
-                },
-                arrow: {
-                  width: 0,
-                  height: 0,
-                  padding: 10
-                }
-              }
-            }}
-            onDayPress={day => {
-              this.checkDate(day.dateString);
-            }}
-            onMonthChange={(month) => { this.handleChangedMonth(month.month); }}
-          />
+          this.renderCalendar()
           :
           <FlatList
             style={{ width: '100%' }}
@@ -229,11 +229,11 @@ export default class Monthly extends Component {
           />
         }
         {this.state.isDialogVisible
-          ? this.renderDialog(this.date, this.selectedPaletteID)
+          ? this.renderDialog(this.date)
           : null}
         <TouchableOpacity
           onPress={() =>
-            Actions.ColourPalette({ selectedPaletteID: this.selectedPaletteID })
+            Actions.ColourPalette()
           }
         >
           <Text>go to colourPalette page!</Text>

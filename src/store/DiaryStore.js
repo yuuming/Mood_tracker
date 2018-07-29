@@ -13,10 +13,12 @@ export default class DiaryStore {
 
     comment = '';
     mood = '';
+    originalMood = '';
     date = null;
     id = '';
 
     @observable records = {};
+    @observable moodCounter = {};
 
     @action
     async updateRecords(id) {
@@ -24,17 +26,15 @@ export default class DiaryStore {
             comment: this.comment,
             date: this.date,
             mood: this.mood,
-            id,
-            customStyles: {
-                container: {
-                    backgroundColor: this.rootStore.moodPaletteList[this.accountStore.user.currentPalette].moodColors[this.mood],
-                    borderRadius: 0
-                },
-                text: {
-                    color: 'white'
-                }
-            }
+            id
         };
+    }
+
+    @action
+    updateMoodCounter(year, month, mood) {
+        this.moodCounter[year][month].moods[mood] = this.moodCounter[year][month].moods[mood] + 1;
+        this.moodCounter[year][month].moods[this.originalMood] = this.moodCounter[year][month].moods[this.originalMood] - 1;
+        console.log(this.moodCounter);
     }
 
     writeDiary = () =>
@@ -46,8 +46,13 @@ export default class DiaryStore {
                 mood: this.mood,
                 date: this.date
             })
-            .then((ref) => {                
+            .then((ref) => {
+                const year = this.date.slice(0, 4);
+                const month = this.date.charAt(5) + this.date.charAt(6);
+
+                console.log(year, month);
                 this.updateRecords(ref.id);
+                this.updateMoodCounter(year, month, this.mood);
             });
 
     editDiary = () =>
@@ -61,7 +66,13 @@ export default class DiaryStore {
                 date: this.date
             })
             .then(() => {
+                const year = this.date.slice(0, 4);
+                const month = this.date.charAt(5) + this.date.charAt(6);
+
                 this.updateRecords(this.id);
+                this.updateMoodCounter(year, month, this.mood);
+
+                console.log(this.moodCounter);
             });
 
     clearData = () => {

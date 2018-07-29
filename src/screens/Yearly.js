@@ -10,6 +10,7 @@ import { observer, inject } from 'mobx-react';
 import { Actions } from 'react-native-router-flux';
 import MoodPalette from '../components/MoodPalette';
 import _ from 'lodash';
+import { toJS } from '../../node_modules/mobx';
 
 @inject('rootStore')
 @observer
@@ -22,96 +23,56 @@ export default class Yearly extends Component {
     this.user = this.accountStore.user;
     this.markedDateArray = [];
     this.year = this.props.year;
-    this.test = {};
-    this.obj = {};
+    this.dataSource = [];
   }
 
   componentWillMount() {
-    console.log(this.diaryStore.records);
-    const markedDateArray = _.sortBy(this.diaryStore.records, o => o.date);
-    this.markedDateArray = markedDateArray;
+    console.log(this.diaryStore.moodCounter);
 
-    this.test[this.year] = [];
-
-
-    _.forEach(this.markedDateArray, markedDate => {
-      console.log(markedDate.date);
-      const year = markedDate.date.slice(0, 4);
-      const month = markedDate.date.charAt(5) + markedDate.date.charAt(6);
-      const parsedMonth = parseInt(month, 10);
-      console.log(typeof parsedMonth);
-      console.log(parsedMonth);
-
-      // this.test.year[parsedMonth - 1] = {
-      //   mood: markedDate.mood
-      // };
-
-      if (this.props.year === year) {
-        this.obj[parsedMonth][markedDate.date] = {
-          mood: markedDate.mood
-        };  
-      }
-
-      
-      // this.test.year.push({
-        
-      // });
+    // create an obj for datasource
+    _.forEach(this.diaryStore.moodCounter[this.year], (element, key) => {
+      console.log(key);
+      const obj = {
+        month: key,
+        moods: element.moods
+      };
+      console.log(obj);
+      this.dataSource.push(obj);
     });
-    console.log(this.test);
-
-    // for (i = 0; i < parsedMonth; i++) {
-
-    // }
   }
-  // renderYearlyMood = ({ item }) => (
-  //   <TouchableOpacity
-  //   key={item.id}
-  //   onPress={() => {
-  //     console.log('hahahahahahah');
-  //   }}>
-  //     <View style={styles.container}>
-  //        <View style={styles.colourPalette}>
-  //          {monthSquare('blue', 'May', 'Happy')}
-  //        </View>
-  //      </View>
 
-  //   </TouchableOpacity>
-  // );
-  // }
-
-  renderYearlyMood(item, index) {
-    console.log('test');
+  renderYearlyMood(item) {
+    console.log('renderYearlyMood');
     console.log(item);
+
     return (
-      <View key={index}>
-        <Text>{item.mood}</Text>
+      <View
+        key={item.item.month}
+        style={{
+          margin: 10,
+          width: '28%',
+          height: 130,
+          backgroundColor: 'white'
+        }}
+      >
+        <Text>{item.item.month}</Text>
       </View>
     );
   }
 
   render() {
     return (
-      <View>
-        {/* <Text>haha</Text> */}
+      <View style={{ flex: 1 }}>
         <FlatList
-          // numColumns={3}
-          keyExtractor={item => item.index}
-          data={this.test[this.props.year]}
-          renderItem={(item, index) => this.renderYearlyMood(item, index)}
+          style={{ flex: 1 }}
+          numColumns={3}
+          keyExtractor={index => index}
+          data={this.dataSource}
+          renderItem={item => this.renderYearlyMood(item)}
         />
       </View>
     );
   }
-
-  // render() {
-  //   return (
-  //     <View style={styles.container}>
-  //       <View style={styles.colourPalette}>
-  //         {monthSquare('blue', 'May', 'Happy')}
-  //       </View>
-  //     </View>
-  //   );
-  // }
 }
 
 const monthSquare = (color, month, mood) => (
