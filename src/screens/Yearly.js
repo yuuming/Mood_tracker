@@ -27,8 +27,16 @@ export default class Yearly extends Component {
   }
 
   componentWillMount() {
-    console.log('yearly page');
     console.log(this.diaryStore.moodCounter);
+
+    // create an obj for datasource
+    _.forEach(this.diaryStore.moodCounter[this.year], element => {
+      const obj = {
+        month: element.month,
+        moods: element.moods
+      };
+      this.dataSource.push(obj);
+    });
   }
 
   // renderYearlyMood = ({ item }) => (
