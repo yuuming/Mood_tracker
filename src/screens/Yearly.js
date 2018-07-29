@@ -10,6 +10,7 @@ import { observer, inject } from 'mobx-react';
 import { Actions } from 'react-native-router-flux';
 import MoodPalette from '../components/MoodPalette';
 import _ from 'lodash';
+import { toJS } from '../../node_modules/mobx';
 
 @inject('rootStore')
 @observer
@@ -22,47 +23,14 @@ export default class Yearly extends Component {
     this.user = this.accountStore.user;
     this.markedDateArray = [];
     this.year = this.props.year;
-    this.test = {};
-    this.obj = {};
+    this.dataSource = [];
   }
 
   componentWillMount() {
-    console.log(this.diaryStore.records);
-    const markedDateArray = _.sortBy(this.diaryStore.records, o => o.date);
-    this.markedDateArray = markedDateArray;
-
-    this.test[this.year] = [];
-
-
-    _.forEach(this.markedDateArray, markedDate => {
-      console.log(markedDate.date);
-      const year = markedDate.date.slice(0, 4);
-      const month = markedDate.date.charAt(5) + markedDate.date.charAt(6);
-      const parsedMonth = parseInt(month, 10);
-      console.log(typeof parsedMonth);
-      console.log(parsedMonth);
-
-      // this.test.year[parsedMonth - 1] = {
-      //   mood: markedDate.mood
-      // };
-
-      if (this.props.year === year) {
-        this.obj[parsedMonth][markedDate.date] = {
-          mood: markedDate.mood
-        };  
-      }
-
-      
-      // this.test.year.push({
-        
-      // });
-    });
-    console.log(this.test);
-
-    // for (i = 0; i < parsedMonth; i++) {
-
-    // }
+    console.log('yearly page');
+    console.log(this.diaryStore.moodCounter);
   }
+
   // renderYearlyMood = ({ item }) => (
   //   <TouchableOpacity
   //   key={item.id}
@@ -91,12 +59,12 @@ export default class Yearly extends Component {
 
   render() {
     return (
-      <View>
+      <View style={{ flex: 1 }}>
         {/* <Text>haha</Text> */}
         <FlatList
           // numColumns={3}
           keyExtractor={item => item.index}
-          data={this.test[this.props.year]}
+          data={this.diaryStore.moodCounter}
           renderItem={(item, index) => this.renderYearlyMood(item, index)}
         />
       </View>
