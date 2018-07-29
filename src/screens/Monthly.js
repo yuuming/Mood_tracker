@@ -49,16 +49,20 @@ export default class Monthly extends Component {
   };
 
   // to assign new value to the current month variable which you're seeing
-  handleChangedMonth = (month) => {
+  handleChangedDate = (date) => {
+    const { year, month } = date;
+    
     if (month.toString().length !== 1) {
       this.month = month.toString();
     } else {
       this.month = `0${month}`;
     }
+
+    this.year = year;
   }
 
   storeDiary = () => {
-    if (this.diaryStore.comment && this.diaryStore.mood) {
+    if (this.diaryStore.comment && (this.diaryStore.mood || this.diaryStore.originalMood)) {
       if (this.diaryStore.id !== '') {
         this.diaryStore
           .editDiary()
@@ -131,16 +135,17 @@ export default class Monthly extends Component {
         onDayPress={day => {
           this.checkDate(day.dateString);
         }}
-        onMonthChange={(month) => { this.handleChangedMonth(month.month); }}
+        onMonthChange={(date) => { this.handleChangedDate(date); }}
       />
     );
   }
 
   renderDiary(item) {
+    const year = item.item.date.slice(0, 4);
     const month = item.item.date.charAt(5) + item.item.date.charAt(6);
     const selectedPalette = this.rootStore.moodPaletteList[this.accountStore.currentPaletteID];
 
-    if (month === this.month) {
+    if (month === this.month && year === this.year) {
       return (
         <View style={{ padding: 30, margin: 30, height: 350, borderWidth: 1, borderColor: 'gray' }}>
           <View style={{ flexDirection: 'row', marginBottom: 30 }}>

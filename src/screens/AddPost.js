@@ -48,7 +48,8 @@ export default class AddPost extends Component {
 
             this.diaryStore.comment = this.post.comment;
             this.diaryStore.mood = this.post.mood;
-
+            this.diaryStore.originalMood = this.post.mood;
+            
             if (this.post.id) {
                 this.diaryStore.id = this.post.id;
                 console.log('AddPost', this.post.id);
