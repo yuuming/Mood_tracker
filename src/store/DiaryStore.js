@@ -13,6 +13,7 @@ export default class DiaryStore {
 
     comment = '';
     mood = '';
+    originalMood = '';
     date = null;
     id = '';
 
@@ -31,8 +32,8 @@ export default class DiaryStore {
 
     @action
     updateMoodCounter(year, month, mood) {
-        console.log(this.moodCounter);
         this.moodCounter[year][month].moods[mood] = this.moodCounter[year][month].moods[mood] + 1;
+        this.moodCounter[year][month].moods[this.originalMood] = this.moodCounter[year][month].moods[this.originalMood] - 1;
         console.log(this.moodCounter);
     }
 
