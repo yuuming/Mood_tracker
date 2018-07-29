@@ -17,6 +17,7 @@ export default class DiaryStore {
     id = '';
 
     @observable records = {};
+    @observable moodCounter = {};
 
     @action
     async updateRecords(id) {
@@ -37,6 +38,13 @@ export default class DiaryStore {
         };
     }
 
+    @action
+    updateMoodCounter(year, month, mood) {
+        console.log(this.moodCounter);
+        this.moodCounter[year][month].moods[mood] = this.moodCounter[year][month].moods[mood] + 1;
+        console.log(this.moodCounter);
+    }
+
     writeDiary = () =>
         db.collection('users')
             .doc(this.accountStore.user.id)
@@ -46,8 +54,13 @@ export default class DiaryStore {
                 mood: this.mood,
                 date: this.date
             })
-            .then((ref) => {                
+            .then((ref) => {
+                const year = this.date.slice(0, 4);
+                const month = this.date.charAt(5) + this.date.charAt(6);
+
+                console.log(year, month);
                 this.updateRecords(ref.id);
+                this.updateMoodCounter(year, month, this.mood);
             });
 
     editDiary = () =>
@@ -61,7 +74,13 @@ export default class DiaryStore {
                 date: this.date
             })
             .then(() => {
+                const year = this.date.slice(0, 4);
+                const month = this.date.charAt(5) + this.date.charAt(6);
+
                 this.updateRecords(this.id);
+                this.updateMoodCounter(year, month, this.mood);
+
+                console.log(this.moodCounter);
             });
 
     clearData = () => {
