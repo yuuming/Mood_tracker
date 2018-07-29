@@ -55,12 +55,21 @@ export default class Yearly extends Component {
   // );
   // }
 
-  renderYearlyMood(item, index) {
-    console.log('test');
+  renderYearlyMood(item) {
+    console.log('renderYearlyMood');
     console.log(item);
+
     return (
-      <View key={index}>
-        <Text>{item.mood}</Text>
+      <View
+        key={item.item.month}
+        style={{
+          margin: 10,
+          width: '28%',
+          height: 130,
+          backgroundColor: 'white'
+        }}
+      >
+        <Text>{item.item.month}</Text>
       </View>
     );
   }
@@ -68,12 +77,12 @@ export default class Yearly extends Component {
   render() {
     return (
       <View style={{ flex: 1 }}>
-        {/* <Text>haha</Text> */}
         <FlatList
-          // numColumns={3}
-          keyExtractor={item => item.index}
-          data={this.diaryStore.moodCounter}
-          renderItem={(item, index) => this.renderYearlyMood(item, index)}
+          style={{ flex: 1 }}
+          numColumns={3}
+          keyExtractor={index => index}
+          data={this.dataSource}
+          renderItem={item => this.renderYearlyMood(item)}
         />
       </View>
     );
