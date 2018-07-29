@@ -23,7 +23,6 @@ export default class AccountStore {
 
   @action 
   async updateCurrentPalette(paletteID) {
-    console.log(paletteID);
     this.currentPaletteID = paletteID;
   }
 
@@ -104,16 +103,26 @@ export default class AccountStore {
         this.user = userRef._data;
         this.user.markedDates = {};
 
+        const yearTest = {};
+        let monthTest = {};
+        let element = {
+          high: 0,
+          happy: 0,
+          neutral: 0,
+          unhappy: 0,
+          bad: 0
+        };
+
         this.updateCurrentPalette(userRef.data().currentPalette);
 
         db.collection('users').doc(user.uid)
           .collection('markedDates').get()
           .then((subCollectionRef) => {
             const docs = subCollectionRef.docs;
-            console.log(this.user);
-            console.log(docs);
-            _.forEach(docs, (doc) => {
-              // this.user.markedDates = doc.data();
+
+            const sortedDocs = _.sortBy(docs, doc => doc.data().date);
+
+            _.forEach(sortedDocs, (doc, index) => {
               this.user.markedDates[doc.data().date] = {
                 comment: doc.data().comment,
                 date: doc.data().date,
@@ -121,9 +130,41 @@ export default class AccountStore {
                 id: doc.id
               };
 
+              const year = doc.data().date.slice(0, 4);
+              const month = doc.data().date.charAt(5) + doc.data().date.charAt(6);
+
+              if (index > 0) {
+                const previousMonth = sortedDocs[index - 1].data().date.charAt(5) + sortedDocs[index - 1].data().date.charAt(6);
+                const previousYear = sortedDocs[index - 1].data().date.slice(0, 4);
+
+                if (previousMonth !== month || previousYear !== year) {
+                  element = {
+                    high: 0,
+                    happy: 0,
+                    neutral: 0,
+                    unhappy: 0,
+                    bad: 0
+                  };
+
+                  if (previousYear !== year) {
+                    monthTest = {};
+                  }
+                }
+              }
+
+              element[doc.data().mood] += 1;
+
+              monthTest[month] = {
+                moods: element
+              };
+
+              yearTest[year] = monthTest;
+
               this.updateCurrentPalette(this.user.currentPalette);
               this.rootStore.diaryStore.records = this.user.markedDates;
             });
+
+            this.rootStore.diaryStore.moodCounter = yearTest;
           })
           .then(() => {
             this.getSelectedPalettes();
