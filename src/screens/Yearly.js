@@ -41,22 +41,6 @@ export default class Yearly extends Component {
     });
   }
 
-  // renderYearlyMood = ({ item }) => (
-  //   <TouchableOpacity
-  //   key={item.id}
-  //   onPress={() => {
-  //     console.log('hahahahahahah');
-  //   }}>
-  //     <View style={styles.container}>
-  //        <View style={styles.colourPalette}>
-  //          {monthSquare('blue', 'May', 'Happy')}
-  //        </View>
-  //      </View>
-
-  //   </TouchableOpacity>
-  // );
-  // }
-
   renderYearlyMood(item) {
     console.log('renderYearlyMood');
     console.log(item);
@@ -89,16 +73,6 @@ export default class Yearly extends Component {
       </View>
     );
   }
-
-  // render() {
-  //   return (
-  //     <View style={styles.container}>
-  //       <View style={styles.colourPalette}>
-  //         {monthSquare('blue', 'May', 'Happy')}
-  //       </View>
-  //     </View>
-  //   );
-  // }
 }
 
 const monthSquare = (color, month, mood) => (
