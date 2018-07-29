@@ -30,11 +30,13 @@ export default class Yearly extends Component {
     console.log(this.diaryStore.moodCounter);
 
     // create an obj for datasource
-    _.forEach(this.diaryStore.moodCounter[this.year], element => {
+    _.forEach(this.diaryStore.moodCounter[this.year], (element, key) => {
+      console.log(key);
       const obj = {
-        month: element.month,
+        month: key,
         moods: element.moods
       };
+      console.log(obj);
       this.dataSource.push(obj);
     });
   }
