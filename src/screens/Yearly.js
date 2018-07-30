@@ -44,8 +44,10 @@ export default class Yearly extends Component {
     let stringMonth;
     // const zero = '0';
     for (i = 1; i <= 12; i++) {
-      if (i.length !== 1) {
+      if (i.toString().length === 1) {
         stringMonth = `0${i.toString()}`;
+      } else {
+        stringMonth = i;
       }
       const obj1 = {
         month: stringMonth,
@@ -65,11 +67,11 @@ export default class Yearly extends Component {
       this.dataSource.push(obj);
     });
 
-    for (let i = 0; this.dataSourceNew.length; i++) {
+    for (let i = 0; i < this.dataSourceNew.length; i++) {
       console.log(this.dataSourceNew[i]);
-      for (let j = 0; this.dataSource.length; j++) {
+      for (let j = 0; j < this.dataSource.length; j++) {
         console.log(this.dataSourceNew[i].month);
-        console.log(this.dataSourceNew[j].month);
+        console.log(this.dataSource[j].month);
         if (this.dataSourceNew[i].month === this.dataSource[j].month) {
           this.dataSourceNew[i] = this.dataSource[j];
         }
