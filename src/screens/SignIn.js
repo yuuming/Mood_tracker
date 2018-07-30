@@ -69,59 +69,61 @@ export default class SignIn extends Component {
 
     render() {
         return (
-            <View style={styles.container}>
-                <Text style={styles.textStyle}>Email</Text>
-                <TextInput
-                    style={styles.textInputStyle}
-                    onChangeText={email => this.setState({ email })}
-                    value={this.state.email}
-                    enablesReturnKeyAutomatically
-                    keyboardType="email-address"
-                    autoCapitalize="none"
-                />
-                <Text style={styles.textStyle}>Password</Text>
-                <TextInput
-                    style={styles.textInputStyle}
-                    onChangeText={password => this.setState({ password })}
-                    value={this.state.password}
-                    secureTextEntry
-                />
-                {this.state.isSignUpMode ? (
-                    <View>
-                        <Text style={styles.textStyle}>Confirm Password</Text>
-                        <TextInput
-                            style={styles.textInputStyle}
-                            onChangeText={confirmedPassword =>
-                                this.setState({ confirmedPassword })
-                            }
-                            value={this.state.confirmedPassword}
-                            secureTextEntry
-                            enablesReturnKeyAutomatically
-                            textContentType="password"
-                        />
-                    </View>
-                ) : null}
-                <TouchableOpacity onPress={this.isDone}>
-                    <View style={styles.signInButtonStyle}>
-                        <Text>{this.state.isSignUpMode ? 'Sign Up' : 'Sign In'}</Text>
-                    </View>
-                </TouchableOpacity>
-                {this.accountStore.authError !== null ? (
-                    <Text style={styles.errorTextStyle}>
-                        {this.accountStore.authError}
-                    </Text>
-                ) : null}
-                <TouchableOpacity>
-                    <Text style={styles.touchableTextStyle}>Forgot your password?</Text>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={this.switchMode}>
-                    <Text style={styles.touchableTextStyle}>
-                        {this.state.isSignUpMode
-                            ? 'Ready to sign in?'
-                            : 'Wanna create an account?'}
-                    </Text>
-                </TouchableOpacity>
-                <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+            <View style={{ flex: 1 }}>
+                <View style={styles.textInputContainer}>
+                    <Text style={styles.textStyle}>Email</Text>
+                    <TextInput
+                        style={styles.textInputStyle}
+                        onChangeText={email => this.setState({ email })}
+                        value={this.state.email}
+                        enablesReturnKeyAutomatically
+                        keyboardType="email-address"
+                        autoCapitalize="none"
+                    />
+                    <Text style={styles.textStyle}>Password</Text>
+                    <TextInput
+                        style={styles.textInputStyle}
+                        onChangeText={password => this.setState({ password })}
+                        value={this.state.password}
+                        secureTextEntry
+                    />
+                    {this.state.isSignUpMode ? (
+                        <View>
+                            <Text style={styles.textStyle}>Confirm Password</Text>
+                            <TextInput
+                                style={styles.textInputStyle}
+                                onChangeText={confirmedPassword =>
+                                    this.setState({ confirmedPassword })
+                                }
+                                value={this.state.confirmedPassword}
+                                secureTextEntry
+                                enablesReturnKeyAutomatically
+                                textContentType="password"
+                            />
+                        </View>
+                    ) : null}
+                    <TouchableOpacity onPress={this.isDone}>
+                        <View style={styles.signInButtonStyle}>
+                            <Text>{this.state.isSignUpMode ? 'Sign Up' : 'Sign In'}</Text>
+                        </View>
+                    </TouchableOpacity>
+                    {this.accountStore.authError !== null ? (
+                        <Text style={styles.errorTextStyle}>
+                            {this.accountStore.authError}
+                        </Text>
+                    ) : null}
+                    <TouchableOpacity>
+                        <Text style={styles.touchableTextStyle}>Forgot your password?</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={this.switchMode}>
+                        <Text style={styles.touchableTextStyle}>
+                            {this.state.isSignUpMode
+                                ? 'Ready to sign in?'
+                                : 'Wanna create an account?'}
+                        </Text>
+                    </TouchableOpacity>
+                </View>
+                <View style={{ backgroundColor: '#F5FCFF', flex: 1, justifyContent: 'flex-start', alignItems: 'center' }}>
                     {this.accountStore.isPending ? <ActivityIndicator /> : null}
                 </View>
             </View>
@@ -130,8 +132,8 @@ export default class SignIn extends Component {
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
+    textInputContainer: {
+        flex: 10,
         justifyContent: 'center',
         alignItems: 'flex-start',
         backgroundColor: '#F5FCFF'
