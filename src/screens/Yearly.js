@@ -24,12 +24,37 @@ export default class Yearly extends Component {
     this.markedDateArray = [];
     this.year = this.props.year;
     this.dataSource = [];
+    this.dataSourceNew = [];
   }
 
   componentWillMount() {
     console.log(this.diaryStore.moodCounter);
 
     // create an obj for datasource
+    // _.forEach(this.diaryStore.moodCounter[this.year], (element, key) => {
+    //   console.log(key);
+    //   const obj = {
+    //     month: key,
+    //     moods: element.moods
+    //   };
+    //   console.log(obj);
+    //   this.dataSource.push(obj);
+    // });
+
+    let stringMonth;
+    // const zero = '0';
+    for (i = 1; i <= 12; i++) {
+      if (i.length !== 1) {
+        stringMonth = `0${i.toString()}`;
+      }
+      const obj1 = {
+        month: stringMonth,
+        moods: ''
+      };
+      console.log(obj1);
+      this.dataSourceNew.push(obj1);
+    }
+    console.log(this.dataSourceNew);
     _.forEach(this.diaryStore.moodCounter[this.year], (element, key) => {
       console.log(key);
       const obj = {
@@ -39,6 +64,17 @@ export default class Yearly extends Component {
       console.log(obj);
       this.dataSource.push(obj);
     });
+
+    for (let i = 0; this.dataSourceNew.length; i++) {
+      console.log(this.dataSourceNew[i]);
+      for (let j = 0; this.dataSource.length; j++) {
+        console.log(this.dataSourceNew[i].month);
+        console.log(this.dataSourceNew[j].month);
+        if (this.dataSourceNew[i].month === this.dataSource[j].month) {
+          this.dataSourceNew[i] = this.dataSource[j];
+        }
+      }
+    }
   }
 
   renderYearlyMood(item) {
@@ -67,7 +103,8 @@ export default class Yearly extends Component {
           style={{ flex: 1 }}
           numColumns={3}
           keyExtractor={index => index}
-          data={this.dataSource}
+          // data={this.dataSource}
+          data={this.dataSourceNew}
           renderItem={item => this.renderYearlyMood(item)}
         />
       </View>
