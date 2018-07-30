@@ -82,15 +82,25 @@ export default class Yearly extends Component {
   renderYearlyMood(item) {
     console.log('renderYearlyMood');
     console.log(item);
+    const bad = item.item.moods.bad;
+    const happy = item.item.moods.happy;
+    const high = item.item.moods.high;
+    const neutral = item.item.moods.neutral;
+    const unhappy = item.item.moods.unhappy;
+    const moodsArray = [bad, happy, high, neutral, unhappy];
+    for (let i = 0; i < moodsArray.length; i++) {
+      if (moodsArray[i].toString() === '0') {
+      }
+    }
 
     return (
       <View
         key={item.item.month}
         style={{
-          margin: 10,
-          width: '28%',
-          height: 130,
-          backgroundColor: 'white'
+          fontSize: 15,
+          fontWeight: '100',
+          color: '#3c3642',
+          paddingLeft: 5
         }}
       >
         <Text>{item.item.month}</Text>
