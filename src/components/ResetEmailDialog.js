@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import {
     Platform,
-    StyleSheet,
+    Modal,
     Text,
-    TouchableOpacity,
+    TouchableHighlight,
     View
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -14,16 +14,56 @@ export default class ResetEmailDialog extends Component {
     constructor(props) {
         super(props);
 
-        this.state({
+        this.state = {
+            modalVisible: false,
             email: '',
             isInputReady: false
+        };
+    }
+
+    componentWillMount() {
+        console.log('componentWillMount in ResetEmailDialog');
+        console.log(this.props.isVisible);
+        this.setState({
+            modalVisible: true
         });
     }
 
+    componentWillUnmount() {
+        this.props.closeDialog();
+    }
+
+    // setModalVisible(visible) {
+    //     this.setState({ modalVisible: visible });
+    // }
+
     render() {
         return (
-            <View>
-                <Text>modal view</Text>
+            <View style={{ marginTop: 22 }}>
+                <Modal
+                    animationType="slide"
+                    transparent={false}
+                    visible={this.state.modalVisible}
+                    onRequestClose={() => {
+                        alert('Modal has been closed.');
+                    }}
+                >
+                    <View style={{ marginTop: 22 }}>
+                        <View>
+                            <Text>Hello World!</Text>
+
+                            <TouchableHighlight
+                                onPress={() => {
+                                    this.setState({
+                                        modalVisible: false
+                                    });
+                                }}
+                            >
+                                <Text>Hide Modal</Text>
+                            </TouchableHighlight>
+                        </View>
+                    </View>
+                </Modal>
             </View>
         );
     }
