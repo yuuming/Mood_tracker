@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import {
-    Platform,
+    StyleSheet,
     Modal,
     Text,
-    TouchableHighlight,
-    View
+    TextInput,
+    View,
+    Button
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { inject } from 'mobx-react';
@@ -39,32 +40,56 @@ export default class ResetEmailDialog extends Component {
 
     render() {
         return (
-            <View style={{ marginTop: 22 }}>
-                <Modal
-                    animationType="slide"
-                    transparent={false}
-                    visible={this.state.modalVisible}
-                    onRequestClose={() => {
-                        alert('Modal has been closed.');
-                    }}
-                >
-                    <View style={{ marginTop: 22 }}>
-                        <View>
-                            <Text>Hello World!</Text>
-
-                            <TouchableHighlight
+            // <View style={{ margin: 100, justifyContent: 'center', alignItems: 'center' }}>
+            <Modal
+                animationType='none'
+                transparent
+                visible={this.state.modalVisible}
+                onRequestClose={() => {
+                    alert('Modal has been closed.');
+                }}
+            >
+                <View style={{ marginTop: 180, justifyContent: 'center', alignItems: 'center' }}>
+                    <View style={{ backgroundColor: '#f4f4f4', width: 260, height: 200, borderRadius: 5, borderWidth: 0.5 }}>
+                        <View style={{ margin: 10, flexDirection: 'row' }}>
+                            <Text>Email </Text>
+                            <TextInput
+                                style={styles.textInputStyle}
+                                onChangeText={email => this.setState({ email })}
+                                value={this.state.email}
+                                enablesReturnKeyAutomatically
+                                keyboardType="email-address"
+                                autoCapitalize="none"
+                            />
+                        </View>
+                        <View style={{ flexDirection: 'row', flex: 1, justifyContent: 'space-around' }}>
+                            <Button
                                 onPress={() => {
                                     this.setState({
                                         modalVisible: false
                                     });
                                 }}
-                            >
-                                <Text>Hide Modal</Text>
-                            </TouchableHighlight>
+                                title='Cancel'
+                            />
+                            <Button
+                                title='Send'
+                            />
                         </View>
                     </View>
-                </Modal>
-            </View>
+                </View>
+            </Modal>
+            // </View>
         );
     }
 }
+
+const styles = StyleSheet.create({
+    textInputStyle: {
+        height: 25,
+        width: 200,
+        marginLeft: 2,
+        borderColor: 'gray',
+        borderWidth: 0.5,
+        backgroundColor: 'white'
+    },
+});
