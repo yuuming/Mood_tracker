@@ -9,6 +9,7 @@ import {
     ActivityIndicator
 } from 'react-native';
 import { observer, inject } from 'mobx-react';
+import ResetEmailDialog from '../components/ResetEmailDialog'
 
 const { width } = Dimensions.get('window');
 // const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -23,7 +24,8 @@ export default class SignIn extends Component {
             email: '',
             password: '',
             confirmedPassword: '',
-            isSignUpMode: false
+            isSignUpMode: false,
+            isResetEmailDialogVisible: false,
         };
         this.rootStore = this.props.rootStore;
         this.accountStore = this.rootStore.accountStore;
@@ -66,6 +68,12 @@ export default class SignIn extends Component {
 
         this.clearAllFields();
     };
+
+    switchResetPasswordDialogVisibility = () => {
+        this.setState({
+            isResetEmailDialogVisible: !this.state.isResetEmailDialogVisible
+        });
+    }
 
     render() {
         return (
@@ -112,7 +120,9 @@ export default class SignIn extends Component {
                             {this.accountStore.authError}
                         </Text>
                     ) : null}
-                    <TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={this.switchResetPasswordDialogVisibility}
+                    >
                         <Text style={styles.touchableTextStyle}>Forgot your password?</Text>
                     </TouchableOpacity>
                     <TouchableOpacity onPress={this.switchMode}>
@@ -122,6 +132,7 @@ export default class SignIn extends Component {
                                 : 'Wanna create an account?'}
                         </Text>
                     </TouchableOpacity>
+                    {this.state.isResetEmailDialogVisible ? <ResetEmailDialog closeDialog={this.switchResetPasswordDialogVisibility} /> : null}
                 </View>
                 <View style={{ backgroundColor: '#F5FCFF', flex: 1, justifyContent: 'flex-start', alignItems: 'center' }}>
                     {this.accountStore.isPending ? <ActivityIndicator /> : null}
