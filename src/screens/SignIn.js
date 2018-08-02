@@ -132,7 +132,9 @@ export default class SignIn extends Component {
                                 : 'Wanna create an account?'}
                         </Text>
                     </TouchableOpacity>
-                    {this.state.isResetEmailDialogVisible ? <ResetEmailDialog closeDialog={this.switchResetPasswordDialogVisibility} /> : null}
+                    {this.state.isResetEmailDialogVisible ?
+                        <ResetEmailDialog closeDialog={this.switchResetPasswordDialogVisibility} />
+                        : null}
                 </View>
                 <View style={{ backgroundColor: '#F5FCFF', flex: 1, justifyContent: 'flex-start', alignItems: 'center' }}>
                     {this.accountStore.isPending ? <ActivityIndicator /> : null}
