@@ -49,8 +49,12 @@ export default class ResetEmailDialog extends Component {
                     alert('Modal has been closed.');
                 }}
             >
-                <View style={{ marginTop: 180, justifyContent: 'center', alignItems: 'center' }}>
-                    <View style={{ backgroundColor: '#f4f4f4', width: 260, height: 200, borderRadius: 5, borderWidth: 0.5 }}>
+                <View style={{ marginTop: 230, justifyContent: 'center', alignItems: 'center' }}>
+                    <View style={{ backgroundColor: '#f4f4f4', width: 260, height: 170, borderRadius: 5, borderWidth: 0.5, justifyContent: 'space-between' }}>
+                        <View style={{ marginTop: 10, margin: 10, justifyContent: 'center', alignItems: 'center' }}>
+                            <Text style={{ fontSize: 16, fontWeight: 'bold', lineHeight: 25 }}>Forgot Password</Text>
+                            <Text style={{ fontSize: 12 }}>We'll send you the link to reset the password!</Text>
+                        </View>
                         <View style={{ margin: 10, flexDirection: 'row' }}>
                             <Text>Email </Text>
                             <TextInput
@@ -62,18 +66,22 @@ export default class ResetEmailDialog extends Component {
                                 autoCapitalize="none"
                             />
                         </View>
-                        <View style={{ flexDirection: 'row', flex: 1, justifyContent: 'space-around' }}>
-                            <Button
-                                onPress={() => {
-                                    this.setState({
-                                        modalVisible: false
-                                    });
-                                }}
-                                title='Cancel'
-                            />
-                            <Button
-                                title='Send'
-                            />
+                        <View style={{ flexDirection: 'row', borderTopWidth: 0.5, borderColor: '#cfcfcf', justifyContent: 'space-around' }}>
+                            <View style={{ flex: 1 }}>
+                                <Button
+                                    onPress={() => {
+                                        this.setState({
+                                            modalVisible: false
+                                        });
+                                    }}
+                                    title='Cancel'
+                                />
+                            </View>
+                            <View style={{ borderLeftWidth: 0.5, borderColor: '#cfcfcf', flex: 1 }}>
+                                <Button
+                                    title='Send'
+                                />
+                            </View>
                         </View>
                     </View>
                 </View>
