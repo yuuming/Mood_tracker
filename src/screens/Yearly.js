@@ -82,30 +82,72 @@ export default class Yearly extends Component {
   renderYearlyMood(item) {
     console.log('renderYearlyMood');
     console.log(item);
-    console.log(typeof item.item.moods.bad);
-    const bad = item.item.moods.bad;
-    const happy = item.item.moods.happy;
-    const high = item.item.moods.high;
-    const neutral = item.item.moods.neutral;
-    const unhappy = item.item.moods.unhappy;
-    const moodsArray = [bad, happy, high, neutral, unhappy];
-    // for (let i = 0; i < moodsArray.length; i++) {
-    //   if (moodsArray[i].toString() === '0') {
-    //   }
-    // }
+    console.log(typeof item.item.moods.bad); // number
+    // const badNum = item.item.moods.bad;
+    // const happyNum = item.item.moods.happy;
+    // const highNum = item.item.moods.high;
+    // const neutralNum = item.item.moods.neutral;
+    // const unhappyNum = item.item.moods.unhappy;
+    // const moodsArray = { high: highNum, happy: happyNum, neutral: neutralNum, unhappy: unhappyNum, bad: badNum };
+    const chosenMoodArrayNum = [];
 
+    // const maxNumber = Math.max.apply(null, moodsArray);
+    // console.log(maxNumber);
+
+    // console.log(moodsArray[key]);
+    for (let i = 0; i < item.item.moods.length; i++) {
+      console.log(item.moods[i]);
+      if (item.moods[i] !== 0) {
+        chosenMoodArray.push(item.moods[i]);
+      }
+    }
+    console.log(chosenMoodArrayNum);
+    if (item.item.moods !== '') {
+      return (
+        <View
+          key={item.item.month}
+          style={{
+            flex: 1,
+            width: 100,
+            height: 200,
+            fontSize: 15,
+            fontWeight: '100',
+            color: '#3c3642',
+            paddingLeft: 5
+          }}
+        >
+          <View
+            style={{ flex: item.item.moods.high, backgroundColor: 'red' }}
+          />
+          <View
+            style={{ flex: item.item.moods.happy, backgroundColor: 'orange' }}
+          />
+          <View
+            style={{ flex: item.item.moods.neutral, backgroundColor: 'yellow' }}
+          />
+          <View
+            style={{ flex: item.item.moods.unhappy, backgroundColor: 'green' }}
+          />
+          <View
+            style={{ flex: item.item.moods.bad, backgroundColor: 'blue' }}
+          />
+          <Text>{item.item.month}</Text>
+        </View>
+      );
+    }
     return (
       <View
         key={item.item.month}
         style={{
+          flex: 1,
+          width: 100,
+          height: 200,
           fontSize: 15,
           fontWeight: '100',
-          color: '#3c3642',
+          color: '#fff',
           paddingLeft: 5
         }}
-      >
-        <Text>{item.item.month}</Text>
-      </View>
+      />
     );
   }
 
