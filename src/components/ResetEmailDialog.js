@@ -15,6 +15,8 @@ export default class ResetEmailDialog extends Component {
     constructor(props) {
         super(props);
 
+        this.rootStore = this.props.rootStore;
+        this.accountStore = this.rootStore.accountStore;
         this.state = {
             modalVisible: false,
             email: '',
@@ -24,19 +26,40 @@ export default class ResetEmailDialog extends Component {
 
     componentWillMount() {
         console.log('componentWillMount in ResetEmailDialog');
-        console.log(this.props.isVisible);
         this.setState({
-            modalVisible: true
+            modalVisible: !this.state.modalVisible
         });
     }
 
     componentWillUnmount() {
-        this.props.closeDialog();
+        console.log('dialog unmounted');
+
+        this.closeDialog();
     }
 
     // setModalVisible(visible) {
     //     this.setState({ modalVisible: visible });
     // }
+
+    closeDialog() {
+        this.setState({
+            modalVisible: !this.state.modalVisible
+        }, () => {
+            this.props.closeDialog();
+        });
+    }
+
+    sendPasswordResetEmail() {
+        console.log('send reset email');
+        this.accountStore.sendPasswordResetEmail(this.state.email)
+            .then(() => {
+                this.props.closeDialog();
+            })
+            .catch((err) => {
+                console.log(err);
+                alert('please try it again');
+            });
+    }
 
     render() {
         return (
@@ -69,16 +92,13 @@ export default class ResetEmailDialog extends Component {
                         <View style={styles.buttonContainerStyle}>
                             <View style={{ flex: 1 }}>
                                 <Button
-                                    onPress={() => {
-                                        this.setState({
-                                            modalVisible: false
-                                        });
-                                    }}
+                                    onPress={() => { this.closeDialog(); }}
                                     title='Cancel'
                                 />
                             </View>
                             <View style={{ borderLeftWidth: 0.5, borderColor: '#cfcfcf', flex: 1 }}>
                                 <Button
+                                    onPress={() => { this.sendPasswordResetEmail(); }}
                                     title='Send'
                                 />
                             </View>
@@ -101,27 +121,27 @@ const styles = StyleSheet.create({
         backgroundColor: 'white'
     },
     modalStyle: {
-        marginTop: 230, 
-        justifyContent: 'center', 
+        marginTop: 230,
+        justifyContent: 'center',
         alignItems: 'center'
     },
     dialogStyle: {
-        backgroundColor: '#f4f4f4', 
-        width: 260, 
-        height: 170, 
-        borderRadius: 5, 
-        justifyContent: 'space-between' 
+        backgroundColor: '#f4f4f4',
+        width: 260,
+        height: 170,
+        borderRadius: 5,
+        justifyContent: 'space-between'
     },
     alarmMessageStyle: {
-        marginTop: 10, 
-        margin: 10, 
-        justifyContent: 'center', 
+        marginTop: 10,
+        margin: 10,
+        justifyContent: 'center',
         alignItems: 'center'
     },
     buttonContainerStyle: {
-        flexDirection: 'row', 
-        borderTopWidth: 0.5, 
-        borderColor: '#cfcfcf', 
+        flexDirection: 'row',
+        borderTopWidth: 0.5,
+        borderColor: '#cfcfcf',
         justifyContent: 'space-around'
     }
 });

@@ -16,12 +16,12 @@ export default class AccountStore {
   }
 
   user = {};
-  
+
   @observable currentPaletteID = '';
   @observable isPending = false;
   @observable authError = null;
 
-  @action 
+  @action
   async updateCurrentPalette(paletteID) {
     this.currentPaletteID = paletteID;
   }
@@ -196,20 +196,13 @@ export default class AccountStore {
       });
   }
 
-  // getMoodPalettes = () => {
-  //   db.collection('moodPalette').get()
-  //     .then((ref) => {
-  //       const docs = ref.docs;
-
-  //       _.forEach(docs, (doc) => {
-  //         this.moodPalettes[doc.id] = doc.data();
-  //       });
-
-  //       this.isPending = false;
-  //       Actions.monthly({ year: '2018', month: '07' });
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // }
+  sendPasswordResetEmail = email =>
+    firebase.auth()
+      .sendPasswordResetEmail(email)
+      .then(() => {
+        console.log('sent!');
+      })
+      .catch((err) => {
+        console.log(err);
+      });
 }

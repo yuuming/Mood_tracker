@@ -33,6 +33,9 @@ export default class SignIn extends Component {
 
     componentWillMount() {
         this.rootStore.loadMoodPaletteList();
+        this.setState({
+            isResetEmailDialogVisible: false
+        });
     }
 
     switchMode = () => {
@@ -70,6 +73,7 @@ export default class SignIn extends Component {
     };
 
     switchResetPasswordDialogVisibility = () => {
+        console.log('switch!!');
         this.setState({
             isResetEmailDialogVisible: !this.state.isResetEmailDialogVisible
         });
@@ -121,7 +125,7 @@ export default class SignIn extends Component {
                         </Text>
                     ) : null}
                     <TouchableOpacity
-                        onPress={this.switchResetPasswordDialogVisibility}
+                        onPress={() => { this.setState({ isResetEmailDialogVisible: true }); }}
                     >
                         <Text style={styles.touchableTextStyle}>Forgot your password?</Text>
                     </TouchableOpacity>
@@ -139,7 +143,7 @@ export default class SignIn extends Component {
                 <View style={{ backgroundColor: '#F5FCFF', flex: 1, justifyContent: 'flex-start', alignItems: 'center' }}>
                     {this.accountStore.isPending ? <ActivityIndicator /> : null}
                 </View>
-            </View>
+            </View >
         );
     }
 }
