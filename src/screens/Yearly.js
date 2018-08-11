@@ -21,6 +21,7 @@ export default class Yearly extends Component {
     this.diaryStore = this.rootStore.diaryStore;
     this.accountStore = this.rootStore.accountStore;
     this.user = this.accountStore.user;
+    this.selectedPalette = this.rootStore.moodPaletteList[this.accountStore.currentPaletteID];
     this.markedDateArray = [];
     this.year = this.props.year;
     this.dataSource = [];
@@ -29,6 +30,7 @@ export default class Yearly extends Component {
 
   componentWillMount() {
     console.log(this.diaryStore.moodCounter);
+    console.log('===yearly palette =====', this.selectedPalette);
 
     // create an obj for datasource
     // _.forEach(this.diaryStore.moodCounter[this.year], (element, key) => {
@@ -117,19 +119,19 @@ export default class Yearly extends Component {
           }}
         >
           <View
-            style={{ flex: item.item.moods.high, backgroundColor: 'red' }}
+            style={{ flex: item.item.moods.high, backgroundColor: this.selectedPalette.moodColors.high }}
           />
           <View
-            style={{ flex: item.item.moods.happy, backgroundColor: 'orange' }}
+            style={{ flex: item.item.moods.happy, backgroundColor: this.selectedPalette.moodColors.happy }}
           />
           <View
-            style={{ flex: item.item.moods.neutral, backgroundColor: 'yellow' }}
+            style={{ flex: item.item.moods.neutral, backgroundColor: this.selectedPalette.moodColors.neutral }}
           />
           <View
-            style={{ flex: item.item.moods.unhappy, backgroundColor: 'green' }}
+            style={{ flex: item.item.moods.unhappy, backgroundColor: this.selectedPalette.moodColors.unhappy }}
           />
           <View
-            style={{ flex: item.item.moods.bad, backgroundColor: 'blue' }}
+            style={{ flex: item.item.moods.bad, backgroundColor: this.selectedPalette.moodColors.bad }}
           />
           <Text>{item.item.month}</Text>
         </View>
@@ -144,10 +146,27 @@ export default class Yearly extends Component {
           height: 200,
           fontSize: 15,
           fontWeight: '100',
-          color: '#fff',
+          color: '#3c3642',
           paddingLeft: 5
         }}
-      />
+      >
+        <View
+          style={{ flex: 1, backgroundColor: 'white' }}
+        />
+        <View
+          style={{ flex: 1, backgroundColor: 'white' }}
+        />
+        <View
+          style={{ flex: 1, backgroundColor: 'white' }}
+        />
+        <View
+          style={{ flex: 1, backgroundColor: 'white' }}
+        />
+        <View
+          style={{ flex: 1, backgroundColor: 'white' }}
+        />
+        <Text>{item.item.month}</Text>
+      </View>
     );
   }
 
