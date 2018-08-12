@@ -87,18 +87,8 @@ export default class Yearly extends Component {
     console.log('renderYearlyMood');
     console.log(item);
     console.log(typeof item.item.moods.bad); // number
-    // const badNum = item.item.moods.bad;
-    // const happyNum = item.item.moods.happy;
-    // const highNum = item.item.moods.high;
-    // const neutralNum = item.item.moods.neutral;
-    // const unhappyNum = item.item.moods.unhappy;
-    // const moodsArray = { high: highNum, happy: happyNum, neutral: neutralNum, unhappy: unhappyNum, bad: badNum };
     const chosenMoodArrayNum = [];
 
-    // const maxNumber = Math.max.apply(null, moodsArray);
-    // console.log(maxNumber);
-
-    // console.log(moodsArray[key]);
     for (let i = 0; i < item.item.moods.length; i++) {
       console.log(item.moods[i]);
       if (item.moods[i] !== 0) {
@@ -143,7 +133,6 @@ export default class Yearly extends Component {
                 backgroundColor: this.selectedPalette.moodColors.bad
               }}
             />
-            {/* <Text>{item.item.month}</Text> */}
           </View>
           <Text
             style={styles.textStyle}
@@ -180,40 +169,6 @@ export default class Yearly extends Component {
     );
   }
 }
-
-// const monthSquare = (color, month, mood) => (
-//   <View
-//     style={{
-//       height: 120,
-//       width: 90,
-//       borderWidth: 1,
-//       borderColor: '#95a8c6'
-//     }}
-//   >
-//     <View style={{ backgroundColor: color, height: 70, width: 90 }} />
-
-//     <Text
-//       style={{
-//         fontSize: 20,
-//         fontWeight: '300',
-//         color: '#3c3642',
-//         paddingLeft: 5
-//       }}
-//     >
-//       {month}
-//     </Text>
-//     <Text
-//       style={{
-//         fontSize: 15,
-//         fontWeight: '100',
-//         color: '#3c3642',
-//         paddingLeft: 5
-//       }}
-//     >
-//       {mood}
-//     </Text>
-//   </View>
-// );
 
 const styles = StyleSheet.create({
   container: {
