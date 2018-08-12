@@ -111,13 +111,7 @@ export default class Yearly extends Component {
         <View style={styles.monthSquare}>
           <View
             key={item.item.month}
-            style={{
-              width: 100,
-              height: 90,
-              fontSize: 15,
-              fontWeight: '100',
-              color: '#3c3642'
-            }}
+            style={styles.colorStyle}
           >
             <View
               style={{
@@ -152,12 +146,7 @@ export default class Yearly extends Component {
             {/* <Text>{item.item.month}</Text> */}
           </View>
           <Text
-            style={{
-              fontSize: 20,
-              fontWeight: '300',
-              color: '#3c3642',
-              paddingLeft: 5
-            }}
+            style={styles.textStyle}
           >
             {item.item.month}
           </Text>
@@ -171,7 +160,7 @@ export default class Yearly extends Component {
         <View style={{ flex: 1, backgroundColor: 'white' }} />
         <View style={{ flex: 1, backgroundColor: 'white' }} />
         <View style={{ flex: 1, backgroundColor: 'white' }} />
-        <Text>{item.item.month}</Text>
+        <Text style={styles.textStyle}>{item.item.month}</Text>
       </View>
     );
   }
@@ -241,5 +230,19 @@ const styles = StyleSheet.create({
     margin: 12,
     borderWidth: 1,
     borderColor: '#95a8c6'
+  },
+  colorStyle: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    width: 100,
+    height: 90,
+    fontSize: 15,
+    fontWeight: '100',
+  },
+  textStyle: {
+    fontSize: 20,
+    fontWeight: '300',
+    color: '#3c3642',
+    paddingLeft: 5
   }
 });
