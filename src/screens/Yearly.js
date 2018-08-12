@@ -21,7 +21,9 @@ export default class Yearly extends Component {
     this.diaryStore = this.rootStore.diaryStore;
     this.accountStore = this.rootStore.accountStore;
     this.user = this.accountStore.user;
-    this.selectedPalette = this.rootStore.moodPaletteList[this.accountStore.currentPaletteID];
+    this.selectedPalette = this.rootStore.moodPaletteList[
+      this.accountStore.currentPaletteID
+    ];
     this.markedDateArray = [];
     this.year = this.props.year;
     this.dataSource = [];
@@ -106,65 +108,69 @@ export default class Yearly extends Component {
     console.log(chosenMoodArrayNum);
     if (item.item.moods !== '') {
       return (
-        <View
-          key={item.item.month}
-          style={{
-            flex: 1,
-            width: 100,
-            height: 200,
-            fontSize: 15,
-            fontWeight: '100',
-            color: '#3c3642',
-            paddingLeft: 5
-          }}
-        >
+        <View style={styles.monthSquare}>
           <View
-            style={{ flex: item.item.moods.high, backgroundColor: this.selectedPalette.moodColors.high }}
-          />
-          <View
-            style={{ flex: item.item.moods.happy, backgroundColor: this.selectedPalette.moodColors.happy }}
-          />
-          <View
-            style={{ flex: item.item.moods.neutral, backgroundColor: this.selectedPalette.moodColors.neutral }}
-          />
-          <View
-            style={{ flex: item.item.moods.unhappy, backgroundColor: this.selectedPalette.moodColors.unhappy }}
-          />
-          <View
-            style={{ flex: item.item.moods.bad, backgroundColor: this.selectedPalette.moodColors.bad }}
-          />
-          <Text>{item.item.month}</Text>
+            key={item.item.month}
+            style={{
+              width: 100,
+              height: 90,
+              fontSize: 15,
+              fontWeight: '100',
+              color: '#3c3642'
+            }}
+          >
+            <View
+              style={{
+                flex: item.item.moods.high,
+                backgroundColor: this.selectedPalette.moodColors.high
+              }}
+            />
+            <View
+              style={{
+                flex: item.item.moods.happy,
+                backgroundColor: this.selectedPalette.moodColors.happy
+              }}
+            />
+            <View
+              style={{
+                flex: item.item.moods.neutral,
+                backgroundColor: this.selectedPalette.moodColors.neutral
+              }}
+            />
+            <View
+              style={{
+                flex: item.item.moods.unhappy,
+                backgroundColor: this.selectedPalette.moodColors.unhappy
+              }}
+            />
+            <View
+              style={{
+                flex: item.item.moods.bad,
+                backgroundColor: this.selectedPalette.moodColors.bad
+              }}
+            />
+            {/* <Text>{item.item.month}</Text> */}
+          </View>
+          <Text
+            style={{
+              fontSize: 20,
+              fontWeight: '300',
+              color: '#3c3642',
+              paddingLeft: 5
+            }}
+          >
+            {item.item.month}
+          </Text>
         </View>
       );
     }
     return (
-      <View
-        key={item.item.month}
-        style={{
-          flex: 1,
-          width: 100,
-          height: 200,
-          fontSize: 15,
-          fontWeight: '100',
-          color: '#3c3642',
-          paddingLeft: 5
-        }}
-      >
-        <View
-          style={{ flex: 1, backgroundColor: 'white' }}
-        />
-        <View
-          style={{ flex: 1, backgroundColor: 'white' }}
-        />
-        <View
-          style={{ flex: 1, backgroundColor: 'white' }}
-        />
-        <View
-          style={{ flex: 1, backgroundColor: 'white' }}
-        />
-        <View
-          style={{ flex: 1, backgroundColor: 'white' }}
-        />
+      <View style={styles.monthSquare}>
+        <View style={{ flex: 1, backgroundColor: 'white' }} />
+        <View style={{ flex: 1, backgroundColor: 'white' }} />
+        <View style={{ flex: 1, backgroundColor: 'white' }} />
+        <View style={{ flex: 1, backgroundColor: 'white' }} />
+        <View style={{ flex: 1, backgroundColor: 'white' }} />
         <Text>{item.item.month}</Text>
       </View>
     );
@@ -186,39 +192,39 @@ export default class Yearly extends Component {
   }
 }
 
-const monthSquare = (color, month, mood) => (
-  <View
-    style={{
-      height: 120,
-      width: 90,
-      borderWidth: 1,
-      borderColor: '#95a8c6'
-    }}
-  >
-    <View style={{ backgroundColor: color, height: 70, width: 90 }} />
+// const monthSquare = (color, month, mood) => (
+//   <View
+//     style={{
+//       height: 120,
+//       width: 90,
+//       borderWidth: 1,
+//       borderColor: '#95a8c6'
+//     }}
+//   >
+//     <View style={{ backgroundColor: color, height: 70, width: 90 }} />
 
-    <Text
-      style={{
-        fontSize: 20,
-        fontWeight: '300',
-        color: '#3c3642',
-        paddingLeft: 5
-      }}
-    >
-      {month}
-    </Text>
-    <Text
-      style={{
-        fontSize: 15,
-        fontWeight: '100',
-        color: '#3c3642',
-        paddingLeft: 5
-      }}
-    >
-      {mood}
-    </Text>
-  </View>
-);
+//     <Text
+//       style={{
+//         fontSize: 20,
+//         fontWeight: '300',
+//         color: '#3c3642',
+//         paddingLeft: 5
+//       }}
+//     >
+//       {month}
+//     </Text>
+//     <Text
+//       style={{
+//         fontSize: 15,
+//         fontWeight: '100',
+//         color: '#3c3642',
+//         paddingLeft: 5
+//       }}
+//     >
+//       {mood}
+//     </Text>
+//   </View>
+// );
 
 const styles = StyleSheet.create({
   container: {
@@ -226,5 +232,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#ffffff'
+  },
+  monthSquare: {
+    flex: 1,
+    width: 100,
+    height: 120,
+    fontSize: 15,
+    margin: 12,
+    borderWidth: 1,
+    borderColor: '#95a8c6'
   }
 });
