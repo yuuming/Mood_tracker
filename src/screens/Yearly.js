@@ -235,3 +235,15 @@ const styles = StyleSheet.create({
     paddingLeft: 5
   }
 });
+
+const paletteStyle = color => (
+  <View
+    style={{
+      backgroundColor: color,
+      flex: 1,
+      height: 30,
+      width: 60
+    }}
+  />
+);
+
