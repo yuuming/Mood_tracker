@@ -83,6 +83,39 @@ export default class Yearly extends Component {
     }
   }
 
+  getMonth = (monthNum) => {
+    let shortMonth = monthNum.toString();
+
+    switch (shortMonth) {
+      case '01' :
+      return 'Jan';
+      case '02' :
+      return 'Feb';
+      case '03' :
+      return 'Mar';
+      case '04' :
+      return 'Apr';
+      case '05' :
+      return 'May';
+      case '06' :
+      return 'Jun';
+      case '07' :
+      return 'Jul';
+      case '08' :
+      return 'Aug';
+      case '09' :
+      return 'Sep';
+      case '10' :
+      return 'Oct';
+      case '11' :
+      return 'Nov';
+      case '12' :
+      return 'Dec';
+      default :
+      return '00';
+    }
+  }
+
   renderYearlyMood(item) {
     console.log('renderYearlyMood');
     console.log(item);
@@ -137,7 +170,8 @@ export default class Yearly extends Component {
           <Text
             style={styles.textStyle}
           >
-            {item.item.month}
+          {this.getMonth(item.item.month)}
+            {/* {item.item.month} */}
           </Text>
         </View>
       );
@@ -149,7 +183,7 @@ export default class Yearly extends Component {
         <View style={{ flex: 1, backgroundColor: 'white' }} />
         <View style={{ flex: 1, backgroundColor: 'white' }} />
         <View style={{ flex: 1, backgroundColor: 'white' }} />
-        <Text style={styles.textStyle}>{item.item.month}</Text>
+        <Text style={styles.textStyle}>{this.getMonth(item.item.month)}</Text>
       </View>
     );
   }
@@ -182,14 +216,14 @@ const styles = StyleSheet.create({
     width: 100,
     height: 120,
     fontSize: 15,
-    margin: 12,
+    margin: 15,
     borderWidth: 1,
     borderColor: '#95a8c6'
   },
   colorStyle: {
     flexDirection: 'row',
     justifyContent: 'flex-start',
-    width: 100,
+    width: 92,
     height: 90,
     fontSize: 15,
     fontWeight: '100',
