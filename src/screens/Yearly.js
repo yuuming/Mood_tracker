@@ -199,6 +199,13 @@ export default class Yearly extends Component {
           data={this.dataSourceNew}
           renderItem={item => this.renderYearlyMood(item)}
         />
+        <View style={styles.colourPalette}>
+          {paletteStyle(this.selectedPalette.moodColors.high)}
+          {paletteStyle(this.selectedPalette.moodColors.happy)}
+          {paletteStyle(this.selectedPalette.moodColors.neutral)}
+          {paletteStyle(this.selectedPalette.moodColors.unhappy)}
+          {paletteStyle(this.selectedPalette.moodColors.bad)}
+        </View>
       </View>
     );
   }
@@ -213,8 +220,8 @@ const styles = StyleSheet.create({
   },
   monthSquare: {
     flex: 1,
-    width: 100,
-    height: 120,
+    width: 92,
+    height: 110,
     fontSize: 15,
     margin: 15,
     borderWidth: 1,
@@ -224,16 +231,21 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-start',
     width: 92,
-    height: 90,
-    fontSize: 15,
+    height: 80,
     fontWeight: '100',
   },
   textStyle: {
-    fontSize: 20,
+    fontSize: 16,
     fontWeight: '300',
     color: '#3c3642',
     paddingLeft: 5
-  }
+  },
+  colourPalette: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    height: 20,
+    margin: 11,
+  },
 });
 
 const paletteStyle = color => (
