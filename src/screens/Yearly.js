@@ -174,10 +174,6 @@ export default class Yearly extends Component {
     return (
       <View style={styles.monthSquare}>
         <View style={{ flex: 1, backgroundColor: 'white' }} />
-        <View style={{ flex: 1, backgroundColor: 'white' }} />
-        <View style={{ flex: 1, backgroundColor: 'white' }} />
-        <View style={{ flex: 1, backgroundColor: 'white' }} />
-        <View style={{ flex: 1, backgroundColor: 'white' }} />
         <Text style={styles.textStyle}>{this.getMonth(item.item.month)}</Text>
       </View>
     );
