@@ -83,38 +83,38 @@ export default class Yearly extends Component {
     }
   }
 
-  getMonth = (monthNum) => {
-    let shortMonth = monthNum.toString();
+  getMonth = monthNum => {
+    const shortMonth = monthNum.toString();
 
     switch (shortMonth) {
-      case '01' :
-      return 'Jan';
-      case '02' :
-      return 'Feb';
-      case '03' :
-      return 'Mar';
-      case '04' :
-      return 'Apr';
-      case '05' :
-      return 'May';
-      case '06' :
-      return 'Jun';
-      case '07' :
-      return 'Jul';
-      case '08' :
-      return 'Aug';
-      case '09' :
-      return 'Sep';
-      case '10' :
-      return 'Oct';
-      case '11' :
-      return 'Nov';
-      case '12' :
-      return 'Dec';
-      default :
-      return '00';
+      case '01':
+        return 'Jan';
+      case '02':
+        return 'Feb';
+      case '03':
+        return 'Mar';
+      case '04':
+        return 'Apr';
+      case '05':
+        return 'May';
+      case '06':
+        return 'Jun';
+      case '07':
+        return 'Jul';
+      case '08':
+        return 'Aug';
+      case '09':
+        return 'Sep';
+      case '10':
+        return 'Oct';
+      case '11':
+        return 'Nov';
+      case '12':
+        return 'Dec';
+      default:
+        return '00';
     }
-  }
+  };
 
   renderYearlyMood(item) {
     console.log('renderYearlyMood');
@@ -131,11 +131,8 @@ export default class Yearly extends Component {
     console.log(chosenMoodArrayNum);
     if (item.item.moods !== '') {
       return (
-        <View style={styles.monthSquare}>
-          <View
-            key={item.item.month}
-            style={styles.colorStyle}
-          >
+        <View style={styles.monthSquare} key={item.item.month}>
+          <View style={styles.colorStyle}>
             <View
               style={{
                 flex: item.item.moods.high,
@@ -167,10 +164,8 @@ export default class Yearly extends Component {
               }}
             />
           </View>
-          <Text
-            style={styles.textStyle}
-          >
-          {this.getMonth(item.item.month)}
+          <Text style={styles.textStyle}>
+            {this.getMonth(item.item.month)}
             {/* {item.item.month} */}
           </Text>
         </View>
@@ -222,30 +217,30 @@ const styles = StyleSheet.create({
     flex: 1,
     width: 92,
     height: 110,
-    fontSize: 15,
     margin: 15,
     borderWidth: 1,
     borderColor: '#95a8c6'
   },
   colorStyle: {
     flexDirection: 'row',
-    justifyContent: 'flex-start',
-    width: 92,
+    // justifyContent: 'flex-start',
     height: 80,
-    fontWeight: '100',
+    fontWeight: '100'
   },
   textStyle: {
     fontSize: 16,
     fontWeight: '300',
     color: '#3c3642',
-    paddingLeft: 5
+    paddingLeft: 5,
+    paddingTop: 3,
+    paddingBottom: 3
   },
   colourPalette: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     height: 20,
-    margin: 11,
-  },
+    margin: 11
+  }
 });
 
 const paletteStyle = color => (
@@ -258,4 +253,3 @@ const paletteStyle = color => (
     }}
   />
 );
-
