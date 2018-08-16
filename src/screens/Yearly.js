@@ -120,15 +120,7 @@ export default class Yearly extends Component {
     console.log('renderYearlyMood');
     console.log(item);
     console.log(typeof item.item.moods.bad); // number
-    const chosenMoodArrayNum = [];
 
-    for (let i = 0; i < item.item.moods.length; i++) {
-      console.log(item.moods[i]);
-      if (item.moods[i] !== 0) {
-        chosenMoodArray.push(item.moods[i]);
-      }
-    }
-    console.log(chosenMoodArrayNum);
     if (item.item.moods !== '') {
       return (
         <View style={styles.monthSquare} key={item.item.month}>
@@ -166,7 +158,6 @@ export default class Yearly extends Component {
           </View>
           <Text style={styles.textStyle}>
             {this.getMonth(item.item.month)}
-            {/* {item.item.month} */}
           </Text>
         </View>
       );
@@ -186,7 +177,6 @@ export default class Yearly extends Component {
           style={{ flex: 1 }}
           numColumns={3}
           keyExtractor={index => index}
-          // data={this.dataSource}
           data={this.dataSourceNew}
           renderItem={item => this.renderYearlyMood(item)}
         />
@@ -219,7 +209,6 @@ const styles = StyleSheet.create({
   },
   colorStyle: {
     flexDirection: 'row',
-    // justifyContent: 'flex-start',
     height: 80,
     fontWeight: '100'
   },
