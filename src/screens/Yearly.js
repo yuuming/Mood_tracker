@@ -120,45 +120,19 @@ export default class Yearly extends Component {
     console.log('renderYearlyMood');
     console.log(item);
     console.log(typeof item.item.moods.bad); // number
+    const { high, happy, neutral, unhappy, bad } = this.selectedPalette.moodColors;
 
     if (item.item.moods !== '') {
       return (
         <View style={styles.monthSquare} key={item.item.month}>
           <View style={styles.colorStyle}>
-            <View
-              style={{
-                flex: item.item.moods.high,
-                backgroundColor: this.selectedPalette.moodColors.high
-              }}
-            />
-            <View
-              style={{
-                flex: item.item.moods.happy,
-                backgroundColor: this.selectedPalette.moodColors.happy
-              }}
-            />
-            <View
-              style={{
-                flex: item.item.moods.neutral,
-                backgroundColor: this.selectedPalette.moodColors.neutral
-              }}
-            />
-            <View
-              style={{
-                flex: item.item.moods.unhappy,
-                backgroundColor: this.selectedPalette.moodColors.unhappy
-              }}
-            />
-            <View
-              style={{
-                flex: item.item.moods.bad,
-                backgroundColor: this.selectedPalette.moodColors.bad
-              }}
-            />
+            {colorRange(item.item.moods.high, high)}
+            {colorRange(item.item.moods.happy, happy)}
+            {colorRange(item.item.moods.neutral, neutral)}
+            {colorRange(item.item.moods.unhappy, unhappy)}
+            {colorRange(item.item.moods.bad, bad)}
           </View>
-          <Text style={styles.textStyle}>
-            {this.getMonth(item.item.month)}
-          </Text>
+          <Text style={styles.textStyle}>{this.getMonth(item.item.month)}</Text>
         </View>
       );
     }
@@ -235,6 +209,14 @@ const paletteStyle = color => (
       flex: 1,
       height: 30,
       width: 60
+    }}
+  />
+);
+const colorRange = (rangeNum, color) => (
+  <View
+    style={{
+      flex: rangeNum,
+      backgroundColor: color,
     }}
   />
 );
