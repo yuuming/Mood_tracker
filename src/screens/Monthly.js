@@ -230,6 +230,7 @@ export default class Monthly extends Component {
             data={_.filter(dataSource, record => this.filterRecords(record))}
             keyExtractor={item => item.id}
             renderItem={item => this.renderDiary(item)}
+            ListEmptyComponent={<EmptyComponent />}
           />
         }
         {this.state.isDialogVisible
@@ -275,3 +276,8 @@ const styles = StyleSheet.create({
   }
 });
 
+const EmptyComponent = () => (
+  <View style={{ flex: 1, marginTop: 300, justifyContent: 'center', alignItems: 'center' }}>
+    <Text>There's no record to show for this month!</Text>
+  </View>
+);
