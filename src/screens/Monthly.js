@@ -51,7 +51,7 @@ export default class Monthly extends Component {
   // to assign new value to the current month variable which you're seeing
   handleChangedDate = (date) => {
     const { year, month } = date;
-    
+
     if (month.toString().length !== 1) {
       this.month = month.toString();
     } else {
@@ -87,10 +87,17 @@ export default class Monthly extends Component {
     }
   };
 
+  filterRecords = (record) => {
+    const year = record.date.slice(0, 4);
+    const month = record.date.charAt(5) + record.date.charAt(6);
+
+    return (year === this.year && month === this.month);
+  }
+
   renderCalendar() {
     const selectedPalette = this.rootStore.moodPaletteList[this.accountStore.currentPaletteID];
     const datasource = {};
-    
+
     _.map(this.diaryStore.records, item => {
       datasource[item.date] = {
         mood: item.mood,
@@ -141,31 +148,26 @@ export default class Monthly extends Component {
   }
 
   renderDiary(item) {
-    const year = item.item.date.slice(0, 4);
-    const month = item.item.date.charAt(5) + item.item.date.charAt(6);
     const selectedPalette = this.rootStore.moodPaletteList[this.accountStore.currentPaletteID];
 
-    if (month === this.month && year === this.year) {
-      return (
-        <View style={{ padding: 30, margin: 30, height: 350, borderWidth: 1, borderColor: 'gray' }}>
-          <View style={{ flexDirection: 'row', marginBottom: 30 }}>
-            <View
-              style={{
-                backgroundColor: selectedPalette.moodColors[item.item.mood],
-                height: 60,
-                width: 60,
-              }}
-            />
-            <View style={{ justifyContent: 'space-around', marginLeft: 30 }}>
-              <Text>{item.item.date}</Text>
-              <Text>{item.item.mood}</Text>
-            </View>
+    return (
+      <View style={{ padding: 30, margin: 30, height: 350, borderWidth: 1, borderColor: 'gray' }}>
+        <View style={{ flexDirection: 'row', marginBottom: 30 }}>
+          <View
+            style={{
+              backgroundColor: selectedPalette.moodColors[item.item.mood],
+              height: 60,
+              width: 60,
+            }}
+          />
+          <View style={{ justifyContent: 'space-around', marginLeft: 30 }}>
+            <Text>{item.item.date}</Text>
+            <Text>{item.item.mood}</Text>
           </View>
-          <Text>{item.item.comment}</Text>
         </View>
-      );
-    }
-    return null;
+        <Text>{item.item.comment}</Text>
+      </View>
+    );
   }
 
   renderDialog(date) {
@@ -181,7 +183,7 @@ export default class Monthly extends Component {
         <View
           style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
         >
-          <View style={styles.Alert_Main_View}>
+          <View style={styles.alertView}>
             <View
               style={{
                 flexDirection: 'row',
@@ -216,6 +218,8 @@ export default class Monthly extends Component {
   }
 
   render() {
+    const dataSource = _.sortBy(this.diaryStore.records, record => record.date);
+
     return (
       <View style={styles.container}>
         {this.state.isCalendarMode ?
@@ -223,7 +227,7 @@ export default class Monthly extends Component {
           :
           <FlatList
             style={{ width: '100%' }}
-            data={_.sortBy(this.diaryStore.records, record => record.date)}
+            data={_.filter(dataSource, record => this.filterRecords(record))}
             keyExtractor={item => item.id}
             renderItem={item => this.renderDiary(item)}
           />
@@ -260,7 +264,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: 'white'
   },
-  Alert_Main_View: {
+  alertView: {
     justifyContent: 'space-around',
     backgroundColor: '#f4f4f4',
     height: 300,
@@ -270,3 +274,4 @@ const styles = StyleSheet.create({
     borderRadius: 7
   }
 });
+
