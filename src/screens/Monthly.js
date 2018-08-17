@@ -58,7 +58,7 @@ export default class Monthly extends Component {
       this.month = `0${month}`;
     }
 
-    this.year = year;
+    this.year = year.toString();
   }
 
   storeDiary = () => {
