@@ -139,6 +139,7 @@ export default class Monthly extends Component {
             }
           }
         }}
+        current={`${this.year}-${this.month}-01`}
         onDayPress={day => {
           this.checkDate(day.dateString);
         }}
