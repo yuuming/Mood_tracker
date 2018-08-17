@@ -189,7 +189,12 @@ export default class AccountStore {
         });
 
         this.isPending = false;
-        Actions.monthly({ year: '2018', month: '07' });
+
+        const today = this.rootStore.getToday();
+        const year = today.slice(0, 4);
+        const month = today.charAt(5) + today.charAt(6); 
+
+        Actions.monthly({ year, month });
       })
       .catch((err) => {
         console.log(err);
