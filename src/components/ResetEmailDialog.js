@@ -7,7 +7,6 @@ import {
     View,
     Button
 } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialIcons';
 import { inject } from 'mobx-react';
 
 @inject('rootStore')
@@ -32,15 +31,10 @@ export default class ResetEmailDialog extends Component {
         });
     }
 
-    componentWillUnmount() {
-        console.log('dialog unmounted');
-
-        this.closeDialog();
-    }
-
-    // setModalVisible(visible) {
-    //     this.setState({ modalVisible: visible });
-    // }
+    //TODO: 
+    // 1. remove Icon impor
+    // 2. think of creating a boolean variable to indicate that a reset email is sent!
+    // 3. discuss Yearly part with Yuumi :)
 
     closeDialog() {
         this.setState({
@@ -68,7 +62,6 @@ export default class ResetEmailDialog extends Component {
 
     render() {
         return (
-            // <View style={{ margin: 100, justifyContent: 'center', alignItems: 'center' }}>
             <Modal
                 animationType='none'
                 transparent
@@ -111,7 +104,6 @@ export default class ResetEmailDialog extends Component {
                     </View>
                 </View>
             </Modal>
-            // </View>
         );
     }
 }

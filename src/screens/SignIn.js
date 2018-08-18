@@ -9,7 +9,7 @@ import {
     ActivityIndicator
 } from 'react-native';
 import { observer, inject } from 'mobx-react';
-import ResetEmailDialog from '../components/ResetEmailDialog'
+import ResetEmailDialog from '../components/ResetEmailDialog';
 
 const { width } = Dimensions.get('window');
 // const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
