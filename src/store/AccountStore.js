@@ -16,12 +16,12 @@ export default class AccountStore {
   }
 
   user = {};
-  
+
   @observable currentPaletteID = '';
   @observable isPending = false;
   @observable authError = null;
 
-  @action 
+  @action
   async updateCurrentPalette(paletteID) {
     this.currentPaletteID = paletteID;
   }
@@ -189,27 +189,25 @@ export default class AccountStore {
         });
 
         this.isPending = false;
-        Actions.monthly({ year: '2018', month: '07' });
+
+        const today = this.rootStore.getToday();
+        const year = today.slice(0, 4);
+        const month = today.charAt(5) + today.charAt(6); 
+
+        Actions.monthly({ year, month });
       })
       .catch((err) => {
         console.log(err);
       });
   }
 
-  // getMoodPalettes = () => {
-  //   db.collection('moodPalette').get()
-  //     .then((ref) => {
-  //       const docs = ref.docs;
-
-  //       _.forEach(docs, (doc) => {
-  //         this.moodPalettes[doc.id] = doc.data();
-  //       });
-
-  //       this.isPending = false;
-  //       Actions.monthly({ year: '2018', month: '07' });
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // }
+  sendPasswordResetEmail = email =>
+    firebase.auth()
+      .sendPasswordResetEmail(email)
+      .then(() => {
+        console.log('sent!');
+      })
+      .catch((err) => {
+        console.log(err);
+      });
 }
