@@ -27,7 +27,8 @@ export default class ResetEmailDialog extends Component {
     componentWillMount() {
         console.log('componentWillMount in ResetEmailDialog');
         this.setState({
-            modalVisible: !this.state.modalVisible
+            modalVisible: !this.state.modalVisible,
+            isInputReady: false
         });
     }
 
@@ -45,7 +46,7 @@ export default class ResetEmailDialog extends Component {
         this.setState({
             modalVisible: !this.state.modalVisible
         }, () => {
-            this.props.closeDialog();
+            this.props.closeDialog(this.state.isInputReady);
         });
     }
 
@@ -53,7 +54,11 @@ export default class ResetEmailDialog extends Component {
         console.log('send reset email');
         this.accountStore.sendPasswordResetEmail(this.state.email)
             .then(() => {
-                this.props.closeDialog();
+                this.setState({
+                    isInputReady: true
+                }, () => {
+                    this.props.closeDialog(this.state.isInputReady);
+                });
             })
             .catch((err) => {
                 console.log(err);

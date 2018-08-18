@@ -26,6 +26,7 @@ export default class SignIn extends Component {
             confirmedPassword: '',
             isSignUpMode: false,
             isResetEmailDialogVisible: false,
+            isEmailOffered: false
         };
         this.rootStore = this.props.rootStore;
         this.accountStore = this.rootStore.accountStore;
@@ -72,10 +73,11 @@ export default class SignIn extends Component {
         this.clearAllFields();
     };
 
-    switchResetPasswordDialogVisibility = () => {
+    switchResetPasswordDialogVisibility = (isEmailOffered = false) => {
         console.log('switch!!');
         this.setState({
-            isResetEmailDialogVisible: !this.state.isResetEmailDialogVisible
+            isResetEmailDialogVisible: !this.state.isResetEmailDialogVisible,
+            isEmailOffered
         });
     }
 
@@ -124,6 +126,11 @@ export default class SignIn extends Component {
                             {this.accountStore.authError}
                         </Text>
                     ) : null}
+                    {this.state.isEmailOffered ?
+                        <Text style={styles.resetEmailText}>
+                            Link to reset your email is sent via email!
+                        </Text>
+                        : null}
                     <TouchableOpacity
                         onPress={() => { this.setState({ isResetEmailDialogVisible: true }); }}
                     >
@@ -194,5 +201,13 @@ const styles = StyleSheet.create({
         fontWeight: '600',
         fontSize: 14,
         color: 'red'
+    },
+    resetEmailText: {
+        marginLeft: 30,
+        marginTop: 10,
+        textAlign: 'center',
+        fontWeight: '800',
+        fontSize: 14,
+        color: 'black'
     }
 });
