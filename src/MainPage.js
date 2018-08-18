@@ -18,28 +18,34 @@ export default class MainPage extends Component {
       <Router>
         <Stack key="root" hideNavBar>
           <Scene key="signIn" component={SignIn} initial hideNavBar />
-          {/* <Stack key='main'> */}
-          <Scene key="monthly" component={Monthly} hideNavBar />
-          <Scene
-            key="ColourPalette"
-            title="Colour Palette"
-            component={ColourPalette}
-            hideNavBar={false}
-            navBar={ColourPaletteBar}
-          />
-          <Scene
-            key="Yearly"
-            component={Yearly}
-            hideNavBar={false}
-            navBar={YearlyBar}
-          />
-          <Scene
-            key="MoodPalette"
-            component={MoodPalette}
+          <Stack key='main'>
+            <Scene
+              key="monthly"
+              component={Monthly}
+              hideNavBar={false}
+            />
+            <Scene
+              key="ColourPalette"
+              title="Colour Palette"
+              component={ColourPalette}
+              hideNavBar={false}
+              navBar={ColourPaletteBar}
+            />
+            <Scene
+              key="Yearly"
+              initial
+              component={Yearly}
+              hideNavBar={false}
+              // navBar={YearlyBar}
+            />
+            <Scene
+              key="MoodPalette"
+              component={MoodPalette}
             // hideNavBar={false}
             // navBar={ColourPaletteBar}
-          />
-          <Scene key="addPost" component={AddPost} />
+            />
+            <Scene key="addPost" component={AddPost} />
+          </Stack>
         </Stack>
       </Router>
     );
