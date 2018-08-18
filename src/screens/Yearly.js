@@ -84,35 +84,36 @@ export default class Yearly extends Component {
   }
 
   getMonth = (monthNum) => {
-    let shortMonth = monthNum.toString();
+    //shortMonth is immutable here, therefore better to define it const!
+    const shortMonth = monthNum.toString();
 
     switch (shortMonth) {
-      case '01' :
-      return 'Jan';
-      case '02' :
-      return 'Feb';
-      case '03' :
-      return 'Mar';
-      case '04' :
-      return 'Apr';
-      case '05' :
-      return 'May';
-      case '06' :
-      return 'Jun';
-      case '07' :
-      return 'Jul';
-      case '08' :
-      return 'Aug';
-      case '09' :
-      return 'Sep';
-      case '10' :
-      return 'Oct';
-      case '11' :
-      return 'Nov';
-      case '12' :
-      return 'Dec';
-      default :
-      return '00';
+      case '01':
+        return 'Jan';
+      case '02':
+        return 'Feb';
+      case '03':
+        return 'Mar';
+      case '04':
+        return 'Apr';
+      case '05':
+        return 'May';
+      case '06':
+        return 'Jun';
+      case '07':
+        return 'Jul';
+      case '08':
+        return 'Aug';
+      case '09':
+        return 'Sep';
+      case '10':
+        return 'Oct';
+      case '11':
+        return 'Nov';
+      case '12':
+        return 'Dec';
+      default:
+        return '00';
     }
   }
 
@@ -120,8 +121,9 @@ export default class Yearly extends Component {
     console.log('renderYearlyMood');
     console.log(item);
     console.log(typeof item.item.moods.bad); // number
-    const chosenMoodArrayNum = [];
+    const chosenMoodArrayNum = []; // seems this one is not being used?
 
+    //I know you're already aware of it, but would like to encourage you to use higher order funtions
     for (let i = 0; i < item.item.moods.length; i++) {
       console.log(item.moods[i]);
       if (item.moods[i] !== 0) {
@@ -129,11 +131,26 @@ export default class Yearly extends Component {
       }
     }
     console.log(chosenMoodArrayNum);
+
+    //1.
+    //since the nested Views showing each mood's color are in the same template
+    //why don't we try to make a stateless component and make it readable and reusable?
+    //it's definitely not the first priority, but when you have time ! :)
+
+    //2.
+    //lines (146-149) cause a tiny space on the right side of the container embracing colors!
+
     if (item.item.moods !== '') {
       return (
-        <View style={styles.monthSquare}>
+        <View
+          style={styles.monthSquare}
+          //note that the highest View should have key prop!! but it's still saying 'Encoutered two children
+          //with the same key. A key should be unique like the physical keys we have in real world (otherwise 
+          //many places would be broken into and robbed!) so we need to think what can be a key here 
+          key={item.item.month}
+        >
           <View
-            key={item.item.month}
+            // key={item.item.month}
             style={styles.colorStyle}
           >
             <View
@@ -170,19 +187,21 @@ export default class Yearly extends Component {
           <Text
             style={styles.textStyle}
           >
-          {this.getMonth(item.item.month)}
+            {this.getMonth(item.item.month)}
             {/* {item.item.month} */}
           </Text>
         </View>
       );
     }
     return (
+      //I commented out those redundant Views here to improve readability!
+      //View with flex value always makes itself flexible, so one View will occupy all the given available space
       <View style={styles.monthSquare}>
         <View style={{ flex: 1, backgroundColor: 'white' }} />
+        {/* <View style={{ flex: 1, backgroundColor: 'white' }} />
         <View style={{ flex: 1, backgroundColor: 'white' }} />
         <View style={{ flex: 1, backgroundColor: 'white' }} />
-        <View style={{ flex: 1, backgroundColor: 'white' }} />
-        <View style={{ flex: 1, backgroundColor: 'white' }} />
+        <View style={{ flex: 1, backgroundColor: 'white' }} /> */}
         <Text style={styles.textStyle}>{this.getMonth(item.item.month)}</Text>
       </View>
     );
@@ -222,23 +241,29 @@ const styles = StyleSheet.create({
     flex: 1,
     width: 92,
     height: 110,
-    fontSize: 15,
+    // fontSize is applicable to Text only
+    // fontSize: 15,
     margin: 15,
     borderWidth: 1,
     borderColor: '#95a8c6'
   },
   colorStyle: {
     flexDirection: 'row',
-    justifyContent: 'flex-start',
-    width: 92,
+    // this is to remove a white space 
+    // justifyContent: 'flex-start',
+    // width: 92,
     height: 80,
-    fontWeight: '100',
+    //fontWeight is applicable only to Text 
+    // fontWeight: '100',
   },
   textStyle: {
     fontSize: 16,
     fontWeight: '300',
     color: '#3c3642',
-    paddingLeft: 5
+    paddingLeft: 5,
+    //I just tried this way to make things work as they're supposed to
+    paddingTop: 3,
+    paddingBottom: 3
   },
   colourPalette: {
     flexDirection: 'row',
