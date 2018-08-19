@@ -84,7 +84,6 @@ export default class Yearly extends Component {
   }
 
   getMonth = (monthNum) => {
-    //shortMonth is immutable here, therefore better to define it const!
     const shortMonth = monthNum.toString();
 
     switch (shortMonth) {
@@ -138,8 +137,6 @@ export default class Yearly extends Component {
       );
     }
     return (
-      //I commented out those redundant Views here to improve readability!
-      //View with flex value always makes itself flexible, so one View will occupy all the given available space
       <View style={styles.monthSquare}>
         <View style={{ flex: 1, backgroundColor: 'white' }} />
         {/* <View style={{ flex: 1, backgroundColor: 'white' }} />
@@ -184,27 +181,19 @@ const styles = StyleSheet.create({
     flex: 1,
     width: 92,
     height: 110,
-    // fontSize is applicable to Text only
-    // fontSize: 15,
     margin: 15,
     borderWidth: 1,
     borderColor: '#95a8c6'
   },
   colorStyle: {
     flexDirection: 'row',
-    // this is to remove a white space 
-    // justifyContent: 'flex-start',
-    // width: 92,
     height: 80,
-    //fontWeight is applicable only to Text 
-    // fontWeight: '100',
   },
   textStyle: {
     fontSize: 16,
     fontWeight: '300',
     color: '#3c3642',
     paddingLeft: 5,
-    //I just tried this way to make things work as they're supposed to
     paddingTop: 3,
     paddingBottom: 3
   },
