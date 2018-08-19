@@ -26,9 +26,23 @@ export default class YearlyBar extends Component {
     );
   }
 
+  renderTitle() {
+    return (
+      <View style={styles.title}>
+        <TouchableOpacity
+          onPress={() => console.log('test')}
+          style={{ paddingRight: 10 }}
+        >
+          <Text style={{ fontSize: 20, fontWeight: '800' }}>2018</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  }
+
+
   render() {
     console.log('==============yearlyBar');
-    return <View style={styles.container}>{this.backButton()}</View>;
+    return <View style={styles.container}>{this.renderTitle()}</View>;
   }
 }
 
@@ -45,5 +59,12 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     paddingLeft: 8
+  },
+  title: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingTop: 8
   }
 });
