@@ -31,20 +31,6 @@ export default class Yearly extends Component {
   }
 
   componentWillMount() {
-    console.log(this.diaryStore.moodCounter);
-    console.log('===yearly palette =====', this.selectedPalette);
-
-    // create an obj for datasource
-    // _.forEach(this.diaryStore.moodCounter[this.year], (element, key) => {
-    //   console.log(key);
-    //   const obj = {
-    //     month: key,
-    //     moods: element.moods
-    //   };
-    //   console.log(obj);
-    //   this.dataSource.push(obj);
-    // });
-
     let stringMonth;
     // const zero = '0';
     for (i = 1; i <= 12; i++) {
@@ -84,7 +70,6 @@ export default class Yearly extends Component {
   }
 
   getMonth = (monthNum) => {
-    //shortMonth is immutable here, therefore better to define it const!
     const shortMonth = monthNum.toString();
 
     switch (shortMonth) {
@@ -121,36 +106,22 @@ export default class Yearly extends Component {
     console.log('renderYearlyMood');
     console.log(item);
     console.log(typeof item.item.moods.bad); // number
-    const chosenMoodArrayNum = []; // seems this one is not being used?
 
-    //I know you're already aware of it, but would like to encourage you to use higher order funtions
     for (let i = 0; i < item.item.moods.length; i++) {
       console.log(item.moods[i]);
       if (item.moods[i] !== 0) {
         chosenMoodArray.push(item.moods[i]);
       }
     }
-    console.log(chosenMoodArrayNum);
-
-    //1.
-    //since the nested Views showing each mood's color are in the same template
-    //why don't we try to make a stateless component and make it readable and reusable?
-    //it's definitely not the first priority, but when you have time ! :)
-
-    //2.
-    //lines (146-149) cause a tiny space on the right side of the container embracing colors!
 
     if (item.item.moods !== '') {
       return (
-        <View
-          style={styles.monthSquare}
-          //note that the highest View should have key prop!! but it's still saying 'Encoutered two children
-          //with the same key. A key should be unique like the physical keys we have in real world (otherwise 
-          //many places would be broken into and robbed!) so we need to think what can be a key here 
+        <TouchableOpacity
           key={item.item.month}
+          style={styles.monthSquare}
+          onPress={() => { Actions.monthly({ year: '2018', month: item.item.month }); }}
         >
           <View
-            // key={item.item.month}
             style={styles.colorStyle}
           >
             <View
@@ -190,20 +161,19 @@ export default class Yearly extends Component {
             {this.getMonth(item.item.month)}
             {/* {item.item.month} */}
           </Text>
-        </View>
+          {/* </View> */}
+        </TouchableOpacity>
       );
     }
     return (
-      //I commented out those redundant Views here to improve readability!
-      //View with flex value always makes itself flexible, so one View will occupy all the given available space
-      <View style={styles.monthSquare}>
+      <TouchableOpacity
+        key={item.item.month}
+        style={styles.monthSquare}
+        onPress={() => { Actions.monthly({ year: '2018', month: item.item.month }); }}
+      >
         <View style={{ flex: 1, backgroundColor: 'white' }} />
-        {/* <View style={{ flex: 1, backgroundColor: 'white' }} />
-        <View style={{ flex: 1, backgroundColor: 'white' }} />
-        <View style={{ flex: 1, backgroundColor: 'white' }} />
-        <View style={{ flex: 1, backgroundColor: 'white' }} /> */}
         <Text style={styles.textStyle}>{this.getMonth(item.item.month)}</Text>
-      </View>
+      </TouchableOpacity>
     );
   }
 
@@ -214,7 +184,6 @@ export default class Yearly extends Component {
           style={{ flex: 1 }}
           numColumns={3}
           keyExtractor={index => index}
-          // data={this.dataSource}
           data={this.dataSourceNew}
           renderItem={item => this.renderYearlyMood(item)}
         />
@@ -241,27 +210,19 @@ const styles = StyleSheet.create({
     flex: 1,
     width: 92,
     height: 110,
-    // fontSize is applicable to Text only
-    // fontSize: 15,
     margin: 15,
     borderWidth: 1,
     borderColor: '#95a8c6'
   },
   colorStyle: {
     flexDirection: 'row',
-    // this is to remove a white space 
-    // justifyContent: 'flex-start',
-    // width: 92,
     height: 80,
-    //fontWeight is applicable only to Text 
-    // fontWeight: '100',
   },
   textStyle: {
     fontSize: 16,
     fontWeight: '300',
     color: '#3c3642',
     paddingLeft: 5,
-    //I just tried this way to make things work as they're supposed to
     paddingTop: 3,
     paddingBottom: 3
   },
