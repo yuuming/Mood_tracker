@@ -36,7 +36,7 @@ export default class MainPage extends Component {
               initial
               component={Yearly}
               hideNavBar={false}
-              // navBar={YearlyBar}
+              navBar={YearlyBar}
             />
             <Scene
               key="MoodPalette"
