@@ -17,6 +17,10 @@ export default class DiaryStore {
     date = null;
     id = '';
 
+    // For Monthly.js & Yearly.js
+    @observable currentYear = '';
+
+    // For writing records in Monthly.js
     @observable records = {};
     @observable moodCounter = {};
 

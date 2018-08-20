@@ -25,7 +25,8 @@ export default class Yearly extends Component {
       this.accountStore.currentPaletteID
     ];
     this.markedDateArray = [];
-    this.year = this.props.year;
+    // this.year = this.props.year;
+    this.year = this.diaryStore.currentYear;
     this.dataSource = [];
     this.dataSourceNew = [];
   }
@@ -124,8 +125,14 @@ export default class Yearly extends Component {
 
     if (item.item.moods !== '') {
       return (
-        <View style={styles.monthSquare} key={item.item.month}>
-          <View style={styles.colorStyle}>
+        <TouchableOpacity
+          key={item.item.month}
+          style={styles.monthSquare}
+          onPress={() => { Actions.monthly({ year: this.diaryStore.currentYear, month: item.item.month }); }}
+        >
+          <View
+            style={styles.colorStyle}
+          >
             {colorRange(item.item.moods.high, high)}
             {colorRange(item.item.moods.happy, happy)}
             {colorRange(item.item.moods.neutral, neutral)}
@@ -133,18 +140,18 @@ export default class Yearly extends Component {
             {colorRange(item.item.moods.bad, bad)}
           </View>
           <Text style={styles.textStyle}>{this.getMonth(item.item.month)}</Text>
-        </View>
+        </TouchableOpacity>
       );
     }
     return (
-      <View style={styles.monthSquare}>
+      <TouchableOpacity
+        key={item.item.month}
+        style={styles.monthSquare}
+        onPress={() => { Actions.monthly({ year: this.diaryStore.currentYear, month: item.item.month }); }}
+      >
         <View style={{ flex: 1, backgroundColor: 'white' }} />
-        {/* <View style={{ flex: 1, backgroundColor: 'white' }} />
-        <View style={{ flex: 1, backgroundColor: 'white' }} />
-        <View style={{ flex: 1, backgroundColor: 'white' }} />
-        <View style={{ flex: 1, backgroundColor: 'white' }} /> */}
         <Text style={styles.textStyle}>{this.getMonth(item.item.month)}</Text>
-      </View>
+      </TouchableOpacity>
     );
   }
 
