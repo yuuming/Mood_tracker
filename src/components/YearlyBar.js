@@ -13,6 +13,14 @@ import { observer, inject } from 'mobx-react';
 @inject('rootStore')
 @observer
 export default class YearlyBar extends Component {
+  constructor(props) {
+    super(props);
+
+    this.rootStore = this.props.rootStore;
+    this.diaryStore = this.rootStore.diaryStore;
+    this.currentYear = this.diaryStore.currentYear;
+  }
+
   backButton() {
     return (
       <View style={styles.backButton}>
@@ -33,7 +41,7 @@ export default class YearlyBar extends Component {
           onPress={() => console.log('test')}
           style={{ paddingRight: 10 }}
         >
-          <Text style={{ fontSize: 20, fontWeight: '800' }}>2018</Text>
+          <Text style={{ fontSize: 20, fontWeight: '800' }}>{this.currentYear}</Text>
         </TouchableOpacity>
       </View>
     );

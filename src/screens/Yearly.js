@@ -25,7 +25,8 @@ export default class Yearly extends Component {
       this.accountStore.currentPaletteID
     ];
     this.markedDateArray = [];
-    this.year = this.props.year;
+    // this.year = this.props.year;
+    this.year = this.diaryStore.currentYear;
     this.dataSource = [];
     this.dataSourceNew = [];
   }
@@ -127,7 +128,7 @@ export default class Yearly extends Component {
         <TouchableOpacity
           key={item.item.month}
           style={styles.monthSquare}
-          onPress={() => { Actions.monthly({ year: '2018', month: item.item.month }); }}
+          onPress={() => { Actions.monthly({ year: this.diaryStore.currentYear, month: item.item.month }); }}
         >
           <View
             style={styles.colorStyle}
@@ -146,7 +147,7 @@ export default class Yearly extends Component {
       <TouchableOpacity
         key={item.item.month}
         style={styles.monthSquare}
-        onPress={() => { Actions.monthly({ year: '2018', month: item.item.month }); }}
+        onPress={() => { Actions.monthly({ year: this.diaryStore.currentYear, month: item.item.month }); }}
       >
         <View style={{ flex: 1, backgroundColor: 'white' }} />
         <Text style={styles.textStyle}>{this.getMonth(item.item.month)}</Text>
