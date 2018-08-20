@@ -84,7 +84,6 @@ export default class Yearly extends Component {
   }
 
   getMonth = (monthNum) => {
-    //shortMonth is immutable here, therefore better to define it const!
     const shortMonth = monthNum.toString();
 
     switch (shortMonth) {
@@ -115,87 +114,29 @@ export default class Yearly extends Component {
       default:
         return '00';
     }
-  }
+  };
 
   renderYearlyMood(item) {
     console.log('renderYearlyMood');
     console.log(item);
     console.log(typeof item.item.moods.bad); // number
-    const chosenMoodArrayNum = []; // seems this one is not being used?
-
-    //I know you're already aware of it, but would like to encourage you to use higher order funtions
-    for (let i = 0; i < item.item.moods.length; i++) {
-      console.log(item.moods[i]);
-      if (item.moods[i] !== 0) {
-        chosenMoodArray.push(item.moods[i]);
-      }
-    }
-    console.log(chosenMoodArrayNum);
-
-    //1.
-    //since the nested Views showing each mood's color are in the same template
-    //why don't we try to make a stateless component and make it readable and reusable?
-    //it's definitely not the first priority, but when you have time ! :)
-
-    //2.
-    //lines (146-149) cause a tiny space on the right side of the container embracing colors!
+    const { high, happy, neutral, unhappy, bad } = this.selectedPalette.moodColors;
 
     if (item.item.moods !== '') {
       return (
-        <View
-          style={styles.monthSquare}
-          //note that the highest View should have key prop!! but it's still saying 'Encoutered two children
-          //with the same key. A key should be unique like the physical keys we have in real world (otherwise 
-          //many places would be broken into and robbed!) so we need to think what can be a key here 
-          key={item.item.month}
-        >
-          <View
-            // key={item.item.month}
-            style={styles.colorStyle}
-          >
-            <View
-              style={{
-                flex: item.item.moods.high,
-                backgroundColor: this.selectedPalette.moodColors.high
-              }}
-            />
-            <View
-              style={{
-                flex: item.item.moods.happy,
-                backgroundColor: this.selectedPalette.moodColors.happy
-              }}
-            />
-            <View
-              style={{
-                flex: item.item.moods.neutral,
-                backgroundColor: this.selectedPalette.moodColors.neutral
-              }}
-            />
-            <View
-              style={{
-                flex: item.item.moods.unhappy,
-                backgroundColor: this.selectedPalette.moodColors.unhappy
-              }}
-            />
-            <View
-              style={{
-                flex: item.item.moods.bad,
-                backgroundColor: this.selectedPalette.moodColors.bad
-              }}
-            />
+        <View style={styles.monthSquare} key={item.item.month}>
+          <View style={styles.colorStyle}>
+            {colorRange(item.item.moods.high, high)}
+            {colorRange(item.item.moods.happy, happy)}
+            {colorRange(item.item.moods.neutral, neutral)}
+            {colorRange(item.item.moods.unhappy, unhappy)}
+            {colorRange(item.item.moods.bad, bad)}
           </View>
-          <Text
-            style={styles.textStyle}
-          >
-            {this.getMonth(item.item.month)}
-            {/* {item.item.month} */}
-          </Text>
+          <Text style={styles.textStyle}>{this.getMonth(item.item.month)}</Text>
         </View>
       );
     }
     return (
-      //I commented out those redundant Views here to improve readability!
-      //View with flex value always makes itself flexible, so one View will occupy all the given available space
       <View style={styles.monthSquare}>
         <View style={{ flex: 1, backgroundColor: 'white' }} />
         {/* <View style={{ flex: 1, backgroundColor: 'white' }} />
@@ -214,7 +155,6 @@ export default class Yearly extends Component {
           style={{ flex: 1 }}
           numColumns={3}
           keyExtractor={index => index}
-          // data={this.dataSource}
           data={this.dataSourceNew}
           renderItem={item => this.renderYearlyMood(item)}
         />
@@ -241,27 +181,19 @@ const styles = StyleSheet.create({
     flex: 1,
     width: 92,
     height: 110,
-    // fontSize is applicable to Text only
-    // fontSize: 15,
     margin: 15,
     borderWidth: 1,
     borderColor: '#95a8c6'
   },
   colorStyle: {
     flexDirection: 'row',
-    // this is to remove a white space 
-    // justifyContent: 'flex-start',
-    // width: 92,
     height: 80,
-    //fontWeight is applicable only to Text 
-    // fontWeight: '100',
   },
   textStyle: {
     fontSize: 16,
     fontWeight: '300',
     color: '#3c3642',
     paddingLeft: 5,
-    //I just tried this way to make things work as they're supposed to
     paddingTop: 3,
     paddingBottom: 3
   },
@@ -269,8 +201,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     height: 20,
-    margin: 11,
-  },
+    margin: 11
+  }
 });
 
 const paletteStyle = color => (
@@ -283,4 +215,11 @@ const paletteStyle = color => (
     }}
   />
 );
-
+const colorRange = (rangeNum, color) => (
+  <View
+    style={{
+      flex: rangeNum,
+      backgroundColor: color,
+    }}
+  />
+);
