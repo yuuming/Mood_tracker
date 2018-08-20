@@ -31,6 +31,20 @@ export default class Yearly extends Component {
   }
 
   componentWillMount() {
+    console.log(this.diaryStore.moodCounter);
+    console.log('===yearly palette =====', this.selectedPalette);
+
+    // create an obj for datasource
+    // _.forEach(this.diaryStore.moodCounter[this.year], (element, key) => {
+    //   console.log(key);
+    //   const obj = {
+    //     month: key,
+    //     moods: element.moods
+    //   };
+    //   console.log(obj);
+    //   this.dataSource.push(obj);
+    // });
+
     let stringMonth;
     // const zero = '0';
     for (i = 1; i <= 12; i++) {
@@ -100,19 +114,13 @@ export default class Yearly extends Component {
       default:
         return '00';
     }
-  }
+  };
 
   renderYearlyMood(item) {
     console.log('renderYearlyMood');
     console.log(item);
     console.log(typeof item.item.moods.bad); // number
-
-    for (let i = 0; i < item.item.moods.length; i++) {
-      console.log(item.moods[i]);
-      if (item.moods[i] !== 0) {
-        chosenMoodArray.push(item.moods[i]);
-      }
-    }
+    const { high, happy, neutral, unhappy, bad } = this.selectedPalette.moodColors;
 
     if (item.item.moods !== '') {
       return (
@@ -124,44 +132,13 @@ export default class Yearly extends Component {
           <View
             style={styles.colorStyle}
           >
-            <View
-              style={{
-                flex: item.item.moods.high,
-                backgroundColor: this.selectedPalette.moodColors.high
-              }}
-            />
-            <View
-              style={{
-                flex: item.item.moods.happy,
-                backgroundColor: this.selectedPalette.moodColors.happy
-              }}
-            />
-            <View
-              style={{
-                flex: item.item.moods.neutral,
-                backgroundColor: this.selectedPalette.moodColors.neutral
-              }}
-            />
-            <View
-              style={{
-                flex: item.item.moods.unhappy,
-                backgroundColor: this.selectedPalette.moodColors.unhappy
-              }}
-            />
-            <View
-              style={{
-                flex: item.item.moods.bad,
-                backgroundColor: this.selectedPalette.moodColors.bad
-              }}
-            />
+            {colorRange(item.item.moods.high, high)}
+            {colorRange(item.item.moods.happy, happy)}
+            {colorRange(item.item.moods.neutral, neutral)}
+            {colorRange(item.item.moods.unhappy, unhappy)}
+            {colorRange(item.item.moods.bad, bad)}
           </View>
-          <Text
-            style={styles.textStyle}
-          >
-            {this.getMonth(item.item.month)}
-            {/* {item.item.month} */}
-          </Text>
-          {/* </View> */}
+          <Text style={styles.textStyle}>{this.getMonth(item.item.month)}</Text>
         </TouchableOpacity>
       );
     }
@@ -230,8 +207,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     height: 20,
-    margin: 11,
-  },
+    margin: 11
+  }
 });
 
 const paletteStyle = color => (
@@ -244,4 +221,11 @@ const paletteStyle = color => (
     }}
   />
 );
-
+const colorRange = (rangeNum, color) => (
+  <View
+    style={{
+      flex: rangeNum,
+      backgroundColor: color,
+    }}
+  />
+);
