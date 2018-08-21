@@ -238,7 +238,7 @@ export default class Monthly extends Component {
         {this.state.isDialogVisible
           ? this.renderDialog(this.date)
           : null}
-        <View style={{ width: '100%', marginTop: 10, height: '10%', flexDirection: 'row', justifyContent: 'space-around' }}>
+        <View style={styles.iconContainer}>
           <TouchableOpacity
             onPress={() =>
               this.setState({ isCalendarMode: !this.state.isCalendarMode })
@@ -275,17 +275,54 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#fff',
     borderRadius: 7
-  }
+  },
+  iconContainer: {
+    width: '100%',
+    marginTop: 10,
+    height: '10%',
+    flexDirection: 'row',
+    justifyContent: 'space-around'
+  },
+  emptyRecordMessage: {
+    flex: 1,
+    marginTop: 300,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  modeChangeIconStyle: {
+    width: 50,
+    height: 50,
+    borderWidth: 1
+  },
+  smallDiaryIcon: {
+    width: 12,
+    height: 12,
+    margin: 6,
+    borderWidth: 1
+  },
+  paletteIcon: {
+    width: 50,
+    height: 50,
+    borderWidth: 1,
+    justifyContent: 'space-between'
+  },
+  smallPaletteIcon: {
+    height: '15%',
+    flexDirection: 'row',
+    margin: 4
+  },
 });
 
+// stateless components
+
 const EmptyComponent = () => (
-  <View style={{ flex: 1, marginTop: 300, justifyContent: 'center', alignItems: 'center' }}>
+  <View style={styles.emptyRecordMessage}>
     <Text>There's no record to show for this month!</Text>
   </View>
 );
 
 const modeShiftIcon = (high, happy, neutral) =>
-  <View style={{ width: 50, height: 50, borderWidth: 1 }}>
+  <View style={styles.modeChangeIconStyle}>
     {SmallDiaryModeIcon(high, happy)}
     {SmallDiaryModeIcon(neutral, high)}
   </View>;
@@ -293,11 +330,11 @@ const modeShiftIcon = (high, happy, neutral) =>
 const SmallDiaryModeIcon = (color1, color2) => {
   return (
     <View style={{ flexDirection: 'row' }}>
-      <View style={{ width: 12, height: 12, margin: 6, borderWidth: 1 }}>
+      <View style={styles.smallDiaryIcon}>
         <View style={{ flex: 4, backgroundColor: color1 }} />
         <View style={{ flex: 1, backgroundColor: 'white' }} />
       </View>
-      <View style={{ width: 12, height: 12, margin: 6, borderWidth: 1 }}>
+      <View style={styles.smallDiaryIcon}>
         <View style={{ flex: 4, backgroundColor: color2 }} />
         <View style={{ flex: 1, backgroundColor: 'white' }} />
       </View>
@@ -306,14 +343,14 @@ const SmallDiaryModeIcon = (color1, color2) => {
 };
 
 const ChangePaletteIcon = () =>
-  <View style={{ width: 50, height: 50, borderWidth: 1, justifyContent: 'space-between' }}>
+  <View style={styles.paletteIcon}>
     {SmallPaletteIcon('#990022')}
     {SmallPaletteIcon('#555500')}
     {SmallPaletteIcon('#004488')}
   </View>;
 
 const SmallPaletteIcon = (color) =>
-  <View style={{ height: '15%', flexDirection: 'row', margin: 4 }}>
+  <View style={styles.smallPaletteIcon}>
     <View style={{ flex: 1, backgroundColor: `${color}99` }} />
     <View style={{ flex: 1, backgroundColor: `${color}80` }} />
     <View style={{ flex: 1, backgroundColor: `${color}60` }} />
