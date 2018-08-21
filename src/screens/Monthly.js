@@ -252,7 +252,7 @@ export default class Monthly extends Component {
           <TouchableOpacity
             onPress={() => Actions.ColourPalette()}
           >
-            <Text>different Mode</Text>
+            {ChangePaletteIcon()}
           </TouchableOpacity>
         </View>
       </View >
