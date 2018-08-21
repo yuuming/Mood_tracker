@@ -94,6 +94,10 @@ export default class Monthly extends Component {
     return (year === this.year && month === this.month);
   }
 
+  shiftMode = () => {
+    this.setState({ isCalendarMode: !this.state.isCalendarMode });
+  }
+
   renderCalendar() {
     const selectedPalette = this.rootStore.moodPaletteList[this.accountStore.currentPaletteID];
     const datasource = {};
@@ -240,9 +244,7 @@ export default class Monthly extends Component {
           : null}
         <View style={styles.iconContainer}>
           <TouchableOpacity
-            onPress={() =>
-              this.setState({ isCalendarMode: !this.state.isCalendarMode })
-            }
+            onPress={this.shiftMode}
           >
             {modeShiftIcon(moodColors.high, moodColors.happy, moodColors.neutral)}
           </TouchableOpacity>
