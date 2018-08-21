@@ -120,7 +120,7 @@ export default class Monthly extends Component {
       <Calendar
         style={{
           width: 350,
-          height: 500
+          height: 500,
         }}
         markedDates={datasource}
         markingType={'custom'}
@@ -220,6 +220,7 @@ export default class Monthly extends Component {
 
   render() {
     const dataSource = _.sortBy(this.diaryStore.records, record => record.date);
+    const moodColors = this.rootStore.moodPaletteList[this.accountStore.currentPaletteID].moodColors;
 
     return (
       <View style={styles.container}>
@@ -227,7 +228,7 @@ export default class Monthly extends Component {
           this.renderCalendar()
           :
           <FlatList
-            style={{ width: '100%' }}
+            style={{ width: '100%', height: '90%' }}
             data={_.filter(dataSource, record => this.filterRecords(record))}
             keyExtractor={item => item.id}
             renderItem={item => this.renderDiary(item)}
@@ -237,23 +238,23 @@ export default class Monthly extends Component {
         {this.state.isDialogVisible
           ? this.renderDialog(this.date)
           : null}
-        <TouchableOpacity
-          onPress={() =>
-            Actions.ColourPalette()
-          }
-        >
-          <Text>go to colourPalette page!</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => Actions.Yearly({ year: this.year })}>
-          <Text>Yearly Page!</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() =>
-            this.setState({ isCalendarMode: !this.state.isCalendarMode })
-          }
-        >
-          <Text>different Mode</Text>
-        </TouchableOpacity>
+        <View style={{ width: '100%', marginTop: 10, height: '10%', flexDirection: 'row', justifyContent: 'space-around' }}>
+          <TouchableOpacity
+            onPress={() =>
+              this.setState({ isCalendarMode: !this.state.isCalendarMode })
+            }
+          >
+            {modeShiftIcon(moodColors.high, moodColors.happy, moodColors.neutral)}
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => Actions.Yearly({ year: this.year })}>
+            <Text>Yearly Page!</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => Actions.ColourPalette()}
+          >
+            <Text>different Mode</Text>
+          </TouchableOpacity>
+        </View>
       </View >
     );
   }
@@ -282,3 +283,24 @@ const EmptyComponent = () => (
     <Text>There's no record to show for this month!</Text>
   </View>
 );
+
+const modeShiftIcon = (high, happy, neutral) =>
+  <View style={{ width: 50, height: 50, borderWidth: 1 }}>
+    {SmallDiaryModeIcon(high, happy)}
+    {SmallDiaryModeIcon(neutral, high)}
+  </View>;
+
+const SmallDiaryModeIcon = (color1, color2) => {
+  return (
+    <View style={{ flexDirection: 'row' }}>
+      <View style={{ width: 12, height: 12, margin: 6, borderWidth: 1 }}>
+        <View style={{ flex: 4, backgroundColor: color1 }} />
+        <View style={{ flex: 1, backgroundColor: 'white' }} />
+      </View>
+      <View style={{ width: 12, height: 12, margin: 6, borderWidth: 1 }}>
+        <View style={{ flex: 4, backgroundColor: color2 }} />
+        <View style={{ flex: 1, backgroundColor: 'white' }} />
+      </View>
+    </View>
+  );
+};
