@@ -9,12 +9,16 @@ import {
 import { Actions } from 'react-native-router-flux';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { observer, inject } from 'mobx-react';
+import DropdownMenu from 'react-native-dropdown-menu';
 
 @inject('rootStore')
 @observer
 export default class YearlyBar extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      text: ''
+    };
 
     this.rootStore = this.props.rootStore;
     this.diaryStore = this.rootStore.diaryStore;
@@ -35,15 +39,31 @@ export default class YearlyBar extends Component {
   }
 
   renderTitle() {
+    const data = [['2018', '2017']];
+
     return (
-      <View style={styles.title}>
-        <TouchableOpacity
-          onPress={() => console.log('test')}
-          style={{ paddingRight: 10 }}
-        >
-          <Text style={{ fontSize: 20, fontWeight: '800' }}>{this.currentYear}</Text>
-        </TouchableOpacity>
-      </View>
+      <DropdownMenu
+        style={{ flex: 1 }}
+        bgColor={'white'}
+        tintColor={'#666666'}
+        activityTintColor={'green'}
+        // arrowImg={}      
+        // checkImage={}   
+        // optionTextStyle={{color: '#333333'}}
+        // titleStyle={{color: '#333333'}} 
+        // maxHeight={300} 
+        handler={(selection, row) => this.setState({ text: data[selection][row] })}
+        data={data}
+      />
+
+      // <View style={styles.title}>
+      //   <TouchableOpacity
+      //     onPress={() => console.log('test')}
+      //     style={{ paddingRight: 10 }}
+      //   >
+      //     <Text style={{ fontSize: 20, fontWeight: '800' }}>{this.currentYear}</Text>
+      //   </TouchableOpacity>
+      // </View>
     );
   }
 
