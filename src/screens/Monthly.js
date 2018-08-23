@@ -251,7 +251,7 @@ export default class Monthly extends Component {
           <TouchableOpacity
             onPress={() => Actions.ColourPalette()}
           >
-            <Text>different Mode</Text>
+             {ChangePaletteIcon()}
           </TouchableOpacity>
         </View>
       </View >
@@ -302,3 +302,18 @@ const EmptyComponent = () => (
     </View>
   );
 };
+
+const ChangePaletteIcon = () =>
+  <View style={{ width: 50, height: 50, borderWidth: 1, justifyContent: 'space-between' }}>
+    {SmallPaletteIcon('#990022')}
+    {SmallPaletteIcon('#555500')}
+    {SmallPaletteIcon('#004488')}
+  </View>;
+ const SmallPaletteIcon = (color) =>
+  <View style={{ height: '15%', flexDirection: 'row', margin: 4 }}>
+    <View style={{ flex: 1, backgroundColor: `${color}99` }} />
+    <View style={{ flex: 1, backgroundColor: `${color}80` }} />
+    <View style={{ flex: 1, backgroundColor: `${color}60` }} />
+    <View style={{ flex: 1, backgroundColor: `${color}40` }} />
+    <View style={{ flex: 1, backgroundColor: `${color}22` }} />
+  </View>;
