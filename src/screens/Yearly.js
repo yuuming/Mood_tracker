@@ -25,15 +25,19 @@ export default class Yearly extends Component {
       this.accountStore.currentPaletteID
     ];
     this.markedDateArray = [];
-    // this.year = this.props.year;
     this.year = this.diaryStore.currentYear;
     this.dataSource = [];
     this.dataSourceNew = [];
+
+    // this.state = {
+    //   year: this.diaryStore.currentYear
+    // };
+
   }
 
   componentWillMount() {
     console.log(this.diaryStore.moodCounter);
-    console.log('===yearly palette =====', this.selectedPalette);
+    console.log('&&&&&&&&&&&', this.year);
 
     // create an obj for datasource
     // _.forEach(this.diaryStore.moodCounter[this.year], (element, key) => {
@@ -47,7 +51,6 @@ export default class Yearly extends Component {
     // });
 
     let stringMonth;
-    // const zero = '0';
     for (i = 1; i <= 12; i++) {
       if (i.toString().length === 1) {
         stringMonth = `0${i.toString()}`;

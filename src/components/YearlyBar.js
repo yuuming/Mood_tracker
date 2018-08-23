@@ -37,9 +37,18 @@ export default class YearlyBar extends Component {
       </View>
     );
   }
+  changeCurrentYear = year => {
+    this.rootStore.diaryStore.currentYear = year;
+    console.log(
+      'changeCurrentYear is running!!!!!!!!!!!',
+      this.rootStore.diaryStore.currentYear
+    );
+    Actions.Yearly();
+  };
 
   renderTitle() {
     const data = [['2018', '2017']];
+    console.log('rendertitle is runing', this.rootStore.diaryStore.currentYear);
 
     return (
       <DropdownMenu
@@ -47,15 +56,17 @@ export default class YearlyBar extends Component {
         bgColor={'white'}
         tintColor={'#666666'}
         activityTintColor={'green'}
-        // arrowImg={}      
-        // checkImage={}   
+        // arrowImg={}
+        // checkImage={}
         // optionTextStyle={{color: '#333333'}}
-        // titleStyle={{color: '#333333'}} 
-        // maxHeight={300} 
-        handler={(selection, row) => { this.setState({ text: data[selection][row] }); Actions.year({ year: this.text }); }}
+        // titleStyle={{color: '#333333'}}
+        // maxHeight={300}
+        handler={(selection, row) => {
+          this.setState({ text: data[selection][row] });
+          this.changeCurrentYear(data[selection][row]);
+        }}
         data={data}
       />
-
       // <View style={styles.title}>
       //   <TouchableOpacity
       //     onPress={() => console.log('test')}
@@ -66,7 +77,6 @@ export default class YearlyBar extends Component {
       // </View>
     );
   }
-
 
   render() {
     console.log('==============yearlyBar');
