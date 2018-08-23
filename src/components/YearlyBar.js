@@ -52,7 +52,7 @@ export default class YearlyBar extends Component {
         // optionTextStyle={{color: '#333333'}}
         // titleStyle={{color: '#333333'}} 
         // maxHeight={300} 
-        handler={(selection, row) => this.setState({ text: data[selection][row] })}
+        handler={(selection, row) => { this.setState({ text: data[selection][row] }); Actions.year({ year: this.text }); }}
         data={data}
       />
 
