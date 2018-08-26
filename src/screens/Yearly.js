@@ -37,6 +37,7 @@ export default class Yearly extends Component {
   componentWillMount() {
     console.log(this.diaryStore.moodCounter);
     console.log('&&&&&&&&&&&', this.year);
+    this.diaryStore.createMonthlyData();
 
     // create an obj for datasource
     // _.forEach(this.diaryStore.moodCounter[this.year], (element, key) => {
