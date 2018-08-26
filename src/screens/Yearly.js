@@ -32,7 +32,6 @@ export default class Yearly extends Component {
     // this.state = {
     //   year: this.diaryStore.currentYear
     // };
-
   }
 
   componentWillMount() {
@@ -120,10 +119,10 @@ export default class Yearly extends Component {
     }
   };
 
-  renderYearlyMood(item) {
+  renderYearlyMood({ item }) {
     console.log('renderYearlyMood');
-    console.log(item);
-    console.log(typeof item.item.moods.bad); // number
+    console.log(item.moods);
+    //console.log(typeof item.moods.bad); // number
     const {
       high,
       happy,
@@ -132,39 +131,54 @@ export default class Yearly extends Component {
       bad
     } = this.selectedPalette.moodColors;
 
-    if (item.item.moods !== '') {
+    if (this.diaryStore.currentYear === '2018') {
+      console.log(this.diaryStore.currentYear);
+    }
+
+    if (item.moods !== '') {
+      console.log('month!!!!!!!!!!!', item.month);
       return (
         <TouchableOpacity
-          key={item.item.month}
+          key={item.month}
           style={styles.monthSquare}
-          onPress={() => { Actions.monthly({ year: this.diaryStore.currentYear, month: item.item.month }); }}
+          onPress={() => {
+            Actions.monthly({
+              year: this.diaryStore.currentYear,
+              month: item.month
+            });
+          }}
         >
-          <View
-            style={styles.colorStyle}
-          >
-            {colorRange(item.item.moods.high, high)}
-            {colorRange(item.item.moods.happy, happy)}
-            {colorRange(item.item.moods.neutral, neutral)}
-            {colorRange(item.item.moods.unhappy, unhappy)}
-            {colorRange(item.item.moods.bad, bad)}
+          <View style={styles.colorStyle}>
+            {colorRange(item.moods.high, high)}
+            {colorRange(item.moods.happy, happy)}
+            {colorRange(item.moods.neutral, neutral)}
+            {colorRange(item.moods.unhappy, unhappy)}
+            {colorRange(item.moods.bad, bad)}
           </View>
-          <Text style={styles.textStyle}>{this.getMonth(item.item.month)}</Text>
+          <Text style={styles.textStyle}>{this.getMonth(item.month)}</Text>
         </TouchableOpacity>
       );
     }
     return (
       <TouchableOpacity
-        key={item.item.month}
+        key={item.month}
         style={styles.monthSquare}
-        onPress={() => { Actions.monthly({ year: this.diaryStore.currentYear, month: item.item.month }); }}
+        onPress={() => {
+          Actions.monthly({
+            year: this.diaryStore.currentYear,
+            month: item.month
+          });
+        }}
       >
         <View style={{ flex: 1, backgroundColor: 'white' }} />
-        <Text style={styles.textStyle}>{this.getMonth(item.item.month)}</Text>
+        <Text style={styles.textStyle}>{this.getMonth(item.month)}</Text>
       </TouchableOpacity>
     );
   }
 
   render() {
+    console.log('Render yearly', this.diaryStore.currentYear);
+    console.log('datasaurce', this.dataSourceNew);
     return (
       <View style={{ flex: 1 }}>
         <FlatList
@@ -231,7 +245,7 @@ const paletteStyle = (color, moodName) => (
     <View
       style={{
         backgroundColor: color,
-        height: 30,
+        height: 30
       }}
     />
     <Text style={styles.paletteTextStyle}>{moodName}</Text>

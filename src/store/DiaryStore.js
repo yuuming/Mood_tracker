@@ -19,6 +19,8 @@ export default class DiaryStore {
 
     // For Monthly.js & Yearly.js
     @observable currentYear = '';
+    @observable dataSource = [];
+    @observable dataSourceNew = [];
 
     // For writing records in Monthly.js
     @observable records = {};
