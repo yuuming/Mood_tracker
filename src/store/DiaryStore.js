@@ -99,6 +99,8 @@ export default class DiaryStore {
   };
 
   createMonthlyData = () => {
+    this.dataSourceNew = [];
+    this.dataSource = [];
     let stringMonth;
     for (i = 1; i <= 12; i++) {
       if (i.toString().length === 1) {
@@ -110,29 +112,25 @@ export default class DiaryStore {
         month: stringMonth,
         moods: ''
       };
-      console.log(obj1);
       this.dataSourceNew.push(obj1);
     }
-    console.log(this.dataSourceNew);
-    _.forEach(this.diaryStore.moodCounter[this.year], (element, key) => {
-      console.log(key);
+    console.log('=====currentYear====', this.currentYear);
+    _.forEach(this.moodCounter[this.currentYear], (element, key) => {
       const obj = {
         month: key,
         moods: element.moods
       };
-      console.log(obj);
       this.dataSource.push(obj);
     });
-
+    console.log('==========dataSourceNew.length=======', this.dataSourceNew.length);
     for (let i = 0; i < this.dataSourceNew.length; i++) {
-      console.log(this.dataSourceNew[i]);
       for (let j = 0; j < this.dataSource.length; j++) {
-        console.log(this.dataSourceNew[i].month);
-        console.log(this.dataSource[j].month);
         if (this.dataSourceNew[i].month === this.dataSource[j].month) {
           this.dataSourceNew[i] = this.dataSource[j];
         }
       }
     }
+
+    console.log('$$$$$$$$$$$$$$$', this.dataSourceNew);
   };
 }

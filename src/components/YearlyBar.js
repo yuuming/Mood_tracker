@@ -43,6 +43,8 @@ export default class YearlyBar extends Component {
       'changeCurrentYear is running!!!!!!!!!!!',
       this.rootStore.diaryStore.currentYear
     );
+  
+    this.diaryStore.createMonthlyData();
     Actions.Yearly();
   };
 

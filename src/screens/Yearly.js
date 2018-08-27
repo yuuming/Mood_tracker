@@ -26,8 +26,8 @@ export default class Yearly extends Component {
     ];
     this.markedDateArray = [];
     this.year = this.diaryStore.currentYear;
-    this.dataSource = [];
-    this.dataSourceNew = [];
+    // this.dataSource = [];
+    // this.dataSourceNew = [];
 
     // this.state = {
     //   year: this.diaryStore.currentYear
@@ -121,6 +121,7 @@ export default class Yearly extends Component {
   };
 
   renderYearlyMood({ item }) {
+    // this.diaryStore.createMonthlyData();
     console.log('renderYearlyMood');
     console.log(item.moods);
     //console.log(typeof item.moods.bad); // number
@@ -135,7 +136,7 @@ export default class Yearly extends Component {
     if (this.diaryStore.currentYear === '2018') {
       console.log(this.diaryStore.currentYear);
     }
-
+    console.log(item.moods);
     if (item.moods !== '') {
       console.log('month!!!!!!!!!!!', item.month);
       return (
@@ -178,15 +179,16 @@ export default class Yearly extends Component {
   }
 
   render() {
-    console.log('Render yearly', this.diaryStore.currentYear);
-    console.log('datasaurce', this.dataSourceNew);
+    // console.log('Render yearly', this.diaryStore.currentYear);
+    console.log('datasaurce', this.diaryStore.dataSourceNew);
+ 
     return (
       <View style={{ flex: 1 }}>
         <FlatList
           style={{ flex: 1 }}
           numColumns={3}
           keyExtractor={index => index}
-          data={this.dataSourceNew}
+          data={this.diaryStore.dataSourceNew}
           renderItem={item => this.renderYearlyMood(item)}
         />
         <View style={styles.colourPalette}>
