@@ -17,9 +17,14 @@ export default class AccountStore {
 
   user = {};
 
-  @observable currentPaletteID = '';
-  @observable isPending = false;
-  @observable authError = null;
+  @observable
+  currentPaletteID = '';
+  @observable
+  isPending = false;
+  @observable
+  authError = null;
+  @observable
+  yearArray = [];
 
   @action
   async updateCurrentPalette(paletteID) {
@@ -115,13 +120,16 @@ export default class AccountStore {
 
         this.updateCurrentPalette(userRef.data().currentPalette);
 
-        db.collection('users').doc(user.uid)
-          .collection('markedDates').get()
-          .then((subCollectionRef) => {
+        db.collection('users')
+          .doc(user.uid)
+          .collection('markedDates')
+          .get()
+          .then(subCollectionRef => {
             const docs = subCollectionRef.docs;
 
             const sortedDocs = _.sortBy(docs, doc => doc.data().date);
-
+            this.yearArray = [];
+            console.log(sortedDocs);
             _.forEach(sortedDocs, (doc, index) => {
               this.user.markedDates[doc.data().date] = {
                 comment: doc.data().comment,
@@ -129,13 +137,35 @@ export default class AccountStore {
                 mood: doc.data().mood,
                 id: doc.id
               };
+          
+                const yearNumber = sortedDocs[index].data().date.slice(0, 4);
+                const isFound = _.find(
+                  this.yearArray,
+                  year => year === yearNumber
+                );
+                if (!isFound) {
+                  this.yearArray.push(yearNumber);
+                }
 
+
+              // this.yearArray.push(sortedDocs[index].data().date.slice(0, 4));
+
+              console.log(this.yearArray);
+              console.log(Object.values(this.yearArray));
+
+              this.yearArray = Object.values(this.yearArray);
+              
               const year = doc.data().date.slice(0, 4);
-              const month = doc.data().date.charAt(5) + doc.data().date.charAt(6);
+              const month =
+                doc.data().date.charAt(5) + doc.data().date.charAt(6);
 
               if (index > 0) {
-                const previousMonth = sortedDocs[index - 1].data().date.charAt(5) + sortedDocs[index - 1].data().date.charAt(6);
-                const previousYear = sortedDocs[index - 1].data().date.slice(0, 4);
+                const previousMonth =
+                  sortedDocs[index - 1].data().date.charAt(5) +
+                  sortedDocs[index - 1].data().date.charAt(6);
+                const previousYear = sortedDocs[index - 1]
+                  .data()
+                  .date.slice(0, 4);
 
                 if (previousMonth !== month || previousYear !== year) {
                   element = {
@@ -179,12 +209,14 @@ export default class AccountStore {
   };
 
   getSelectedPalettes = () => {
-    db.collection('users').doc(this.user.id)
-      .collection('selectedPalettes').get()
-      .then((subCollectionRef) => {
+    db.collection('users')
+      .doc(this.user.id)
+      .collection('selectedPalettes')
+      .get()
+      .then(subCollectionRef => {
         const docs = subCollectionRef.docs;
 
-        _.forEach(docs, (doc) => {
+        _.forEach(docs, doc => {
           this.user.selectedPalettes = doc.data();
         });
 
@@ -192,23 +224,24 @@ export default class AccountStore {
 
         const today = this.rootStore.getToday();
         const year = today.slice(0, 4);
-        const month = today.charAt(5) + today.charAt(6); 
+        const month = today.charAt(5) + today.charAt(6);
 
         this.rootStore.diaryStore.currentYear = year;
         Actions.monthly({ year, month });
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err);
       });
-  }
+  };
 
   sendPasswordResetEmail = email =>
-    firebase.auth()
+    firebase
+      .auth()
       .sendPasswordResetEmail(email)
       .then(() => {
         console.log('sent!');
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err);
       });
 }

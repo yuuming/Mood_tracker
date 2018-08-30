@@ -23,6 +23,7 @@ export default class YearlyBar extends Component {
     this.rootStore = this.props.rootStore;
     this.diaryStore = this.rootStore.diaryStore;
     this.currentYear = this.diaryStore.currentYear;
+    this.accountStore = this.rootStore.accountStore;
   }
 
   backButton() {
@@ -43,15 +44,21 @@ export default class YearlyBar extends Component {
       'changeCurrentYear is running!!!!!!!!!!!',
       this.rootStore.diaryStore.currentYear
     );
-  
+
     this.diaryStore.createMonthlyData();
     Actions.Yearly();
   };
 
   renderTitle() {
-    const data = [['2018', '2017']];
-    console.log('rendertitle is runing', this.rootStore.diaryStore.currentYear);
-
+    console.log();
+    // const data = [['2018', '2017']];
+    const dataArray = [];
+    dataArray.push(this.accountStore.yearArray);
+    // const arrayTest = Object.values(yearArray[]);
+    // dataArray.push(yearArray);
+    // console.log('dataArray!!!!!', dataArray);
+    // console.log('rendertitle is runing', this.rootStore.diaryStore.currentYear);
+console.log(data);
     return (
       <DropdownMenu
         style={{ flex: 1 }}
@@ -67,7 +74,7 @@ export default class YearlyBar extends Component {
           this.setState({ text: data[selection][row] });
           this.changeCurrentYear(data[selection][row]);
         }}
-        data={data}
+        data={dataArray}
       />
       // <View style={styles.title}>
       //   <TouchableOpacity
