@@ -50,15 +50,12 @@ export default class YearlyBar extends Component {
   };
 
   renderTitle() {
-    console.log();
-    // const data = [['2018', '2017']];
-    const dataArray = [];
-    dataArray.push(this.accountStore.yearArray);
-    // const arrayTest = Object.values(yearArray[]);
-    // dataArray.push(yearArray);
-    // console.log('dataArray!!!!!', dataArray);
-    // console.log('rendertitle is runing', this.rootStore.diaryStore.currentYear);
-console.log(data);
+    const arraySort = Object.values(this.accountStore.yearArray);
+    arraySort.sort((a, b) => a < b ? 1 : -1);
+    const dataArray = [arraySort];
+    console.log('rendertitle is runing', this.rootStore.diaryStore.currentYear);
+    console.log('dataArray', dataArray);
+
     return (
       <DropdownMenu
         style={{ flex: 1 }}
@@ -71,8 +68,9 @@ console.log(data);
         // titleStyle={{color: '#333333'}}
         // maxHeight={300}
         handler={(selection, row) => {
-          this.setState({ text: data[selection][row] });
-          this.changeCurrentYear(data[selection][row]);
+          this.setState({ text: dataArray[selection][row] });
+          console.log(dataArray[selection][row]);
+          this.changeCurrentYear(dataArray[selection][row]);
         }}
         data={dataArray}
       />
