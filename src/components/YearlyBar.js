@@ -10,6 +10,7 @@ import { Actions } from 'react-native-router-flux';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { observer, inject } from 'mobx-react';
 import DropdownMenu from 'react-native-dropdown-menu';
+import _ from 'lodash';
 
 @inject('rootStore')
 @observer
@@ -50,11 +51,31 @@ export default class YearlyBar extends Component {
   };
 
   renderTitle() {
-    const arraySort = Object.values(this.accountStore.yearArray);
-    arraySort.sort((a, b) => a < b ? 1 : -1);
+    let arraySort = [];
+    arraySort = Object.values(this.accountStore.yearArray);
+    arraySort.sort((a, b) => (a < b ? 1 : -1));
+    console.log('arraySort', arraySort);
     const dataArray = [arraySort];
-    console.log('rendertitle is runing', this.rootStore.diaryStore.currentYear);
+    console.log('dataArray after sort', arraySort);
+    console.log('current year ', this.currentYear);
+    console.log('dataArray[0][0] ', dataArray[0][0]);
+
+    if (dataArray[0][0] !== this.currentYear) {
+      this.dataArray = [];
+      _.forEach(dataArray[0], (element) => {
+       if (this.currentYear !== element) {
+        dataArray[0].push(element);
+       }
+      // dataArray = (dataArray[0]).filter(function (item) {
+      //   return item !== this.currentYear;
+      });
+
+      console.log('???????????????', dataArray);
+      dataArray[0].unshift(this.currentYear);
+    }
+    console.log('rendertitle is runing', this.currentYear);
     console.log('dataArray', dataArray);
+    // console.log('$$$$$$$$$$', this.diaryStore.currentYear);
 
     return (
       <DropdownMenu
@@ -69,7 +90,6 @@ export default class YearlyBar extends Component {
         // maxHeight={300}
         handler={(selection, row) => {
           this.setState({ text: dataArray[selection][row] });
-          console.log(dataArray[selection][row]);
           this.changeCurrentYear(dataArray[selection][row]);
         }}
         data={dataArray}
