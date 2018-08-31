@@ -25,15 +25,19 @@ export default class Yearly extends Component {
       this.accountStore.currentPaletteID
     ];
     this.markedDateArray = [];
-    // this.year = this.props.year;
     this.year = this.diaryStore.currentYear;
-    this.dataSource = [];
-    this.dataSourceNew = [];
+    // this.dataSource = [];
+    // this.dataSourceNew = [];
+
+    // this.state = {
+    //   year: this.diaryStore.currentYear
+    // };
   }
 
   componentWillMount() {
     console.log(this.diaryStore.moodCounter);
-    console.log('===yearly palette =====', this.selectedPalette);
+    console.log('&&&&&&&&&&&', this.year);
+    this.diaryStore.createMonthlyData();
 
     // create an obj for datasource
     // _.forEach(this.diaryStore.moodCounter[this.year], (element, key) => {
@@ -46,45 +50,44 @@ export default class Yearly extends Component {
     //   this.dataSource.push(obj);
     // });
 
-    let stringMonth;
-    // const zero = '0';
-    for (i = 1; i <= 12; i++) {
-      if (i.toString().length === 1) {
-        stringMonth = `0${i.toString()}`;
-      } else {
-        stringMonth = i;
-      }
-      const obj1 = {
-        month: stringMonth,
-        moods: ''
-      };
-      console.log(obj1);
-      this.dataSourceNew.push(obj1);
-    }
-    console.log(this.dataSourceNew);
-    _.forEach(this.diaryStore.moodCounter[this.year], (element, key) => {
-      console.log(key);
-      const obj = {
-        month: key,
-        moods: element.moods
-      };
-      console.log(obj);
-      this.dataSource.push(obj);
-    });
+    // let stringMonth;
+    // for (i = 1; i <= 12; i++) {
+    //   if (i.toString().length === 1) {
+    //     stringMonth = `0${i.toString()}`;
+    //   } else {
+    //     stringMonth = i;
+    //   }
+    //   const obj1 = {
+    //     month: stringMonth,
+    //     moods: ''
+    //   };
+    //   console.log(obj1);
+    //   this.dataSourceNew.push(obj1);
+    // }
+    // console.log(this.dataSourceNew);
+    // _.forEach(this.diaryStore.moodCounter[this.year], (element, key) => {
+    //   console.log(key);
+    //   const obj = {
+    //     month: key,
+    //     moods: element.moods
+    //   };
+    //   console.log(obj);
+    //   this.dataSource.push(obj);
+    // });
 
-    for (let i = 0; i < this.dataSourceNew.length; i++) {
-      console.log(this.dataSourceNew[i]);
-      for (let j = 0; j < this.dataSource.length; j++) {
-        console.log(this.dataSourceNew[i].month);
-        console.log(this.dataSource[j].month);
-        if (this.dataSourceNew[i].month === this.dataSource[j].month) {
-          this.dataSourceNew[i] = this.dataSource[j];
-        }
-      }
-    }
+    // for (let i = 0; i < this.dataSourceNew.length; i++) {
+    //   console.log(this.dataSourceNew[i]);
+    //   for (let j = 0; j < this.dataSource.length; j++) {
+    //     console.log(this.dataSourceNew[i].month);
+    //     console.log(this.dataSource[j].month);
+    //     if (this.dataSourceNew[i].month === this.dataSource[j].month) {
+    //       this.dataSourceNew[i] = this.dataSource[j];
+    //     }
+    //   }
+    // }
   }
 
-  getMonth = (monthNum) => {
+  getMonth = monthNum => {
     const shortMonth = monthNum.toString();
 
     switch (shortMonth) {
@@ -117,60 +120,83 @@ export default class Yearly extends Component {
     }
   };
 
-  renderYearlyMood(item) {
+  renderYearlyMood({ item }) {
+    // this.diaryStore.createMonthlyData();
     console.log('renderYearlyMood');
-    console.log(item);
-    console.log(typeof item.item.moods.bad); // number
-    const { high, happy, neutral, unhappy, bad } = this.selectedPalette.moodColors;
+    console.log(item.moods);
+    //console.log(typeof item.moods.bad); // number
+    const {
+      high,
+      happy,
+      neutral,
+      unhappy,
+      bad
+    } = this.selectedPalette.moodColors;
 
-    if (item.item.moods !== '') {
+    if (this.diaryStore.currentYear === '2018') {
+      console.log(this.diaryStore.currentYear);
+    }
+    console.log(item.moods);
+    if (item.moods !== '') {
+      console.log('month!!!!!!!!!!!', item.month);
       return (
         <TouchableOpacity
-          key={item.item.month}
+          key={item.month}
           style={styles.monthSquare}
-          onPress={() => { Actions.monthly({ year: this.diaryStore.currentYear, month: item.item.month }); }}
+          onPress={() => {
+            Actions.monthly({
+              year: this.diaryStore.currentYear,
+              month: item.month
+            });
+          }}
         >
-          <View
-            style={styles.colorStyle}
-          >
-            {colorRange(item.item.moods.high, high)}
-            {colorRange(item.item.moods.happy, happy)}
-            {colorRange(item.item.moods.neutral, neutral)}
-            {colorRange(item.item.moods.unhappy, unhappy)}
-            {colorRange(item.item.moods.bad, bad)}
+          <View style={styles.colorStyle}>
+            {colorRange(item.moods.high, high)}
+            {colorRange(item.moods.happy, happy)}
+            {colorRange(item.moods.neutral, neutral)}
+            {colorRange(item.moods.unhappy, unhappy)}
+            {colorRange(item.moods.bad, bad)}
           </View>
-          <Text style={styles.textStyle}>{this.getMonth(item.item.month)}</Text>
+          <Text style={styles.textStyle}>{this.getMonth(item.month)}</Text>
         </TouchableOpacity>
       );
     }
     return (
       <TouchableOpacity
-        key={item.item.month}
+        key={item.month}
         style={styles.monthSquare}
-        onPress={() => { Actions.monthly({ year: this.diaryStore.currentYear, month: item.item.month }); }}
+        onPress={() => {
+          Actions.monthly({
+            year: this.diaryStore.currentYear,
+            month: item.month
+          });
+        }}
       >
         <View style={{ flex: 1, backgroundColor: 'white' }} />
-        <Text style={styles.textStyle}>{this.getMonth(item.item.month)}</Text>
+        <Text style={styles.textStyle}>{this.getMonth(item.month)}</Text>
       </TouchableOpacity>
     );
   }
 
   render() {
+    // console.log('Render yearly', this.diaryStore.currentYear);
+    console.log('datasaurce', this.diaryStore.dataSourceNew);
+ 
     return (
       <View style={{ flex: 1 }}>
         <FlatList
           style={{ flex: 1 }}
           numColumns={3}
           keyExtractor={index => index}
-          data={this.dataSourceNew}
+          data={this.diaryStore.dataSourceNew}
           renderItem={item => this.renderYearlyMood(item)}
         />
         <View style={styles.colourPalette}>
-          {paletteStyle(this.selectedPalette.moodColors.high)}
-          {paletteStyle(this.selectedPalette.moodColors.happy)}
-          {paletteStyle(this.selectedPalette.moodColors.neutral)}
-          {paletteStyle(this.selectedPalette.moodColors.unhappy)}
-          {paletteStyle(this.selectedPalette.moodColors.bad)}
+          {paletteStyle(this.selectedPalette.moodColors.high, 'high')}
+          {paletteStyle(this.selectedPalette.moodColors.happy, 'happy')}
+          {paletteStyle(this.selectedPalette.moodColors.neutral, 'neutral')}
+          {paletteStyle(this.selectedPalette.moodColors.unhappy, 'unhappy')}
+          {paletteStyle(this.selectedPalette.moodColors.bad, 'bad')}
         </View>
       </View>
     );
@@ -194,7 +220,7 @@ const styles = StyleSheet.create({
   },
   colorStyle: {
     flexDirection: 'row',
-    height: 80,
+    height: 80
   },
   textStyle: {
     fontSize: 16,
@@ -207,26 +233,32 @@ const styles = StyleSheet.create({
   colourPalette: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    height: 20,
+    height: 50,
     margin: 11
+  },
+  paletteTextStyle: {
+    fontSize: 14,
+    fontWeight: '200',
+    textAlign: 'center'
   }
 });
 
-const paletteStyle = color => (
-  <View
-    style={{
-      backgroundColor: color,
-      flex: 1,
-      height: 30,
-      width: 60
-    }}
-  />
+const paletteStyle = (color, moodName) => (
+  <View style={{ flex: 1 }}>
+    <View
+      style={{
+        backgroundColor: color,
+        height: 30
+      }}
+    />
+    <Text style={styles.paletteTextStyle}>{moodName}</Text>
+  </View>
 );
 const colorRange = (rangeNum, color) => (
   <View
     style={{
       flex: rangeNum,
-      backgroundColor: color,
+      backgroundColor: color
     }}
   />
 );
