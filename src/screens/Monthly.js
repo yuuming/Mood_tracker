@@ -103,12 +103,13 @@ export default class Monthly extends Component {
 
     return year === this.year && month === this.month;
   };
-  shiftMode = () => {
+
+  shiftViewMode = () => {
     this.setState({ isCalendarMode: !this.state.isCalendarMode });
   }
 
-  shiftMode = () => {
-    this.setState({ isCalendarMode: !this.state.isCalendarMode });
+  closeDialog = () => {
+    this.setState({ isDialogVisible: !this.state.isDialogVisible });
   }
 
   renderCalendar() {
@@ -225,7 +226,7 @@ export default class Monthly extends Component {
               }}
             >
               <TouchableOpacity
-                onPress={this.shiftMode}
+                onPress={this.closeDialog}
               >
                 <Text>Close</Text>
               </TouchableOpacity>
