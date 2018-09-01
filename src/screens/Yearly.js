@@ -141,7 +141,7 @@ export default class Yearly extends Component {
       console.log('month!!!!!!!!!!!', item.month);
       return (
         <TouchableOpacity
-          key={item.month}
+          key={item.key}
           style={styles.monthSquare}
           onPress={() => {
             Actions.monthly({
@@ -181,13 +181,13 @@ export default class Yearly extends Component {
   render() {
     // console.log('Render yearly', this.diaryStore.currentYear);
     console.log('datasaurce', this.diaryStore.dataSourceNew);
- 
+
     return (
       <View style={{ flex: 1 }}>
         <FlatList
           style={{ flex: 1 }}
           numColumns={3}
-          keyExtractor={index => index}
+          keyExtractor={item => item.key}
           data={this.diaryStore.dataSourceNew}
           renderItem={item => this.renderYearlyMood(item)}
         />
