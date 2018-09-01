@@ -146,13 +146,6 @@ export default class AccountStore {
                 if (!isFound) {
                   this.yearArray.push(yearNumber);
                 }
-
-
-              // this.yearArray.push(sortedDocs[index].data().date.slice(0, 4));
-
-              console.log(Object.values(this.yearArray));
-              // this.yearArray = Object.values(this.yearArray);
-              console.log('@@@@@@@@@@@@', this.yearArray);
               const year = doc.data().date.slice(0, 4);
               const month =
                 doc.data().date.charAt(5) + doc.data().date.charAt(6);
