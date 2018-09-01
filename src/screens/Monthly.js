@@ -1,5 +1,12 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Modal, FlatList } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Modal,
+  FlatList
+} from 'react-native';
 import { observer, inject } from 'mobx-react';
 import { Actions } from 'react-native-router-flux';
 import { Calendar } from 'react-native-calendars';
@@ -14,7 +21,7 @@ export default class Monthly extends Component {
 
     this.state = {
       isDialogVisible: false,
-      isCalendarMode: true,
+      isCalendarMode: true
     };
 
     this.rootStore = this.props.rootStore;
@@ -49,7 +56,7 @@ export default class Monthly extends Component {
   };
 
   // to assign new value to the current month variable which you're seeing
-  handleChangedDate = (date) => {
+  handleChangedDate = date => {
     const { year, month } = date;
 
     if (month.toString().length !== 1) {
@@ -59,10 +66,13 @@ export default class Monthly extends Component {
     }
 
     this.year = year.toString();
-  }
+  };
 
   storeDiary = () => {
-    if (this.diaryStore.comment && (this.diaryStore.mood || this.diaryStore.originalMood)) {
+    if (
+      this.diaryStore.comment &&
+      (this.diaryStore.mood || this.diaryStore.originalMood)
+    ) {
       if (this.diaryStore.id !== '') {
         this.diaryStore
           .editDiary()
@@ -87,11 +97,14 @@ export default class Monthly extends Component {
     }
   };
 
-  filterRecords = (record) => {
+  filterRecords = record => {
     const year = record.date.slice(0, 4);
     const month = record.date.charAt(5) + record.date.charAt(6);
 
-    return (year === this.year && month === this.month);
+    return year === this.year && month === this.month;
+  };
+  shiftMode = () => {
+    this.setState({ isCalendarMode: !this.state.isCalendarMode });
   }
 
   shiftMode = () => {
@@ -99,7 +112,9 @@ export default class Monthly extends Component {
   }
 
   renderCalendar() {
-    const selectedPalette = this.rootStore.moodPaletteList[this.accountStore.currentPaletteID];
+    const selectedPalette = this.rootStore.moodPaletteList[
+      this.accountStore.currentPaletteID
+    ];
     const datasource = {};
 
     _.map(this.diaryStore.records, item => {
@@ -147,22 +162,34 @@ export default class Monthly extends Component {
         onDayPress={day => {
           this.checkDate(day.dateString);
         }}
-        onMonthChange={(date) => { this.handleChangedDate(date); }}
+        onMonthChange={date => {
+          this.handleChangedDate(date);
+        }}
       />
     );
   }
 
   renderDiary(item) {
-    const selectedPalette = this.rootStore.moodPaletteList[this.accountStore.currentPaletteID];
+    const selectedPalette = this.rootStore.moodPaletteList[
+      this.accountStore.currentPaletteID
+    ];
 
     return (
-      <View style={{ padding: 30, margin: 30, height: 350, borderWidth: 1, borderColor: 'gray' }}>
+      <View
+        style={{
+          padding: 30,
+          margin: 30,
+          height: 350,
+          borderWidth: 1,
+          borderColor: 'gray'
+        }}
+      >
         <View style={{ flexDirection: 'row', marginBottom: 30 }}>
           <View
             style={{
               backgroundColor: selectedPalette.moodColors[item.item.mood],
               height: 60,
-              width: 60,
+              width: 60
             }}
           />
           <View style={{ justifyContent: 'space-around', marginLeft: 30 }}>
@@ -198,11 +225,7 @@ export default class Monthly extends Component {
               }}
             >
               <TouchableOpacity
-                onPress={() => {
-                  this.setState({
-                    isDialogVisible: !this.state.isDialogVisible
-                  });
-                }}
+                onPress={this.shiftMode}
               >
                 <Text>Close</Text>
               </TouchableOpacity>
@@ -224,40 +247,44 @@ export default class Monthly extends Component {
 
   render() {
     const dataSource = _.sortBy(this.diaryStore.records, record => record.date);
-    const moodColors = this.rootStore.moodPaletteList[this.accountStore.currentPaletteID].moodColors;
+    const moodColors = this.rootStore.moodPaletteList[
+      this.accountStore.currentPaletteID
+    ].moodColors;
 
     return (
       <View style={styles.container}>
-        {this.state.isCalendarMode ?
+        {this.state.isCalendarMode ? (
           this.renderCalendar()
-          :
-          <FlatList
-            style={{ width: '100%', height: '90%' }}
-            data={_.filter(dataSource, record => this.filterRecords(record))}
-            keyExtractor={item => item.id}
-            renderItem={item => this.renderDiary(item)}
-            ListEmptyComponent={<EmptyComponent />}
-          />
-        }
-        {this.state.isDialogVisible
-          ? this.renderDialog(this.date)
-          : null}
+        ) : (
+            <FlatList
+              style={{ width: '100%', height: '90%' }}
+              data={_.filter(dataSource, record => this.filterRecords(record))}
+              keyExtractor={item => item.id}
+              renderItem={item => this.renderDiary(item)}
+              ListEmptyComponent={<EmptyComponent />}
+            />
+          )}
+        {this.state.isDialogVisible ? this.renderDialog(this.date) : null}
         <View style={styles.iconContainer}>
           <TouchableOpacity
-            onPress={this.shiftMode}
+            onPress={() =>
+              this.setState({ isCalendarMode: !this.state.isCalendarMode })
+            }
           >
-            {modeShiftIcon(moodColors.high, moodColors.happy, moodColors.neutral)}
+            {modeShiftIcon(
+              moodColors.high,
+              moodColors.happy,
+              moodColors.neutral
+            )}
           </TouchableOpacity>
           <TouchableOpacity onPress={() => Actions.Yearly({ year: this.year })}>
             <Text>Yearly Page!</Text>
           </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => Actions.ColourPalette()}
-          >
+          <TouchableOpacity onPress={() => Actions.ColourPalette()}>
             {ChangePaletteIcon()}
           </TouchableOpacity>
         </View>
-      </View >
+      </View>
     );
   }
 }
@@ -323,26 +350,24 @@ const EmptyComponent = () => (
   </View>
 );
 
-const modeShiftIcon = (high, happy, neutral) =>
+const modeShiftIcon = (high, happy, neutral) => (
   <View style={styles.modeChangeIconStyle}>
     {SmallDiaryModeIcon(high, happy)}
     {SmallDiaryModeIcon(neutral, high)}
-  </View>;
-
-const SmallDiaryModeIcon = (color1, color2) => {
-  return (
-    <View style={{ flexDirection: 'row' }}>
-      <View style={styles.smallDiaryIcon}>
-        <View style={{ flex: 4, backgroundColor: color1 }} />
-        <View style={{ flex: 1, backgroundColor: 'white' }} />
-      </View>
-      <View style={styles.smallDiaryIcon}>
-        <View style={{ flex: 4, backgroundColor: color2 }} />
-        <View style={{ flex: 1, backgroundColor: 'white' }} />
-      </View>
+  </View>
+);
+const SmallDiaryModeIcon = (color1, color2) => (
+  <View style={{ flexDirection: 'row' }}>
+    <View style={styles.smallDiaryIcon}>
+      <View style={{ flex: 4, backgroundColor: color1 }} />
+      <View style={{ flex: 1, backgroundColor: 'white' }} />
     </View>
-  );
-};
+    <View style={styles.smallDiaryIcon}>
+      <View style={{ flex: 4, backgroundColor: color2 }} />
+      <View style={{ flex: 1, backgroundColor: 'white' }} />
+    </View>
+  </View>
+);
 
 const ChangePaletteIcon = () =>
   <View style={styles.paletteIcon}>
