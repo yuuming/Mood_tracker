@@ -21,9 +21,9 @@ export default class Yearly extends Component {
     this.diaryStore = this.rootStore.diaryStore;
     this.accountStore = this.rootStore.accountStore;
     this.user = this.accountStore.user;
-    this.selectedPalette = this.rootStore.moodPaletteList[
-      this.accountStore.currentPaletteID
-    ];
+    // this.selectedPalette = this.rootStore.moodPaletteList[
+    //   this.accountStore.currentPaletteID
+    // ];
     this.markedDateArray = [];
     this.year = this.diaryStore.currentYear;
     // this.dataSource = [];
@@ -122,26 +122,34 @@ export default class Yearly extends Component {
 
   renderYearlyMood({ item }) {
     // this.diaryStore.createMonthlyData();
-    console.log('renderYearlyMood');
-    console.log(item.moods);
+    // console.log('renderYearlyMood');
+    // console.log(item.moods);
     //console.log(typeof item.moods.bad); // number
+    const selectedPalette = this.rootStore.moodPaletteList[
+      this.accountStore.currentPaletteID
+    ];
+
     const {
       high,
       happy,
       neutral,
       unhappy,
       bad
-    } = this.selectedPalette.moodColors;
+    } = selectedPalette.moodColors;
 
-    if (this.diaryStore.currentYear === '2018') {
-      console.log(this.diaryStore.currentYear);
-    }
-    console.log(item.moods);
+    // if (this.diaryStore.currentYear === '2018') {
+    //   console.log(this.diaryStore.currentYear);
+    // }
+    // console.log(item.moods);
+
+    // console.log(item.key);
+
     if (item.moods !== '') {
       console.log('month!!!!!!!!!!!', item.month);
       return (
         <TouchableOpacity
           key={item.key}
+
           style={styles.monthSquare}
           onPress={() => {
             Actions.monthly({
@@ -182,6 +190,10 @@ export default class Yearly extends Component {
     // console.log('Render yearly', this.diaryStore.currentYear);
     console.log('datasaurce', this.diaryStore.dataSourceNew);
 
+    const selectedPalette = this.rootStore.moodPaletteList[
+      this.accountStore.currentPaletteID
+    ];
+    
     return (
       <View style={{ flex: 1 }}>
         <FlatList
@@ -192,11 +204,11 @@ export default class Yearly extends Component {
           renderItem={item => this.renderYearlyMood(item)}
         />
         <View style={styles.colourPalette}>
-          {paletteStyle(this.selectedPalette.moodColors.high, 'high')}
-          {paletteStyle(this.selectedPalette.moodColors.happy, 'happy')}
-          {paletteStyle(this.selectedPalette.moodColors.neutral, 'neutral')}
-          {paletteStyle(this.selectedPalette.moodColors.unhappy, 'unhappy')}
-          {paletteStyle(this.selectedPalette.moodColors.bad, 'bad')}
+          {paletteStyle(selectedPalette.moodColors.high, 'high')}
+          {paletteStyle(selectedPalette.moodColors.happy, 'happy')}
+          {paletteStyle(selectedPalette.moodColors.neutral, 'neutral')}
+          {paletteStyle(selectedPalette.moodColors.unhappy, 'unhappy')}
+          {paletteStyle(selectedPalette.moodColors.bad, 'bad')}
         </View>
       </View>
     );
