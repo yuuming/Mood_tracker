@@ -103,8 +103,13 @@ export default class Monthly extends Component {
 
     return year === this.year && month === this.month;
   };
-  shiftMode = () => {
+
+  shiftViewMode = () => {
     this.setState({ isCalendarMode: !this.state.isCalendarMode });
+  }
+
+  closeDialog = () => {
+    this.setState({ isDialogVisible: !this.state.isDialogVisible });
   }
 
   renderCalendar() {
@@ -135,7 +140,7 @@ export default class Monthly extends Component {
       <Calendar
         style={{
           width: 350,
-          height: 500
+          height: 500,
         }}
         markedDates={datasource}
         markingType={'custom'}
@@ -221,7 +226,7 @@ export default class Monthly extends Component {
               }}
             >
               <TouchableOpacity
-                onPress={this.shiftMode}
+                onPress={this.closeDialog}
               >
                 <Text>Close</Text>
               </TouchableOpacity>
@@ -246,19 +251,20 @@ export default class Monthly extends Component {
     const moodColors = this.rootStore.moodPaletteList[
       this.accountStore.currentPaletteID
     ].moodColors;
+
     return (
       <View style={styles.container}>
         {this.state.isCalendarMode ? (
           this.renderCalendar()
         ) : (
-          <FlatList
-            style={{ width: '100%', height: '90%' }}
-            data={_.filter(dataSource, record => this.filterRecords(record))}
-            keyExtractor={item => item.id}
-            renderItem={item => this.renderDiary(item)}
-            ListEmptyComponent={<EmptyComponent />}
-          />
-        )}
+            <FlatList
+              style={{ width: '100%', height: '90%' }}
+              data={_.filter(dataSource, record => this.filterRecords(record))}
+              keyExtractor={item => item.id}
+              renderItem={item => this.renderDiary(item)}
+              ListEmptyComponent={<EmptyComponent />}
+            />
+          )}
         {this.state.isDialogVisible ? this.renderDialog(this.date) : null}
         <View style={styles.iconContainer}>
           <TouchableOpacity
@@ -337,10 +343,10 @@ const styles = StyleSheet.create({
   },
 });
 
+// stateless components
+
 const EmptyComponent = () => (
-  <View
-    style={styles.emptyRecordMessage}
-  >
+  <View style={styles.emptyRecordMessage}>
     <Text>There's no record to show for this month!</Text>
   </View>
 );
@@ -352,38 +358,30 @@ const modeShiftIcon = (high, happy, neutral) => (
   </View>
 );
 const SmallDiaryModeIcon = (color1, color2) => (
-    <View style={{ flexDirection: 'row' }}>
-      <View style={styles.smallDiaryIcon}>
-        <View style={{ flex: 4, backgroundColor: color1 }} />
-        <View style={{ flex: 1, backgroundColor: 'white' }} />
-      </View>
-      <View style={styles.smallDiaryIcon}>
-        <View style={{ flex: 4, backgroundColor: color2 }} />
-        <View style={{ flex: 1, backgroundColor: 'white' }} />
-      </View>
+  <View style={{ flexDirection: 'row' }}>
+    <View style={styles.smallDiaryIcon}>
+      <View style={{ flex: 4, backgroundColor: color1 }} />
+      <View style={{ flex: 1, backgroundColor: 'white' }} />
     </View>
-  );
+    <View style={styles.smallDiaryIcon}>
+      <View style={{ flex: 4, backgroundColor: color2 }} />
+      <View style={{ flex: 1, backgroundColor: 'white' }} />
+    </View>
+  </View>
+);
 
-const ChangePaletteIcon = () => (
-  <View
-    style={{
-      width: 50,
-      height: 50,
-      borderWidth: 1,
-      justifyContent: 'space-between'
-    }}
-  >
+const ChangePaletteIcon = () =>
+  <View style={styles.paletteIcon}>
     {SmallPaletteIcon('#990022')}
     {SmallPaletteIcon('#555500')}
     {SmallPaletteIcon('#004488')}
-  </View>
-);
-const SmallPaletteIcon = color => (
-  <View style={{ height: '15%', flexDirection: 'row', margin: 4 }}>
+  </View>;
+
+const SmallPaletteIcon = (color) =>
+  <View style={styles.smallPaletteIcon}>
     <View style={{ flex: 1, backgroundColor: `${color}99` }} />
     <View style={{ flex: 1, backgroundColor: `${color}80` }} />
     <View style={{ flex: 1, backgroundColor: `${color}60` }} />
     <View style={{ flex: 1, backgroundColor: `${color}40` }} />
     <View style={{ flex: 1, backgroundColor: `${color}22` }} />
-  </View>
-);
+  </View>;
