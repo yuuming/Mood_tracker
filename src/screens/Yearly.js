@@ -187,7 +187,7 @@ export default class Yearly extends Component {
         <FlatList
           style={{ flex: 1 }}
           numColumns={3}
-          keyExtractor={index => index}
+          keyExtractor={item => item.month}
           data={this.diaryStore.dataSourceNew}
           renderItem={item => this.renderYearlyMood(item)}
         />
