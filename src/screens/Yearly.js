@@ -8,9 +8,6 @@ import {
 } from 'react-native';
 import { observer, inject } from 'mobx-react';
 import { Actions } from 'react-native-router-flux';
-import MoodPalette from '../components/MoodPalette';
-import _ from 'lodash';
-import { toJS } from '../../node_modules/mobx';
 
 @inject('rootStore')
 @observer
@@ -120,7 +117,7 @@ export default class Yearly extends Component {
           });
         }}
       >
-        <View style={{ flex: 1, backgroundColor: 'white' }} />
+        <View style={styles.emptyPalette} />
         <Text style={styles.textStyle}>{this.getMonth(item.month)}</Text>
       </TouchableOpacity>
     );
@@ -167,11 +164,14 @@ const styles = StyleSheet.create({
     height: 110,
     margin: 15,
     borderWidth: 1,
-    borderColor: '#95a8c6'
+    borderColor: '#95a8c6',
+    backgroundColor: '#ffffff'
   },
   colorStyle: {
     flexDirection: 'row',
-    height: 80
+    height: 80,
+    borderBottomWidth: 1,
+    borderColor: '#95a8c6',
   },
   textStyle: {
     fontSize: 16,
@@ -185,7 +185,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     height: 50,
-    margin: 11
+    margin: 11,
+  },
+  emptyPalette: {
+    flex: 1, 
+    backgroundColor: 'white',
+    borderBottomWidth: 1,
+    borderColor: '#95a8c6'
   },
   paletteTextStyle: {
     fontSize: 14,
