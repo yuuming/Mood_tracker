@@ -109,6 +109,7 @@ export default class DiaryStore {
         stringMonth = i;
       }
       const obj1 = {
+        key: `${this.currentYear + stringMonth}`,
         month: stringMonth,
         moods: ''
       };
@@ -117,6 +118,7 @@ export default class DiaryStore {
     console.log('=====currentYear====', this.currentYear);
     _.forEach(this.moodCounter[this.currentYear], (element, key) => {
       const obj = {
+        key: `${this.currentYear + key}`,
         month: key,
         moods: element.moods
       };
