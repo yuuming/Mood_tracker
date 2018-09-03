@@ -272,11 +272,10 @@ export default class Monthly extends Component {
               this.setState({ isCalendarMode: !this.state.isCalendarMode })
             }
           >
-            {modeShiftIcon(
-              moodColors.high,
-              moodColors.happy,
-              moodColors.neutral
-            )}
+            {this.state.isCalendarMode ?
+              DiaryModeIcon(high, happy, neutral)
+              : CalendarModeIcon(high, happy, neutral, unhappy, bad)
+            }
           </TouchableOpacity>
           <TouchableOpacity onPress={() => Actions.Yearly({ year: this.year })}>
             <Text>Yearly Page!</Text>
@@ -351,6 +350,7 @@ const EmptyComponent = () => (
   </View>
 );
 
+// diaryMode Icon
 const modeShiftIcon = (high, happy, neutral) => (
   <View style={styles.modeChangeIconStyle}>
     {SmallDiaryModeIcon(high, happy)}
@@ -387,6 +387,7 @@ const SmallCalendarIcon = (high, happy, neutral) =>
     <View style={{ width: 6, height: 6, backgroundColor: `${high}` }} />
   </View>;
 
+// moodPalette Icon
 const ChangePaletteIcon = () =>
   <View style={styles.paletteIcon}>
     {SmallPaletteIcon('#990022')}
