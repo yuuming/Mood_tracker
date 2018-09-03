@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import {
   Platform,
   StyleSheet,
-  Text,
   TouchableOpacity,
   View
 } from 'react-native';
@@ -41,11 +40,6 @@ export default class YearlyBar extends Component {
   }
   changeCurrentYear = year => {
     this.rootStore.diaryStore.currentYear = year;
-    console.log(
-      'changeCurrentYear is running!!!!!!!!!!!',
-      this.rootStore.diaryStore.currentYear
-    );
-
     this.diaryStore.createMonthlyData();
     Actions.Yearly();
   };
@@ -66,8 +60,6 @@ export default class YearlyBar extends Component {
         if (this.currentYear !== element) {
           dataArray[0].push(element);
         }
-        // dataArray = (dataArray[0]).filter(function (item) {
-        //   return item !== this.currentYear;
       });
       const exe = [0, 1];
       for (let i = 0; i < dataArray.length; i++) {
@@ -79,7 +71,6 @@ export default class YearlyBar extends Component {
       }
       console.log('rendertitle is runing', this.currentYear);
       console.log('dataArray', dataArray);
-      // console.log('$$$$$$$$$$', this.diaryStore.currentYear);
     }
       return (
         <DropdownMenu
@@ -98,14 +89,6 @@ export default class YearlyBar extends Component {
           }}
           data={dataArray}
         />
-        // <View style={styles.title}>
-        //   <TouchableOpacity
-        //     onPress={() => console.log('test')}
-        //     style={{ paddingRight: 10 }}
-        //   >
-        //     <Text style={{ fontSize: 20, fontWeight: '800' }}>{this.currentYear}</Text>
-        //   </TouchableOpacity>
-        // </View>
       );
   }
 
