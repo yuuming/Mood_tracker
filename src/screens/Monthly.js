@@ -338,6 +338,12 @@ const styles = StyleSheet.create({
     height: '15%',
     flexDirection: 'row',
     margin: 4
+  }, 
+  yearlyIcon: {
+    textAlign: 'center',
+    paddingBottom: 9,
+    fontSize: 15,
+    fontWeight: '600'
   }
 });
 
@@ -389,6 +395,6 @@ const SmallPaletteIcon = color => (
 const YearlyPaletteIcon = () => (
   <View style={styles.paletteIcon}>
   <View style={{ backgroundColor: '#990022', height: 12 }} />
-  <Text style={{ textAlign: 'center', paddingBottom: 9, fontSize: 15, fontWeight: '600', }}>Year</Text>
+  <Text style={styles.yearlyIcon}>Year</Text>
   </View>
 );
