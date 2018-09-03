@@ -84,13 +84,6 @@ export default class Yearly extends Component {
       bad
     } = selectedPalette.moodColors;
 
-    // if (this.diaryStore.currentYear === '2018') {
-    //   console.log(this.diaryStore.currentYear);
-    // }
-    // console.log(item.moods);
-
-    // console.log(item.key);
-
     if (item.moods !== '') {
       console.log('month!!!!!!!!!!!', item.month);
       return (
