@@ -106,11 +106,11 @@ export default class Monthly extends Component {
 
   shiftViewMode = () => {
     this.setState({ isCalendarMode: !this.state.isCalendarMode });
-  }
+  };
 
   closeDialog = () => {
     this.setState({ isDialogVisible: !this.state.isDialogVisible });
-  }
+  };
 
   renderCalendar() {
     const selectedPalette = this.rootStore.moodPaletteList[
@@ -140,7 +140,7 @@ export default class Monthly extends Component {
       <Calendar
         style={{
           width: 350,
-          height: 500,
+          height: 500
         }}
         markedDates={datasource}
         markingType={'custom'}
@@ -225,9 +225,7 @@ export default class Monthly extends Component {
                 marginTop: 15
               }}
             >
-              <TouchableOpacity
-                onPress={this.closeDialog}
-              >
+              <TouchableOpacity onPress={this.closeDialog}>
                 <Text>Close</Text>
               </TouchableOpacity>
               <Text>{this.date}</Text>
@@ -257,14 +255,14 @@ export default class Monthly extends Component {
         {this.state.isCalendarMode ? (
           this.renderCalendar()
         ) : (
-            <FlatList
-              style={{ width: '100%', height: '90%' }}
-              data={_.filter(dataSource, record => this.filterRecords(record))}
-              keyExtractor={item => item.id}
-              renderItem={item => this.renderDiary(item)}
-              ListEmptyComponent={<EmptyComponent />}
-            />
-          )}
+          <FlatList
+            style={{ width: '100%', height: '90%' }}
+            data={_.filter(dataSource, record => this.filterRecords(record))}
+            keyExtractor={item => item.id}
+            renderItem={item => this.renderDiary(item)}
+            ListEmptyComponent={<EmptyComponent />}
+          />
+        )}
         {this.state.isDialogVisible ? this.renderDialog(this.date) : null}
         <View style={styles.iconContainer}>
           <TouchableOpacity
@@ -279,7 +277,7 @@ export default class Monthly extends Component {
             )}
           </TouchableOpacity>
           <TouchableOpacity onPress={() => Actions.Yearly({ year: this.year })}>
-            <Text>Yearly Page!</Text>
+            {YearlyPaletteIcon()}
           </TouchableOpacity>
           <TouchableOpacity onPress={() => Actions.ColourPalette()}>
             {ChangePaletteIcon()}
@@ -340,7 +338,7 @@ const styles = StyleSheet.create({
     height: '15%',
     flexDirection: 'row',
     margin: 4
-  },
+  }
 });
 
 // stateless components
@@ -370,18 +368,27 @@ const SmallDiaryModeIcon = (color1, color2) => (
   </View>
 );
 
-const ChangePaletteIcon = () =>
+const ChangePaletteIcon = () => (
   <View style={styles.paletteIcon}>
     {SmallPaletteIcon('#990022')}
     {SmallPaletteIcon('#555500')}
     {SmallPaletteIcon('#004488')}
-  </View>;
+  </View>
+);
 
-const SmallPaletteIcon = (color) =>
+const SmallPaletteIcon = color => (
   <View style={styles.smallPaletteIcon}>
     <View style={{ flex: 1, backgroundColor: `${color}99` }} />
     <View style={{ flex: 1, backgroundColor: `${color}80` }} />
     <View style={{ flex: 1, backgroundColor: `${color}60` }} />
     <View style={{ flex: 1, backgroundColor: `${color}40` }} />
     <View style={{ flex: 1, backgroundColor: `${color}22` }} />
-  </View>;
+  </View>
+);
+
+const YearlyPaletteIcon = () => (
+  <View style={styles.paletteIcon}>
+  <View style={{ backgroundColor: '#990022', height: 12 }} />
+  <Text style={{ textAlign: 'center', paddingBottom: 9, fontSize: 15, fontWeight: '600', }}>Year</Text>
+  </View>
+);
