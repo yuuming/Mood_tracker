@@ -8,9 +8,6 @@ import {
 } from 'react-native';
 import { observer, inject } from 'mobx-react';
 import { Actions } from 'react-native-router-flux';
-import MoodPalette from '../components/MoodPalette';
-import _ from 'lodash';
-import { toJS } from '../../node_modules/mobx';
 
 @inject('rootStore')
 @observer
@@ -21,70 +18,17 @@ export default class Yearly extends Component {
     this.diaryStore = this.rootStore.diaryStore;
     this.accountStore = this.rootStore.accountStore;
     this.user = this.accountStore.user;
-    this.selectedPalette = this.rootStore.moodPaletteList[
-      this.accountStore.currentPaletteID
-    ];
+    // this.selectedPalette = this.rootStore.moodPaletteList[
+    //   this.accountStore.currentPaletteID
+    // ];
     this.markedDateArray = [];
     this.year = this.diaryStore.currentYear;
-    // this.dataSource = [];
-    // this.dataSourceNew = [];
-
-    // this.state = {
-    //   year: this.diaryStore.currentYear
-    // };
   }
 
   componentWillMount() {
     console.log(this.diaryStore.moodCounter);
     console.log('&&&&&&&&&&&', this.year);
     this.diaryStore.createMonthlyData();
-
-    // create an obj for datasource
-    // _.forEach(this.diaryStore.moodCounter[this.year], (element, key) => {
-    //   console.log(key);
-    //   const obj = {
-    //     month: key,
-    //     moods: element.moods
-    //   };
-    //   console.log(obj);
-    //   this.dataSource.push(obj);
-    // });
-
-    // let stringMonth;
-    // for (i = 1; i <= 12; i++) {
-    //   if (i.toString().length === 1) {
-    //     stringMonth = `0${i.toString()}`;
-    //   } else {
-    //     stringMonth = i;
-    //   }
-    //   const obj1 = {
-    //     month: stringMonth,
-    //     moods: ''
-    //   };
-    //   console.log(obj1);
-    //   this.dataSourceNew.push(obj1);
-    // }
-    // console.log(this.dataSourceNew);
-    // _.forEach(this.diaryStore.moodCounter[this.year], (element, key) => {
-    //   console.log(key);
-    //   const obj = {
-    //     month: key,
-    //     moods: element.moods
-    //   };
-    //   console.log(obj);
-    //   this.dataSource.push(obj);
-    // });
-
-    // for (let i = 0; i < this.dataSourceNew.length; i++) {
-    //   console.log(this.dataSourceNew[i]);
-    //   for (let j = 0; j < this.dataSource.length; j++) {
-    //     console.log(this.dataSourceNew[i].month);
-    //     console.log(this.dataSource[j].month);
-    //     if (this.dataSourceNew[i].month === this.dataSource[j].month) {
-    //       this.dataSourceNew[i] = this.dataSource[j];
-    //     }
-    //   }
-    // }
   }
 
   getMonth = monthNum => {
@@ -122,26 +66,27 @@ export default class Yearly extends Component {
 
   renderYearlyMood({ item }) {
     // this.diaryStore.createMonthlyData();
-    console.log('renderYearlyMood');
-    console.log(item.moods);
+    // console.log('renderYearlyMood');
+    // console.log(item.moods);
     //console.log(typeof item.moods.bad); // number
+    const selectedPalette = this.rootStore.moodPaletteList[
+      this.accountStore.currentPaletteID
+    ];
+
     const {
       high,
       happy,
       neutral,
       unhappy,
       bad
-    } = this.selectedPalette.moodColors;
+    } = selectedPalette.moodColors;
 
-    if (this.diaryStore.currentYear === '2018') {
-      console.log(this.diaryStore.currentYear);
-    }
-    console.log(item.moods);
     if (item.moods !== '') {
       console.log('month!!!!!!!!!!!', item.month);
       return (
         <TouchableOpacity
-          key={item.month}
+          key={item.key}
+
           style={styles.monthSquare}
           onPress={() => {
             Actions.monthly({
@@ -172,31 +117,34 @@ export default class Yearly extends Component {
           });
         }}
       >
-        <View style={{ flex: 1, backgroundColor: 'white' }} />
+        <View style={styles.emptyPalette} />
         <Text style={styles.textStyle}>{this.getMonth(item.month)}</Text>
       </TouchableOpacity>
     );
   }
 
   render() {
-    // console.log('Render yearly', this.diaryStore.currentYear);
     console.log('datasaurce', this.diaryStore.dataSourceNew);
- 
+
+    const selectedPalette = this.rootStore.moodPaletteList[
+      this.accountStore.currentPaletteID
+    ];
+    
     return (
       <View style={{ flex: 1 }}>
         <FlatList
           style={{ flex: 1 }}
           numColumns={3}
-          keyExtractor={index => index}
+          keyExtractor={item => item.key}
           data={this.diaryStore.dataSourceNew}
           renderItem={item => this.renderYearlyMood(item)}
         />
         <View style={styles.colourPalette}>
-          {paletteStyle(this.selectedPalette.moodColors.high, 'high')}
-          {paletteStyle(this.selectedPalette.moodColors.happy, 'happy')}
-          {paletteStyle(this.selectedPalette.moodColors.neutral, 'neutral')}
-          {paletteStyle(this.selectedPalette.moodColors.unhappy, 'unhappy')}
-          {paletteStyle(this.selectedPalette.moodColors.bad, 'bad')}
+          {paletteStyle(selectedPalette.moodColors.high, 'high')}
+          {paletteStyle(selectedPalette.moodColors.happy, 'happy')}
+          {paletteStyle(selectedPalette.moodColors.neutral, 'neutral')}
+          {paletteStyle(selectedPalette.moodColors.unhappy, 'unhappy')}
+          {paletteStyle(selectedPalette.moodColors.bad, 'bad')}
         </View>
       </View>
     );
@@ -216,11 +164,14 @@ const styles = StyleSheet.create({
     height: 110,
     margin: 15,
     borderWidth: 1,
-    borderColor: '#95a8c6'
+    borderColor: '#95a8c6',
+    backgroundColor: '#ffffff'
   },
   colorStyle: {
     flexDirection: 'row',
-    height: 80
+    height: 80,
+    borderBottomWidth: 1,
+    borderColor: '#95a8c6',
   },
   textStyle: {
     fontSize: 16,
@@ -234,7 +185,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     height: 50,
-    margin: 11
+    margin: 11,
+  },
+  emptyPalette: {
+    flex: 1, 
+    backgroundColor: 'white',
+    borderBottomWidth: 1,
+    borderColor: '#95a8c6'
   },
   paletteTextStyle: {
     fontSize: 14,
