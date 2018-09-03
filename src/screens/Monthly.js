@@ -395,7 +395,7 @@ const SmallCalendarIcon = (high, happy, neutral) =>
   </View>;
 
 // moodPalette Icon
-const ChangePaletteIcon = () =>
+const ChangePaletteIcon = () => (
   <View style={styles.paletteIcon}>
     {SmallPaletteIcon('#990022')}
     {SmallPaletteIcon('#555500')}

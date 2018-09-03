@@ -8,9 +8,6 @@ import {
 } from 'react-native';
 import { observer, inject } from 'mobx-react';
 import { Actions } from 'react-native-router-flux';
-import MoodPalette from '../components/MoodPalette';
-import _ from 'lodash';
-import { toJS } from '../../node_modules/mobx';
 
 @inject('rootStore')
 @observer
