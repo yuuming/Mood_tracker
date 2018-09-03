@@ -370,6 +370,23 @@ const SmallDiaryModeIcon = (color1, color2) => (
   </View>
 );
 
+// calendarMode Icon
+const CalendarModeIcon = (high, happy, neutral, unhappy, bad) =>
+  <View style={styles.modeChangeIconStyle}>
+    {SmallCalendarIcon(high, happy, neutral)}
+    {SmallCalendarIcon(happy, unhappy, neutral)}
+    {SmallCalendarIcon(bad, high, unhappy)}
+    {SmallCalendarIcon(bad, happy, neutral)}
+  </View>;
+
+const SmallCalendarIcon = (high, happy, neutral) =>
+  <View style={{ padding: 3, flex: 1, flexDirection: 'row', justifyContent: 'space-around' }}>
+    <View style={{ width: 6, height: 6, backgroundColor: `${high}` }} />
+    <View style={{ width: 6, height: 6, backgroundColor: `${happy}` }} />
+    <View style={{ width: 6, height: 6, backgroundColor: `${neutral}` }} />
+    <View style={{ width: 6, height: 6, backgroundColor: `${high}` }} />
+  </View>;
+
 const ChangePaletteIcon = () =>
   <View style={styles.paletteIcon}>
     {SmallPaletteIcon('#990022')}
