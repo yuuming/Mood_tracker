@@ -5,7 +5,8 @@ import {
   StyleSheet,
   TouchableOpacity,
   Modal,
-  FlatList
+  FlatList,
+  Platform
 } from 'react-native';
 import { observer, inject } from 'mobx-react';
 import { Actions } from 'react-native-router-flux';
@@ -40,8 +41,7 @@ export default class Monthly extends Component {
     this.date = date;
     const today = this.rootStore.getToday();
     this.isToday = date === today;
-    console.log(`today's date : ${today}`);
-    console.log(`selected date : ${date}`);
+
     if (date > today) {
       alert('wait till this day comes! :)');
       return;
@@ -139,8 +139,9 @@ export default class Monthly extends Component {
     return (
       <Calendar
         style={{
+          paddingTop: 10,
           width: 350,
-          height: 500
+          height: '90%',
         }}
         markedDates={datasource}
         markingType={'custom'}
@@ -178,7 +179,7 @@ export default class Monthly extends Component {
     return (
       <View
         style={{
-          padding: 30,
+          padding: 25,
           margin: 30,
           height: 350,
           borderWidth: 1,
@@ -249,20 +250,21 @@ export default class Monthly extends Component {
     const moodColors = this.rootStore.moodPaletteList[
       this.accountStore.currentPaletteID
     ].moodColors;
+    const { high, happy, neutral, unhappy, bad } = moodColors;
 
     return (
       <View style={styles.container}>
         {this.state.isCalendarMode ? (
           this.renderCalendar()
         ) : (
-          <FlatList
-            style={{ width: '100%', height: '90%' }}
-            data={_.filter(dataSource, record => this.filterRecords(record))}
-            keyExtractor={item => item.id}
-            renderItem={item => this.renderDiary(item)}
-            ListEmptyComponent={<EmptyComponent />}
-          />
-        )}
+            <FlatList
+              style={{ paddingTop: 10, width: '100%', height: '90%' }}
+              data={_.filter(dataSource, record => this.filterRecords(record))}
+              keyExtractor={item => item.id}
+              renderItem={item => this.renderDiary(item)}
+              ListEmptyComponent={<EmptyComponent />}
+            />
+          )}
         {this.state.isDialogVisible ? this.renderDialog(this.date) : null}
         <View style={styles.iconContainer}>
           <TouchableOpacity
@@ -270,11 +272,10 @@ export default class Monthly extends Component {
               this.setState({ isCalendarMode: !this.state.isCalendarMode })
             }
           >
-            {modeShiftIcon(
-              moodColors.high,
-              moodColors.happy,
-              moodColors.neutral
-            )}
+            {this.state.isCalendarMode ?
+              DiaryModeIcon(high, happy, neutral)
+              : CalendarModeIcon(high, happy, neutral, unhappy, bad)
+            }
           </TouchableOpacity>
           <TouchableOpacity onPress={() => Actions.Yearly({ year: this.year })}>
             {YearlyPaletteIcon()}
@@ -293,7 +294,8 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'white'
+    backgroundColor: 'white',
+    paddingTop: Platform.OS === 'ios' ? 10 : 0,
   },
   alertView: {
     justifyContent: 'space-around',
@@ -355,7 +357,8 @@ const EmptyComponent = () => (
   </View>
 );
 
-const modeShiftIcon = (high, happy, neutral) => (
+// diaryMode Icon
+const DiaryModeIcon = (high, happy, neutral) => (
   <View style={styles.modeChangeIconStyle}>
     {SmallDiaryModeIcon(high, happy)}
     {SmallDiaryModeIcon(neutral, high)}
@@ -374,7 +377,25 @@ const SmallDiaryModeIcon = (color1, color2) => (
   </View>
 );
 
-const ChangePaletteIcon = () => (
+// calendarMode Icon
+const CalendarModeIcon = (high, happy, neutral, unhappy, bad) =>
+  <View style={styles.modeChangeIconStyle}>
+    {SmallCalendarIcon(high, happy, neutral)}
+    {SmallCalendarIcon(happy, unhappy, neutral)}
+    {SmallCalendarIcon(bad, high, unhappy)}
+    {SmallCalendarIcon(bad, happy, neutral)}
+  </View>;
+
+const SmallCalendarIcon = (high, happy, neutral) =>
+  <View style={{ padding: 3, flex: 1, flexDirection: 'row', justifyContent: 'space-around' }}>
+    <View style={{ width: 6, height: 6, backgroundColor: `${high}` }} />
+    <View style={{ width: 6, height: 6, backgroundColor: `${happy}` }} />
+    <View style={{ width: 6, height: 6, backgroundColor: `${neutral}` }} />
+    <View style={{ width: 6, height: 6, backgroundColor: `${high}` }} />
+  </View>;
+
+// moodPalette Icon
+const ChangePaletteIcon = () =>
   <View style={styles.paletteIcon}>
     {SmallPaletteIcon('#990022')}
     {SmallPaletteIcon('#555500')}

@@ -22,7 +22,7 @@ export default class MainPage extends Component {
             <Scene
               key="monthly"
               component={Monthly}
-              hideNavBar={false}
+              hideNavBar
             />
             <Scene
               key="ColourPalette"

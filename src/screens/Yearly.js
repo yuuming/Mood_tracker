@@ -26,65 +26,12 @@ export default class Yearly extends Component {
     // ];
     this.markedDateArray = [];
     this.year = this.diaryStore.currentYear;
-    // this.dataSource = [];
-    // this.dataSourceNew = [];
-
-    // this.state = {
-    //   year: this.diaryStore.currentYear
-    // };
   }
 
   componentWillMount() {
     console.log(this.diaryStore.moodCounter);
     console.log('&&&&&&&&&&&', this.year);
     this.diaryStore.createMonthlyData();
-
-    // create an obj for datasource
-    // _.forEach(this.diaryStore.moodCounter[this.year], (element, key) => {
-    //   console.log(key);
-    //   const obj = {
-    //     month: key,
-    //     moods: element.moods
-    //   };
-    //   console.log(obj);
-    //   this.dataSource.push(obj);
-    // });
-
-    // let stringMonth;
-    // for (i = 1; i <= 12; i++) {
-    //   if (i.toString().length === 1) {
-    //     stringMonth = `0${i.toString()}`;
-    //   } else {
-    //     stringMonth = i;
-    //   }
-    //   const obj1 = {
-    //     month: stringMonth,
-    //     moods: ''
-    //   };
-    //   console.log(obj1);
-    //   this.dataSourceNew.push(obj1);
-    // }
-    // console.log(this.dataSourceNew);
-    // _.forEach(this.diaryStore.moodCounter[this.year], (element, key) => {
-    //   console.log(key);
-    //   const obj = {
-    //     month: key,
-    //     moods: element.moods
-    //   };
-    //   console.log(obj);
-    //   this.dataSource.push(obj);
-    // });
-
-    // for (let i = 0; i < this.dataSourceNew.length; i++) {
-    //   console.log(this.dataSourceNew[i]);
-    //   for (let j = 0; j < this.dataSource.length; j++) {
-    //     console.log(this.dataSourceNew[i].month);
-    //     console.log(this.dataSource[j].month);
-    //     if (this.dataSourceNew[i].month === this.dataSource[j].month) {
-    //       this.dataSourceNew[i] = this.dataSource[j];
-    //     }
-    //   }
-    // }
   }
 
   getMonth = monthNum => {
@@ -137,13 +84,6 @@ export default class Yearly extends Component {
       bad
     } = selectedPalette.moodColors;
 
-    // if (this.diaryStore.currentYear === '2018') {
-    //   console.log(this.diaryStore.currentYear);
-    // }
-    // console.log(item.moods);
-
-    // console.log(item.key);
-
     if (item.moods !== '') {
       console.log('month!!!!!!!!!!!', item.month);
       return (
@@ -187,7 +127,6 @@ export default class Yearly extends Component {
   }
 
   render() {
-    // console.log('Render yearly', this.diaryStore.currentYear);
     console.log('datasaurce', this.diaryStore.dataSourceNew);
 
     const selectedPalette = this.rootStore.moodPaletteList[
