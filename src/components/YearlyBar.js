@@ -1,10 +1,5 @@
 import React, { Component } from 'react';
-import {
-  Platform,
-  StyleSheet,
-  TouchableOpacity,
-  View
-} from 'react-native';
+import { Platform, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { observer, inject } from 'mobx-react';
@@ -47,6 +42,7 @@ export default class YearlyBar extends Component {
   renderTitle() {
     let arraySort = [];
     let dataArray = [];
+
     arraySort = Object.values(this.accountStore.yearArray);
     arraySort.sort((a, b) => (a < b ? 1 : -1));
     console.log('arraySort', arraySort);
@@ -72,24 +68,25 @@ export default class YearlyBar extends Component {
       console.log('rendertitle is runing', this.currentYear);
       console.log('dataArray', dataArray);
     }
-      return (
-        <DropdownMenu
-          style={{ flex: 1 }}
-          bgColor={'white'}
-          tintColor={'#666666'}
-          activityTintColor={'green'}
-          // arrowImg={}
-          // checkImage={}
-          // optionTextStyle={{color: '#333333'}}
-          // titleStyle={{color: '#333333'}}
-          // maxHeight={300}
-          handler={(selection, row) => {
-            this.setState({ text: dataArray[selection][row] });
-            this.changeCurrentYear(dataArray[selection][row]);
-          }}
-          data={dataArray}
-        />
-      );
+    return (
+
+      <DropdownMenu
+        style={{ flex: 1 }}
+        bgColor={'white'}
+        tintColor={'#666666'}
+        activityTintColor={'green'}
+        // arrowImg={}
+        // checkImage={}
+        // optionTextStyle={{color: '#333333'}}
+        // titleStyle={{color: '#333333'}}
+        // maxHeight={300}
+        handler={(selection, row) => {
+          this.setState({ text: dataArray[selection][row] });
+          this.changeCurrentYear(dataArray[selection][row]);
+        }}
+        data={dataArray}
+      />
+    );
   }
 
   render() {
