@@ -85,6 +85,7 @@ export default class ResetEmailDialog extends Component {
                                 enablesReturnKeyAutomatically
                                 keyboardType="email-address"
                                 autoCapitalize="none"
+                                underlineColorAndroid="transparent"
                             />
                         </View>
                         <View style={styles.buttonContainerStyle}>
