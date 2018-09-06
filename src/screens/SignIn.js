@@ -6,7 +6,8 @@ import {
     StyleSheet,
     TouchableOpacity,
     Dimensions,
-    ActivityIndicator
+    ActivityIndicator,
+    Keyboard
 } from 'react-native';
 import { observer, inject } from 'mobx-react';
 import ResetEmailDialog from '../components/ResetEmailDialog';
@@ -54,6 +55,11 @@ export default class SignIn extends Component {
     isDone = () => {
         const { email, password, confirmedPassword, isSignUpMode } = this.state;
 
+        if (!email || !password) {
+            alert('please fill out every field');
+            return;
+        }
+
         // if (!emailRegex.test(email)) {
         //     alert('email is wrong');
         //     return;
@@ -93,6 +99,7 @@ export default class SignIn extends Component {
                         enablesReturnKeyAutomatically
                         keyboardType="email-address"
                         autoCapitalize="none"
+                        underlineColorAndroid="transparent"
                     />
                     <Text style={styles.textStyle}>Password</Text>
                     <TextInput
@@ -100,6 +107,7 @@ export default class SignIn extends Component {
                         onChangeText={password => this.setState({ password })}
                         value={this.state.password}
                         secureTextEntry
+                        underlineColorAndroid="transparent"
                     />
                     {this.state.isSignUpMode ? (
                         <View>
@@ -113,10 +121,15 @@ export default class SignIn extends Component {
                                 secureTextEntry
                                 enablesReturnKeyAutomatically
                                 textContentType="password"
+                                underlineColorAndroid="transparent"
                             />
                         </View>
                     ) : null}
-                    <TouchableOpacity onPress={this.isDone}>
+                    <TouchableOpacity onPress={() => {
+                        Keyboard.dismiss();
+                        this.isDone();
+                    }}
+                    >
                         <View style={styles.signInButtonStyle}>
                             <Text>{this.state.isSignUpMode ? 'Sign Up' : 'Sign In'}</Text>
                         </View>

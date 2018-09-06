@@ -108,6 +108,7 @@ export default class AddPost extends Component {
                             value={this.post ? this.state.comment : ''}
                             multiline
                             maxLength={470}
+                            underlineColorAndroid="transparent"
                         />
                     }
                 </ScrollView>
