@@ -70,22 +70,22 @@ export default class YearlyBar extends Component {
     }
     return (
 
-      <DropdownMenu
-        style={{ flex: 1 }}
-        bgColor={'white'}
-        tintColor={'#666666'}
-        activityTintColor={'green'}
-        // arrowImg={}
-        // checkImage={}
-        // optionTextStyle={{color: '#333333'}}
-        // titleStyle={{color: '#333333'}}
-        // maxHeight={300}
-        handler={(selection, row) => {
-          this.setState({ text: dataArray[selection][row] });
-          this.changeCurrentYear(dataArray[selection][row]);
-        }}
-        data={dataArray}
-      />
+      // <DropdownMenu
+      //   // style={{ flex: 1 }}
+      //   bgColor={'white'}
+      //   tintColor={'#666666'}
+      //   activityTintColor={'green'}
+      //   // arrowImg={}
+      //   // checkImage={}
+      //   // optionTextStyle={{color: '#333333'}}
+      //   // titleStyle={{color: '#333333'}}
+      //   // maxHeight={300}
+      //   handler={(selection, row) => {
+      //     this.setState({ text: dataArray[selection][row] });
+      //     this.changeCurrentYear(dataArray[selection][row]);
+      //   }}
+      //   data={dataArray}
+      // />
     );
   }
 
