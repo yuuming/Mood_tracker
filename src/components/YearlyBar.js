@@ -4,8 +4,6 @@ import {
   StyleSheet,
   TouchableOpacity,
   View,
-  TextInput,
-  Switch
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -21,7 +19,6 @@ export default class YearlyBar extends Component {
     super(props);
     this.state = {
       text: '',
-      textInputValue: ''
     };
 
     this.rootStore = this.props.rootStore;
@@ -49,8 +46,6 @@ export default class YearlyBar extends Component {
   };
 
   renderTitle() {
-
-
     let arraySort = [];
     let dataArray = [];
 
@@ -80,22 +75,16 @@ export default class YearlyBar extends Component {
       console.log('dataArray', dataArray);
     }
 
-        //<------------ Android --------------->
-        let index = 0;
-        const data = [
-          // { key: index++, section: true, label: 'Year' },
-          { key: index++, label: 'Apples' },
-          { key: index++, label: 'Cherries' },
-          {
-            key: index++,
-            label: 'Cranberries',
-            accessibilityLabel: 'Tap here for cranberries'
-          },
-          // etc...
-          // Can also add additional custom keys which are passed to the onChange callback
-          { key: index++, label: 'Vegetable', customKey: 'Not a fruit' }
-        ];
-        //====↑↑↑↑↑==== Android =====↑↑↑↑↑========
+    //for Android 
+    let index = 0;
+    const yearSourceArray = [];
+    _.forEach(arraySort, element => {
+      const yearSource = {
+        key: index++,
+        label: element
+      };
+      yearSourceArray.push(yearSource);
+    });
 
     if (Platform.OS === 'ios') {
       return (
@@ -118,12 +107,13 @@ export default class YearlyBar extends Component {
       );
     }
     return (
+      // for android
       <View style={{ flex: 1, justifyContent: 'space-around', padding: 1 }}>
         <ModalSelector
-          data={data}
+          data={yearSourceArray}
           initValue={this.currentYear}
           onChange={option => {
-            alert(`${option.label} (${option.key}) nom nom nom`);
+            this.changeCurrentYear(option.label);
           }}
         />
       </View>
