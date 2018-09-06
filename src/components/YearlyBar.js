@@ -68,25 +68,28 @@ export default class YearlyBar extends Component {
       console.log('rendertitle is runing', this.currentYear);
       console.log('dataArray', dataArray);
     }
-    return (
 
-      // <DropdownMenu
-      //   // style={{ flex: 1 }}
-      //   bgColor={'white'}
-      //   tintColor={'#666666'}
-      //   activityTintColor={'green'}
-      //   // arrowImg={}
-      //   // checkImage={}
-      //   // optionTextStyle={{color: '#333333'}}
-      //   // titleStyle={{color: '#333333'}}
-      //   // maxHeight={300}
-      //   handler={(selection, row) => {
-      //     this.setState({ text: dataArray[selection][row] });
-      //     this.changeCurrentYear(dataArray[selection][row]);
-      //   }}
-      //   data={dataArray}
-      // />
-    );
+    if (Platform.OS === 'ios') {
+      return (
+        <DropdownMenu
+          style={{ flex: 1 }}
+          bgColor={'white'}
+          tintColor={'#666666'}
+          activityTintColor={'green'}
+          // arrowImg={}
+          // checkImage={}
+          // optionTextStyle={{color: '#333333'}}
+          // titleStyle={{color: '#333333'}}
+          // maxHeight={300}
+          handler={(selection, row) => {
+            this.setState({ text: dataArray[selection][row] });
+            this.changeCurrentYear(dataArray[selection][row]);
+          }}
+          data={dataArray}
+        />
+      );
+    }
+    
   }
 
   render() {
