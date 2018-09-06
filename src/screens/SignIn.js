@@ -6,7 +6,8 @@ import {
     StyleSheet,
     TouchableOpacity,
     Dimensions,
-    ActivityIndicator
+    ActivityIndicator,
+    Keyboard
 } from 'react-native';
 import { observer, inject } from 'mobx-react';
 import ResetEmailDialog from '../components/ResetEmailDialog';
@@ -124,7 +125,11 @@ export default class SignIn extends Component {
                             />
                         </View>
                     ) : null}
-                    <TouchableOpacity onPress={this.isDone}>
+                    <TouchableOpacity onPress={() => {
+                        Keyboard.dismiss();
+                        this.isDone();
+                    }}
+                    >
                         <View style={styles.signInButtonStyle}>
                             <Text>{this.state.isSignUpMode ? 'Sign Up' : 'Sign In'}</Text>
                         </View>
