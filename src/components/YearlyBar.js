@@ -1,10 +1,18 @@
 import React, { Component } from 'react';
-import { Platform, StyleSheet, TouchableOpacity, View } from 'react-native';
+import {
+  Platform,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+  TextInput,
+  Switch
+} from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { observer, inject } from 'mobx-react';
 import DropdownMenu from 'react-native-dropdown-menu';
 import _ from 'lodash';
+import ModalSelector from 'react-native-modal-selector';
 
 @inject('rootStore')
 @observer
@@ -12,7 +20,8 @@ export default class YearlyBar extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      text: ''
+      text: '',
+      textInputValue: ''
     };
 
     this.rootStore = this.props.rootStore;
@@ -40,6 +49,8 @@ export default class YearlyBar extends Component {
   };
 
   renderTitle() {
+
+
     let arraySort = [];
     let dataArray = [];
 
@@ -69,6 +80,23 @@ export default class YearlyBar extends Component {
       console.log('dataArray', dataArray);
     }
 
+        //<------------ Android --------------->
+        let index = 0;
+        const data = [
+          // { key: index++, section: true, label: 'Year' },
+          { key: index++, label: 'Apples' },
+          { key: index++, label: 'Cherries' },
+          {
+            key: index++,
+            label: 'Cranberries',
+            accessibilityLabel: 'Tap here for cranberries'
+          },
+          // etc...
+          // Can also add additional custom keys which are passed to the onChange callback
+          { key: index++, label: 'Vegetable', customKey: 'Not a fruit' }
+        ];
+        //====↑↑↑↑↑==== Android =====↑↑↑↑↑========
+
     if (Platform.OS === 'ios') {
       return (
         <DropdownMenu
@@ -89,7 +117,17 @@ export default class YearlyBar extends Component {
         />
       );
     }
-    
+    return (
+      <View style={{ flex: 1, justifyContent: 'space-around', padding: 1 }}>
+        <ModalSelector
+          data={data}
+          initValue={this.currentYear}
+          onChange={option => {
+            alert(`${option.label} (${option.key}) nom nom nom`);
+          }}
+        />
+      </View>
+    );
   }
 
   render() {
@@ -101,7 +139,7 @@ export default class YearlyBar extends Component {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#ffffff',
-    height: 64,
+    height: 84,
     paddingTop: Platform.OS === 'ios' ? 10 : 0,
     flexDirection: 'row',
     alignItems: 'center',
