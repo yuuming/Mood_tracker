@@ -93,6 +93,7 @@ export default class SignIn extends Component {
                         enablesReturnKeyAutomatically
                         keyboardType="email-address"
                         autoCapitalize="none"
+                        underlineColorAndroid="transparent"
                     />
                     <Text style={styles.textStyle}>Password</Text>
                     <TextInput
@@ -100,6 +101,7 @@ export default class SignIn extends Component {
                         onChangeText={password => this.setState({ password })}
                         value={this.state.password}
                         secureTextEntry
+                        underlineColorAndroid="transparent"
                     />
                     {this.state.isSignUpMode ? (
                         <View>
