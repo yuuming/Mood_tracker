@@ -54,6 +54,11 @@ export default class SignIn extends Component {
     isDone = () => {
         const { email, password, confirmedPassword, isSignUpMode } = this.state;
 
+        if (!email && !password) {
+            alert('please fill out every field');
+            return;
+        }
+
         // if (!emailRegex.test(email)) {
         //     alert('email is wrong');
         //     return;
