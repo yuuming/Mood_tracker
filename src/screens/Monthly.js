@@ -153,11 +153,11 @@ export default class Monthly extends Component {
               fontWeight: '600',
               margin: 10
             },
-            arrow: {
-              width: 0,
-              height: 0,
-              padding: 10
-            }
+            // arrow: {
+            //   width: 0,
+            //   height: 0,
+            //   padding: 10
+            // }
           }
         }}
         current={`${this.year}-${this.month}-01`}
