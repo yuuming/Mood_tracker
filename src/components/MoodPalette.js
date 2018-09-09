@@ -6,7 +6,8 @@ import {
   Image,
   FlatList,
   Dimensions,
-  TouchableOpacity
+  TouchableOpacity,
+  Platform
 } from 'react-native';
 import { observer, inject } from 'mobx-react';
 import _ from 'lodash';
@@ -56,6 +57,7 @@ export default class MoodPalette extends Component {
         );
       }}
     >
+    
       <View
         style={
           this.state.selectedPaletteName === item.name
@@ -135,7 +137,7 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 8,
     borderBottomLeftRadius: 8,
     borderColor: '#95a8c6',
-    borderWidth: 1
+    borderWidth: 1,
   },
   selectedItemContainer: {
     flex: 1,
@@ -149,7 +151,22 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.9,
     shadowRadius: 8,
     borderWidth: 1,
-    borderColor: '#4169e1'
+    borderColor: '#4169e1',
+  },
+  selectedItemContainerAndroid: {
+    flex: 1,
+    marginHorizontal: 8,
+    marginVertical: 8,
+    backgroundColor: '#ffffff',
+    borderBottomRightRadius: 8,
+    borderBottomLeftRadius: 8,
+    shadowColor: '#4169e1',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.9,
+    shadowRadius: 8,
+    borderWidth: 1,
+    borderColor: '#4169e1',
+    elevation: 3
   }
 });
 
