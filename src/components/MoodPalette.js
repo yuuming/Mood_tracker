@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import { observer, inject } from 'mobx-react';
 import _ from 'lodash';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const { width, height } = Dimensions.get('window');
 
@@ -25,6 +26,7 @@ export default class MoodPalette extends Component {
     this.user = this.accountStore.user;
     this.moodPaletteList = Object.values(this.rootStore.moodPaletteList);
     this.moodPaletteListWithId = this.rootStore.moodPaletteList;
+    this.stringSpace = '\xa0\xa0';
 
     this.state = {
       selectedPaletteID: this.props.rootStore.accountStore.currentPaletteID,
@@ -43,6 +45,62 @@ export default class MoodPalette extends Component {
     });
   }
 
+  shadowStyle(item) {
+    
+    if (Platform.OS === 'ios') {
+      return (
+        <View
+          style={
+            this.state.selectedPaletteName === item.name
+              ? styles.selectedItemContainer
+              : styles.cardItemContainer
+          }
+        >
+          <Image
+            source={{
+              uri: item.imgUrl || this.rootStore.defaultMoodPaletteImage
+            }}
+            style={styles.moodPaletteImage}
+          />
+          <View style={styles.colourPalette}>
+            {colorSquare(item.moodColors.high)}
+            {colorSquare(item.moodColors.happy)}
+            {colorSquare(item.moodColors.neutral)}
+            {colorSquare(item.moodColors.unhappy)}
+            {colorSquare(item.moodColors.bad)}
+          </View>
+          <Text style={styles.paletteName}>{item.name}</Text>
+        </View>
+      );
+    } 
+      return (
+        <View
+          style={
+            this.state.selectedPaletteName === item.name
+              ? styles.selectedItemContainerAndroid
+              : styles.cardItemContainer
+          }
+        >
+          <Image
+            source={{
+              uri: item.imgUrl || this.rootStore.defaultMoodPaletteImage
+            }}
+            style={styles.moodPaletteImage}
+          />
+          <View style={styles.colourPalette}>
+            {colorSquare(item.moodColors.high)}
+            {colorSquare(item.moodColors.happy)}
+            {colorSquare(item.moodColors.neutral)}
+            {colorSquare(item.moodColors.unhappy)}
+            {colorSquare(item.moodColors.bad)}
+          </View>
+          {this.state.selectedPaletteName === item.name
+              ? <Text style={styles.paletteNameAndroid}>{item.name}{this.stringSpace}<Icon style={styles.paletteNameAndroid} name="check" size={27} color="#4169e1" /></Text>
+              : <Text style={styles.paletteName}>{item.name}</Text>}
+        </View>
+      );
+  }
+
   renderMoodImage = ({ item }) => (
     <TouchableOpacity
       key={item.name}
@@ -57,29 +115,7 @@ export default class MoodPalette extends Component {
         );
       }}
     >
-    
-      <View
-        style={
-          this.state.selectedPaletteName === item.name
-            ? styles.selectedItemContainer
-            : styles.cardItemContainer
-        }
-      >
-        <Image
-          source={{
-            uri: item.imgUrl || this.rootStore.defaultMoodPaletteImage
-          }}
-          style={styles.moodPaletteImage}
-        />
-        <View style={styles.colourPalette}>
-          {colorSquare(item.moodColors.high)}
-          {colorSquare(item.moodColors.happy)}
-          {colorSquare(item.moodColors.neutral)}
-          {colorSquare(item.moodColors.unhappy)}
-          {colorSquare(item.moodColors.bad)}
-        </View>
-        <Text style={styles.paletteName}>{item.name}</Text>
-      </View>
+      {this.shadowStyle(item)}
     </TouchableOpacity>
   );
 
@@ -129,6 +165,16 @@ const styles = StyleSheet.create({
     paddingLeft: 17,
     paddingTop: 10
   },
+  paletteNameAndroid: {
+    flexDirection: 'row',
+    height: 60,
+    color: '#4169e1',
+    fontSize: 22,
+    fontWeight: '600',
+    top: 5,
+    paddingLeft: 17,
+    paddingTop: 10,
+  },
   cardItemContainer: {
     flex: 1,
     marginHorizontal: 8,
@@ -137,7 +183,7 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 8,
     borderBottomLeftRadius: 8,
     borderColor: '#95a8c6',
-    borderWidth: 1,
+    borderWidth: 1
   },
   selectedItemContainer: {
     flex: 1,
@@ -155,18 +201,18 @@ const styles = StyleSheet.create({
   },
   selectedItemContainerAndroid: {
     flex: 1,
+    color: '#fff',
     marginHorizontal: 8,
     marginVertical: 8,
-    backgroundColor: '#ffffff',
+    fontSize: 5,
+    backgroundColor: '#fff',
     borderBottomRightRadius: 8,
     borderBottomLeftRadius: 8,
     shadowColor: '#4169e1',
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.9,
-    shadowRadius: 8,
     borderWidth: 1,
     borderColor: '#4169e1',
-    elevation: 3
+    elevation: 13
   }
 });
 
