@@ -112,6 +112,7 @@ export default class YearlyBar extends Component {
         <ModalSelector
           data={yearSourceArray}
           initValue={this.currentYear}
+          animationType='fade'
           onChange={option => {
             this.changeCurrentYear(option.label);
           }}
