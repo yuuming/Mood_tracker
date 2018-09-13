@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Scene, Router, Stack, ActionConst } from 'react-native-router-flux';
+import { Scene, Router, Stack, ActionConst, Actions } from 'react-native-router-flux';
 import { BackHandler } from 'react-native';
 import { observer, inject } from 'mobx-react';
 import SignIn from './screens/SignIn';

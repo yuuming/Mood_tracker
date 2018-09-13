@@ -124,6 +124,7 @@ export default class MoodPalette extends Component {
     return (
       <View style={{ flex: 1 }}>
         <FlatList
+          style={{ width: '100%', height: '100%' }}
           data={this.moodPaletteList}
           keyExtractor={item => item.name}
           renderItem={item => this.renderMoodImage(item)}
@@ -138,7 +139,7 @@ export default class MoodPalette extends Component {
 const styles = StyleSheet.create({
   moodPaletteImage: {
     height: height * 0.35,
-    width: width * 0.9,
+    width: width * 0.952,
     resizeMode: 'stretch'
     // alignItems: 'center'
     // borderTopLeftRadius: 8,
