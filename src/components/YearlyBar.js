@@ -108,7 +108,7 @@ export default class YearlyBar extends Component {
     }
     return (
       // for android
-      <View style={{ flex: 1, justifyContent: 'space-around', padding: 1 }}>
+      <View style={{ flex: 1, padding: 35 }}>
         <ModalSelector
           data={yearSourceArray}
           initValue={this.currentYear}
