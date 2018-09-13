@@ -12,4 +12,9 @@ public class MainActivity extends ReactActivity {
     protected String getMainComponentName() {
         return "mood_tracker";
     }
+
+    @Override
+    public void invokeDefaultOnBackPressed() {
+        moveTaskToBack(true);
+    }
 }
