@@ -62,6 +62,12 @@ export default class AddPost extends Component {
         this.diaryStore.clearData();
     }
 
+    onchangeText(comment) {
+        this.setState({
+            comment
+        });
+    }
+
     renderMoodSettingBar() {
         return (
             _.map(MOODS, (mood, index) =>
@@ -104,8 +110,11 @@ export default class AddPost extends Component {
                     {!this.isToday ?
                         <Text style={styles.textStyle}>{this.post.comment || ''}</Text> :
                         <TextInput
-                            onChangeText={(comment) => { this.diaryStore.comment = comment; }}
-                            value={this.post ? this.state.comment : ''}
+                            onChangeText={(comment) => { 
+                                this.onchangeText(comment);
+                                this.diaryStore.comment = comment; 
+                            }}
+                            value={this.state.comment}
                             multiline
                             maxLength={470}
                             underlineColorAndroid="transparent"

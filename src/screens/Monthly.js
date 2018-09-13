@@ -308,10 +308,13 @@ const styles = StyleSheet.create({
   },
   iconContainer: {
     width: '100%',
-    marginTop: 10,
-    height: '10%',
+    height: '12%',
     flexDirection: 'row',
-    justifyContent: 'space-around'
+    justifyContent: 'space-around',
+    position: 'absolute', 
+    bottom: -10,
+    backgroundColor: 'white',
+    paddingTop: 8
   },
   emptyRecordMessage: {
     flex: 1,

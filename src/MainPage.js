@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Scene, Router, Stack } from 'react-native-router-flux';
+import { Scene, Router, Stack, ActionConst } from 'react-native-router-flux';
+import { BackHandler } from 'react-native';
 import { observer, inject } from 'mobx-react';
 import SignIn from './screens/SignIn';
 import Monthly from './screens/Monthly';
@@ -13,16 +14,42 @@ import YearlyBar from './components/YearlyBar';
 @inject('rootStore')
 @observer
 export default class MainPage extends Component {
+  componentDidMount() {
+    BackHandler.addEventListener('hardwareBackPress', this.onBackPress);
+  }
+
+  componentWillUnmount() {
+    BackHandler.removeEventListener('hardwareBackPress', this.onBackPress);
+  }
+
+  onBackPress = () => {
+    console.log(Actions.currentScene);
+    const currentScene = Actions.currentScene;
+    // TODO :: Need to refactoring cause it needs to add everywhere.
+    // Do not use string, define in constant.js and use enum instead or make check function.
+    if (currentScene === '_main' || currentScene === 'main') {
+      return false;
+    }
+
+    // default backbutton handling is Actions.pop();
+    Actions.pop();
+    return true;
+  }
+
   render() {
     return (
-      <Router>
+      <Router
+        backAndroidHandler={this.onBackPress}
+      >
         <Stack key="root" hideNavBar>
           <Scene key="signIn" component={SignIn} initial hideNavBar />
           <Stack key='main'>
             <Scene
-              key="monthly"
+              key="main"
               component={Monthly}
               hideNavBar
+              initial
+              type={ActionConst.RESET}
             />
             <Scene
               key="ColourPalette"
@@ -33,7 +60,6 @@ export default class MainPage extends Component {
             />
             <Scene
               key="Yearly"
-              initial
               component={Yearly}
               hideNavBar={false}
               navBar={YearlyBar}

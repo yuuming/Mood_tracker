@@ -218,7 +218,7 @@ export default class AccountStore {
         const month = today.charAt(5) + today.charAt(6);
 
         this.rootStore.diaryStore.currentYear = year;
-        Actions.monthly({ year, month });
+        Actions.main({ year, month });
       })
       .catch(err => {
         console.log(err);
