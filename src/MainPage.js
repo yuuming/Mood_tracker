@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Scene, Router, Stack } from 'react-native-router-flux';
+import { Scene, Router, Stack, ActionConst, ActionConst } from 'react-native-router-flux';
 import { observer, inject } from 'mobx-react';
 import SignIn from './screens/SignIn';
 import Monthly from './screens/Monthly';
@@ -20,9 +20,11 @@ export default class MainPage extends Component {
           <Scene key="signIn" component={SignIn} initial hideNavBar />
           <Stack key='main'>
             <Scene
-              key="monthly"
+              key="main"
               component={Monthly}
               hideNavBar
+              initial
+              type={ActionConst.RESET}
             />
             <Scene
               key="ColourPalette"
@@ -33,7 +35,6 @@ export default class MainPage extends Component {
             />
             <Scene
               key="Yearly"
-              initial
               component={Yearly}
               hideNavBar={false}
               navBar={YearlyBar}

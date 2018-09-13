@@ -89,7 +89,7 @@ export default class Yearly extends Component {
 
           style={styles.monthSquare}
           onPress={() => {
-            Actions.monthly({
+            Actions.main({
               year: this.diaryStore.currentYear,
               month: item.month
             });
@@ -111,7 +111,7 @@ export default class Yearly extends Component {
         key={item.month}
         style={styles.monthSquare}
         onPress={() => {
-          Actions.monthly({
+          Actions.main({
             year: this.diaryStore.currentYear,
             month: item.month
           });
