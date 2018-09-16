@@ -1,10 +1,16 @@
 import React, { Component } from 'react';
-import { Platform, StyleSheet, TouchableOpacity, View } from 'react-native';
+import {
+  Platform,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { observer, inject } from 'mobx-react';
 import DropdownMenu from 'react-native-dropdown-menu';
 import _ from 'lodash';
+import ModalSelector from 'react-native-modal-selector';
 
 @inject('rootStore')
 @observer
@@ -12,7 +18,7 @@ export default class YearlyBar extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      text: ''
+      text: '',
     };
 
     this.rootStore = this.props.rootStore;
@@ -68,24 +74,50 @@ export default class YearlyBar extends Component {
       console.log('rendertitle is runing', this.currentYear);
       console.log('dataArray', dataArray);
     }
-    return (
 
-      <DropdownMenu
-        style={{ flex: 1 }}
-        bgColor={'white'}
-        tintColor={'#666666'}
-        activityTintColor={'green'}
-        // arrowImg={}
-        // checkImage={}
-        // optionTextStyle={{color: '#333333'}}
-        // titleStyle={{color: '#333333'}}
-        // maxHeight={300}
-        handler={(selection, row) => {
-          this.setState({ text: dataArray[selection][row] });
-          this.changeCurrentYear(dataArray[selection][row]);
-        }}
-        data={dataArray}
-      />
+    //for Android 
+    let index = 0;
+    const yearSourceArray = [];
+    _.forEach(arraySort, element => {
+      const yearSource = {
+        key: index++,
+        label: element
+      };
+      yearSourceArray.push(yearSource);
+    });
+
+    if (Platform.OS === 'ios') {
+      return (
+        <DropdownMenu
+          style={{ flex: 1 }}
+          bgColor={'white'}
+          tintColor={'#666666'}
+          activityTintColor={'green'}
+          // arrowImg={}
+          // checkImage={}
+          // optionTextStyle={{color: '#333333'}}
+          // titleStyle={{color: '#333333'}}
+          // maxHeight={300}
+          handler={(selection, row) => {
+            this.setState({ text: dataArray[selection][row] });
+            this.changeCurrentYear(dataArray[selection][row]);
+          }}
+          data={dataArray}
+        />
+      );
+    }
+    return (
+      // for android
+      <View style={{ flex: 1, padding: 35 }}>
+        <ModalSelector
+          data={yearSourceArray}
+          initValue={this.currentYear}
+          animationType='fade'
+          onChange={option => {
+            this.changeCurrentYear(option.label);
+          }}
+        />
+      </View>
     );
   }
 
@@ -98,7 +130,7 @@ export default class YearlyBar extends Component {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#ffffff',
-    height: 64,
+    height: 84,
     paddingTop: Platform.OS === 'ios' ? 10 : 0,
     flexDirection: 'row',
     alignItems: 'center',
