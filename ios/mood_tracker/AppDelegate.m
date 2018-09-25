@@ -10,6 +10,7 @@
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
 #import <Firebase.h>
+#import "RCTSplashScreen.h"
 
 @implementation AppDelegate
 
@@ -22,17 +23,34 @@
   [FIRApp configure];
 
   RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
-                                                      moduleName:@"mood_tracker"
+                                               moduleName:@"mood_tracker"
                                                initialProperties:nil
-                                                   launchOptions:launchOptions];
+                                               launchOptions:launchOptions];
+  
+  //[RCTSplashScreen open:rootView];
+  [RCTSplashScreen open:rootView withImageNamed:@"splash"]; // activate splashscreen, imagename from LaunchScreen.xib
+  
   rootView.backgroundColor = [[UIColor alloc] initWithRed:1.0f green:1.0f blue:1.0f alpha:1];
-
+  
   self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
   UIViewController *rootViewController = [UIViewController new];
   rootViewController.view = rootView;
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
   return YES;
+  
+//  RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
+//                                                      moduleName:@"mood_tracker"
+//                                               initialProperties:nil
+//                                                   launchOptions:launchOptions];
+//  rootView.backgroundColor = [[UIColor alloc] initWithRed:1.0f green:1.0f blue:1.0f alpha:1];
+//
+//  self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+//  UIViewController *rootViewController = [UIViewController new];
+//  rootViewController.view = rootView;
+//  self.window.rootViewController = rootViewController;
+//  [self.window makeKeyAndVisible];
+//  return YES;
 }
 
 @end
