@@ -62,13 +62,13 @@ export default class SignIn extends Component {
             return;
         }
 
-        // if (!emailRegex.test(email)) {
-        //     alert('email is wrong');
-        //     return;
-        // } else if (!passwordRegex.test(password)) {
-        //     alert('password is wrong');
-        //     return;
-        // }
+        if (!emailRegex.test(email)) {
+            alert('email is wrong');
+            return;
+        } else if (!passwordRegex.test(password)) {
+            alert('password is wrong');
+            return;
+        }
 
         if (isSignUpMode && password === confirmedPassword) {
             this.accountStore.signUp(email, password);
