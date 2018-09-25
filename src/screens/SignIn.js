@@ -110,7 +110,7 @@ export default class SignIn extends Component {
                         autoCapitalize="none"
                         underlineColorAndroid="transparent"
                     />
-                    <Text style={styles.textStyle}>Password (Minimum 8 letter combination with at least 1 uppercase and digit?)</Text>
+                    <Text style={styles.textStyle}>Password (Minimum 8 letter combination with at least 1 uppercase and digit)</Text>
                     <TextInput
                         style={styles.textInputStyle}
                         onChangeText={password => this.setState({ password })}
