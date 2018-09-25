@@ -50,7 +50,4 @@ export default class RootStore {
         console.log('successful');
         this.accountStore.updateCurrentPalette(this.selectedPaletteID);
       })
-      // .catch(err => {
-      //   console.log(err);
-      // });
 }

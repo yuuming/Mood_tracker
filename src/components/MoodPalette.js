@@ -35,9 +35,6 @@ export default class MoodPalette extends Component {
   }
 
   componentWillMount() {
-    console.log(this.moodPaletteList);
-    console.log(this.user.currentPalette);
-    console.log('====moodPaletteListWithID====', this.moodPaletteListWithId);
     this.setState({
       selectedPaletteName: this.moodPaletteListWithId[
         this.state.selectedPaletteID
@@ -46,7 +43,6 @@ export default class MoodPalette extends Component {
   }
 
   shadowStyle(item) {
-    
     if (Platform.OS === 'ios') {
       return (
         <View
@@ -105,7 +101,6 @@ export default class MoodPalette extends Component {
     <TouchableOpacity
       key={item.name}
       onPress={() => {
-        console.log('renderMoodImage is called!!!!');
         this.setState({
           selectedPaletteName: item.name
         });
@@ -141,10 +136,6 @@ const styles = StyleSheet.create({
     height: height * 0.35,
     width: width * 0.952,
     resizeMode: 'stretch'
-    // alignItems: 'center'
-    // borderTopLeftRadius: 8,
-    // borderTopRightRadius: 8
-    // borderRadius: 10
   },
   colourSquare: {
     flex: 1,

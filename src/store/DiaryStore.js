@@ -1,5 +1,4 @@
 import firebase from 'react-native-firebase';
-import { Actions } from 'react-native-router-flux';
 import { observable, action } from 'mobx';
 import _ from 'lodash';
 
@@ -52,8 +51,7 @@ export default class DiaryStore {
   }
 
   writeDiary = () =>
-    db
-      .collection('users')
+    db.collection('users')
       .doc(this.accountStore.user.id)
       .collection('markedDates')
       .add({
@@ -65,14 +63,12 @@ export default class DiaryStore {
         const year = this.date.slice(0, 4);
         const month = this.date.charAt(5) + this.date.charAt(6);
 
-        console.log(year, month);
         this.updateRecords(ref.id);
         this.updateMoodCounter(year, month, this.mood);
       });
 
   editDiary = () =>
-    db
-      .collection('users')
+    db.collection('users')
       .doc(this.accountStore.user.id)
       .collection('markedDates')
       .doc(this.id)
@@ -87,8 +83,6 @@ export default class DiaryStore {
 
         this.updateRecords(this.id);
         this.updateMoodCounter(year, month, this.mood);
-
-        console.log(this.moodCounter);
       });
 
   clearData = () => {
@@ -102,6 +96,7 @@ export default class DiaryStore {
     this.dataSourceNew = [];
     this.dataSource = [];
     let stringMonth;
+    
     for (i = 1; i <= 12; i++) {
       if (i.toString().length === 1) {
         stringMonth = `0${i.toString()}`;
@@ -115,7 +110,7 @@ export default class DiaryStore {
       };
       this.dataSourceNew.push(obj1);
     }
-    console.log('=====currentYear====', this.currentYear);
+
     _.forEach(this.moodCounter[this.currentYear], (element, key) => {
       const obj = {
         key: `${this.currentYear + key}`,
@@ -124,7 +119,7 @@ export default class DiaryStore {
       };
       this.dataSource.push(obj);
     });
-    console.log('==========dataSourceNew.length=======', this.dataSourceNew.length);
+
     for (let i = 0; i < this.dataSourceNew.length; i++) {
       for (let j = 0; j < this.dataSource.length; j++) {
         if (this.dataSourceNew[i].month === this.dataSource[j].month) {
@@ -132,7 +127,5 @@ export default class DiaryStore {
         }
       }
     }
-
-    console.log('$$$$$$$$$$$$$$$', this.dataSourceNew);
   };
 }

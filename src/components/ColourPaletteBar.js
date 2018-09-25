@@ -14,7 +14,6 @@ import { observer, inject } from 'mobx-react';
 @observer
 export default class ColourPaletteBar extends Component {
   backButton() {
-    console.log('==============palette');
     return (
       <View style={styles.backButton}>
         <TouchableOpacity
@@ -52,7 +51,6 @@ export default class ColourPaletteBar extends Component {
   }
 
   render() {
-    console.log('==============paletteBARRRR');
     return (
       <View style={styles.container}>
         {this.backButton()}
@@ -76,7 +74,6 @@ const styles = StyleSheet.create({
     minWidth: 32,
     minHeight: 32,
     fontSize: 18
-    // colour: '#7F8C8D'
   },
   doneButton: {
     flex: 1,

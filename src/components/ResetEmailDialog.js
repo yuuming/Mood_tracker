@@ -24,17 +24,11 @@ export default class ResetEmailDialog extends Component {
     }
 
     componentWillMount() {
-        console.log('componentWillMount in ResetEmailDialog');
         this.setState({
             modalVisible: !this.state.modalVisible,
             isInputReady: false
         });
     }
-
-    //TODO: 
-    // 1. remove Icon impor
-    // 2. think of creating a boolean variable to indicate that a reset email is sent!
-    // 3. discuss Yearly part with Yuumi :)
 
     closeDialog() {
         this.setState({
@@ -45,7 +39,6 @@ export default class ResetEmailDialog extends Component {
     }
 
     sendPasswordResetEmail() {
-        console.log('send reset email');
         this.accountStore.sendPasswordResetEmail(this.state.email)
             .then(() => {
                 this.setState({
