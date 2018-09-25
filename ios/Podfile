@@ -10,6 +10,8 @@ target 'mood_tracker' do
   target 'mood_tracker-tvOSTests' do
     inherit! :search_paths
     # Pods for testing
+    pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
+
   end
 
   target 'mood_trackerTests' do
