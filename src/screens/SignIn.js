@@ -8,7 +8,8 @@ import {
     Dimensions,
     ActivityIndicator,
     Keyboard,
-    Image
+    Image,
+    KeyboardAvoidingView
 } from 'react-native';
 import { observer, inject } from 'mobx-react';
 import ResetEmailDialog from '../components/ResetEmailDialog';
@@ -100,7 +101,7 @@ export default class SignIn extends Component {
                         resizeMode='contain'
                     />
                 </View>
-                <View style={styles.textInputContainer}>
+                <KeyboardAvoidingView style={styles.textInputContainer} enabled>
                     <Text style={styles.textStyle}>Email</Text>
                     <TextInput
                         style={styles.textInputStyle}
@@ -170,7 +171,7 @@ export default class SignIn extends Component {
                     {this.state.isResetEmailDialogVisible ?
                         <ResetEmailDialog closeDialog={this.switchResetPasswordDialogVisibility} />
                         : null}
-                </View>
+                </KeyboardAvoidingView>
                 <View style={{ backgroundColor: '#F5FCFF', flex: 1, justifyContent: 'flex-start', alignItems: 'center' }}>
                     {this.accountStore.isPending ? <ActivityIndicator /> : null}
                 </View>
