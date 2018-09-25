@@ -73,11 +73,10 @@ export default class ResetEmailDialog extends Component {
                 <View style={styles.modalStyle}>
                     <View style={styles.dialogStyle}>
                         <View style={styles.alarmMessageStyle}>
-                            <Text style={{ fontSize: 16, fontWeight: 'bold', lineHeight: 25 }}>Forgot Password</Text>
+                            <Text style={{ fontSize: 16, fontWeight: 'bold', lineHeight: 25 }}>Please type your email</Text>
                             <Text style={{ fontSize: 12 }}>We'll send you the link to reset the password!</Text>
                         </View>
                         <View style={{ margin: 10, flexDirection: 'row' }}>
-                            <Text>Email </Text>
                             <TextInput
                                 style={styles.textInputStyle}
                                 onChangeText={email => this.setState({ email })}
@@ -111,8 +110,8 @@ export default class ResetEmailDialog extends Component {
 
 const styles = StyleSheet.create({
     textInputStyle: {
-        height: 25,
-        width: 200,
+        height: 38,
+        width: '100%',
         marginLeft: 2,
         borderColor: 'gray',
         borderWidth: 0.5,

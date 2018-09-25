@@ -189,15 +189,15 @@ const styles = StyleSheet.create({
     },
     textStyle: {
         marginLeft: 30,
-        marginTop: 20,
+        marginTop: 5,
         textAlign: 'left',
         fontWeight: '600',
         fontSize: 16
     },
     textInputStyle: {
         marginLeft: 30,
-        marginTop: 5,
-        height: 30,
+        marginTop: 15,
+        height: 40,
         width: (width / 6) * 5,
         borderColor: 'gray',
         borderBottomWidth: 1
@@ -232,7 +232,7 @@ const styles = StyleSheet.create({
         marginTop: 10,
         textAlign: 'center',
         fontWeight: '800',
-        fontSize: 14,
-        color: 'black'
+        fontSize: 10,
+        color: 'black',
     }
 });
