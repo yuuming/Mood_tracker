@@ -7,7 +7,9 @@ import {
     TouchableOpacity,
     Dimensions,
     ActivityIndicator,
-    Keyboard
+    Keyboard,
+    Image,
+    KeyboardAvoidingView
 } from 'react-native';
 import { observer, inject } from 'mobx-react';
 import ResetEmailDialog from '../components/ResetEmailDialog';
@@ -15,7 +17,7 @@ import ResetEmailDialog from '../components/ResetEmailDialog';
 const { width } = Dimensions.get('window');
 // const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 const emailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$/;
+const passwordRegex = /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])([a-zA-Z0-9]{8,})$/;
 @inject('rootStore')
 @observer
 export default class SignIn extends Component {
@@ -60,13 +62,13 @@ export default class SignIn extends Component {
             return;
         }
 
-        // if (!emailRegex.test(email)) {
-        //     alert('email is wrong');
-        //     return;
-        // } else if (!passwordRegex.test(password)) {
-        //     alert('password is wrong');
-        //     return;
-        // }
+        if (!emailRegex.test(email)) {
+            alert('email is wrong');
+            return;
+        } else if (!passwordRegex.test(password)) {
+            alert('password is wrong');
+            return;
+        }
 
         if (isSignUpMode && password === confirmedPassword) {
             this.accountStore.signUp(email, password);
@@ -90,7 +92,16 @@ export default class SignIn extends Component {
     render() {
         return (
             <View style={{ flex: 1 }}>
-                <View style={styles.textInputContainer}>
+                <View
+                    style={{ flex: 4, paddingTop: 30, flexDirection: 'row', justifyContent: 'center', alignItems: 'center', backgroundColor: '#F5FCFF' }}
+                >
+                    <Image
+                        source={require('../../resource/mood_jar_icon.png')}
+                        style={{ width: 60, height: '70%' }}
+                        resizeMode='contain'
+                    />
+                </View>
+                <KeyboardAvoidingView style={styles.textInputContainer} enabled>
                     <Text style={styles.textStyle}>Email</Text>
                     <TextInput
                         style={styles.textInputStyle}
@@ -101,7 +112,7 @@ export default class SignIn extends Component {
                         autoCapitalize="none"
                         underlineColorAndroid="transparent"
                     />
-                    <Text style={styles.textStyle}>Password</Text>
+                    <Text style={styles.textStyle}>Password (a combination of uppercase, lowercase and digits)</Text>
                     <TextInput
                         style={styles.textInputStyle}
                         onChangeText={password => this.setState({ password })}
@@ -125,10 +136,11 @@ export default class SignIn extends Component {
                             />
                         </View>
                     ) : null}
-                    <TouchableOpacity onPress={() => {
-                        Keyboard.dismiss();
-                        this.isDone();
-                    }}
+                    <TouchableOpacity
+                        onPress={() => {
+                            Keyboard.dismiss();
+                            this.isDone();
+                        }}
                     >
                         <View style={styles.signInButtonStyle}>
                             <Text>{this.state.isSignUpMode ? 'Sign Up' : 'Sign In'}</Text>
@@ -159,7 +171,7 @@ export default class SignIn extends Component {
                     {this.state.isResetEmailDialogVisible ?
                         <ResetEmailDialog closeDialog={this.switchResetPasswordDialogVisibility} />
                         : null}
-                </View>
+                </KeyboardAvoidingView>
                 <View style={{ backgroundColor: '#F5FCFF', flex: 1, justifyContent: 'flex-start', alignItems: 'center' }}>
                     {this.accountStore.isPending ? <ActivityIndicator /> : null}
                 </View>
@@ -171,21 +183,21 @@ export default class SignIn extends Component {
 const styles = StyleSheet.create({
     textInputContainer: {
         flex: 10,
-        justifyContent: 'center',
+        justifyContent: 'flex-start',
         alignItems: 'flex-start',
         backgroundColor: '#F5FCFF'
     },
     textStyle: {
         marginLeft: 30,
-        marginTop: 20,
+        marginTop: 5,
         textAlign: 'left',
         fontWeight: '600',
         fontSize: 16
     },
     textInputStyle: {
         marginLeft: 30,
-        marginTop: 5,
-        height: 30,
+        marginTop: 15,
+        height: 40,
         width: (width / 6) * 5,
         borderColor: 'gray',
         borderBottomWidth: 1
@@ -220,7 +232,7 @@ const styles = StyleSheet.create({
         marginTop: 10,
         textAlign: 'center',
         fontWeight: '800',
-        fontSize: 14,
-        color: 'black'
+        fontSize: 10,
+        color: 'black',
     }
 });
