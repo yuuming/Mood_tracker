@@ -8,7 +8,8 @@ import {
     Dimensions,
     ActivityIndicator,
     Keyboard,
-    Image
+    Image,
+    KeyboardAvoidingView
 } from 'react-native';
 import { observer, inject } from 'mobx-react';
 import ResetEmailDialog from '../components/ResetEmailDialog';
@@ -16,7 +17,7 @@ import ResetEmailDialog from '../components/ResetEmailDialog';
 const { width } = Dimensions.get('window');
 // const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 const emailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$/;
+const passwordRegex = /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])([a-zA-Z0-9]{8,})$/;
 @inject('rootStore')
 @observer
 export default class SignIn extends Component {
@@ -100,7 +101,7 @@ export default class SignIn extends Component {
                         resizeMode='contain'
                     />
                 </View>
-                <View style={styles.textInputContainer}>
+                <KeyboardAvoidingView style={styles.textInputContainer} enabled>
                     <Text style={styles.textStyle}>Email</Text>
                     <TextInput
                         style={styles.textInputStyle}
@@ -111,7 +112,7 @@ export default class SignIn extends Component {
                         autoCapitalize="none"
                         underlineColorAndroid="transparent"
                     />
-                    <Text style={styles.textStyle}>Password</Text>
+                    <Text style={styles.textStyle}>Password (a combination of uppercase, lowercase and digits)</Text>
                     <TextInput
                         style={styles.textInputStyle}
                         onChangeText={password => this.setState({ password })}
@@ -170,7 +171,7 @@ export default class SignIn extends Component {
                     {this.state.isResetEmailDialogVisible ?
                         <ResetEmailDialog closeDialog={this.switchResetPasswordDialogVisibility} />
                         : null}
-                </View>
+                </KeyboardAvoidingView>
                 <View style={{ backgroundColor: '#F5FCFF', flex: 1, justifyContent: 'flex-start', alignItems: 'center' }}>
                     {this.accountStore.isPending ? <ActivityIndicator /> : null}
                 </View>
@@ -182,7 +183,7 @@ export default class SignIn extends Component {
 const styles = StyleSheet.create({
     textInputContainer: {
         flex: 10,
-        justifyContent: 'center',
+        justifyContent: 'flex-start',
         alignItems: 'flex-start',
         backgroundColor: '#F5FCFF'
     },
