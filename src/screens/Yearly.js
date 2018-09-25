@@ -124,7 +124,7 @@ export default class Yearly extends Component {
     ];
     
     return (
-      <View style={{ flex: 1 }}>
+      <View style={{ flex: 1, backgroundColor: '#ffffff' }}>
         <FlatList
           style={{ flex: 1 }}
           numColumns={3}
@@ -145,12 +145,6 @@ export default class Yearly extends Component {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#ffffff'
-  },
   monthSquare: {
     flex: 1,
     width: 92,
@@ -168,7 +162,7 @@ const styles = StyleSheet.create({
   },
   textStyle: {
     fontSize: 16,
-    fontWeight: '300',
+    fontWeight: '500',
     color: '#3c3642',
     paddingLeft: 5,
     paddingTop: 3,
