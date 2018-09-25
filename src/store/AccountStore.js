@@ -118,7 +118,15 @@ export default class AccountStore {
           bad: 0
         };
 
-        this.updateCurrentPalette(userRef.data().currentPalette);
+        if (!this.user.currentPalette) {
+          const keyArr = Object.keys(this.rootStore.moodPaletteList);
+          const randomNo = Math.floor(Math.random() * keyArr.length);
+          this.user.currentPalette = keyArr[randomNo];
+          this.rootStore.selectedPaletteID = keyArr[randomNo];
+          this.rootStore.updateSelectPalette();
+        }
+
+        this.updateCurrentPalette(this.user.currentPalette);
 
         db.collection('users')
           .doc(user.uid)
@@ -129,7 +137,7 @@ export default class AccountStore {
 
             const sortedDocs = _.sortBy(docs, doc => doc.data().date);
             this.yearArray = [];
-            console.log(sortedDocs);
+
             _.forEach(sortedDocs, (doc, index) => {
               this.user.markedDates[doc.data().date] = {
                 comment: doc.data().comment,
@@ -181,7 +189,6 @@ export default class AccountStore {
 
               yearTest[year] = monthTest;
 
-              this.updateCurrentPalette(this.user.currentPalette);
               this.rootStore.diaryStore.records = this.user.markedDates;
             });
 
