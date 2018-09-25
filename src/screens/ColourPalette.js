@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import { observer, inject } from 'mobx-react';
-import { Actions } from 'react-native-router-flux';
 import MoodPalette from '../components/MoodPalette';
 
 @inject('rootStore')
@@ -21,6 +20,7 @@ export default class ColourPalette extends Component {
     const selectedPalette = this.rootStore.moodPaletteList[
       this.accountStore.currentPaletteID
     ];
+    
     return (
       <View style={styles.container}>
         <View style={styles.colourPalette}>

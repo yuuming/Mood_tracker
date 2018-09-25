@@ -51,11 +51,7 @@ export default class YearlyBar extends Component {
 
     arraySort = Object.values(this.accountStore.yearArray);
     arraySort.sort((a, b) => (a < b ? 1 : -1));
-    console.log('arraySort', arraySort);
     dataArray = [arraySort];
-    console.log('this.accountStore.yearArray', this.accountStore.yearArray);
-    console.log('current year ', this.currentYear);
-    console.log('dataArray[0][0] ', dataArray[0][0]);
 
     if (dataArray[0][0] !== this.currentYear) {
       _.forEach(dataArray[0], element => {
@@ -68,16 +64,14 @@ export default class YearlyBar extends Component {
         for (let j = 0; j < exe.length; j++) {
           dataArray[i].splice(exe[j] - j, 1);
         }
-        console.log('dataArray', dataArray);
         dataArray[0].unshift(this.currentYear);
       }
-      console.log('rendertitle is runing', this.currentYear);
-      console.log('dataArray', dataArray);
     }
 
     //for Android 
     let index = 0;
     const yearSourceArray = [];
+
     _.forEach(arraySort, element => {
       const yearSource = {
         key: index++,
@@ -93,11 +87,6 @@ export default class YearlyBar extends Component {
           bgColor={'white'}
           tintColor={'#666666'}
           activityTintColor={'green'}
-          // arrowImg={}
-          // checkImage={}
-          // optionTextStyle={{color: '#333333'}}
-          // titleStyle={{color: '#333333'}}
-          // maxHeight={300}
           handler={(selection, row) => {
             this.setState({ text: dataArray[selection][row] });
             this.changeCurrentYear(dataArray[selection][row]);
@@ -122,7 +111,6 @@ export default class YearlyBar extends Component {
   }
 
   render() {
-    console.log('==============yearlyBar');
     return <View style={styles.container}>{this.renderTitle()}</View>;
   }
 }

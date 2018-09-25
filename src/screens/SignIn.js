@@ -15,7 +15,6 @@ import { observer, inject } from 'mobx-react';
 import ResetEmailDialog from '../components/ResetEmailDialog';
 
 const { width } = Dimensions.get('window');
-// const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 const emailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 const passwordRegex = /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])([a-zA-Z0-9]{8,})$/;
 @inject('rootStore')
@@ -82,7 +81,6 @@ export default class SignIn extends Component {
     };
 
     switchResetPasswordDialogVisibility = (isEmailOffered = false) => {
-        console.log('switch!!');
         this.setState({
             isResetEmailDialogVisible: !this.state.isResetEmailDialogVisible,
             isEmailOffered
@@ -93,7 +91,7 @@ export default class SignIn extends Component {
         return (
             <View style={{ flex: 1 }}>
                 <View
-                    style={{ flex: 4, paddingTop: 30, flexDirection: 'row', justifyContent: 'center', alignItems: 'center', backgroundColor: '#F5FCFF' }}
+                    style={styles.moodJarIconContainerView}                
                 >
                     <Image
                         source={require('../../resource/mood_jar_icon.png')}
@@ -181,6 +179,14 @@ export default class SignIn extends Component {
 }
 
 const styles = StyleSheet.create({
+    moodJarIconContainerView: { 
+        flex: 4, 
+        paddingTop: 30, 
+        flexDirection: 'row', 
+        justifyContent: 'center', 
+        alignItems: 'center', 
+        backgroundColor: '#F5FCFF' 
+    },
     textInputContainer: {
         flex: 10,
         justifyContent: 'flex-start',

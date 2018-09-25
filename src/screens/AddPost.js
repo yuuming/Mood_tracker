@@ -49,16 +49,14 @@ export default class AddPost extends Component {
             this.diaryStore.comment = this.post.comment;
             this.diaryStore.mood = this.post.mood;
             this.diaryStore.originalMood = this.post.mood;
-            
+
             if (this.post.id) {
                 this.diaryStore.id = this.post.id;
-                console.log('AddPost', this.post.id);
             }
         }
     }
 
     componentWillUnmount() {
-        console.log('cleareData is called');
         this.diaryStore.clearData();
     }
 
@@ -100,19 +98,19 @@ export default class AddPost extends Component {
 
     render() {
         return (
-            <View style={styles.container}>
+            <View style={styles.parentContainer}>
                 <View
-                    style={{ width: '90%', height: 60, flexDirection: 'row' }}
+                    style={styles.moodSettingBarContainer}
                 >
                     {this.renderMoodSettingBar()}
                 </View>
-                <ScrollView style={{ width: '90%', backgroundColor: 'white', margin: 15 }}>
+                <ScrollView style={styles.commentContainer}>
                     {!this.isToday ?
                         <Text style={styles.textStyle}>{this.post.comment || ''}</Text> :
                         <TextInput
-                            onChangeText={(comment) => { 
+                            onChangeText={(comment) => {
                                 this.onchangeText(comment);
-                                this.diaryStore.comment = comment; 
+                                this.diaryStore.comment = comment;
                             }}
                             value={this.state.comment}
                             multiline
@@ -127,11 +125,21 @@ export default class AddPost extends Component {
 }
 
 const styles = StyleSheet.create({
-    container: {
+    parentContainer: {
         flex: 1,
         justifyContent: 'space-between',
         alignItems: 'center',
         marginTop: 15,
+    },
+    moodSettingBarContainer: {
+        width: '90%',
+        height: 60,
+        flexDirection: 'row'
+    },
+    commentContainer: {
+        width: '90%',
+        backgroundColor: 'white',
+        margin: 15
     },
     textStyle: {
         margin: 20,

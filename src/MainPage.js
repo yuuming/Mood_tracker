@@ -23,10 +23,8 @@ export default class MainPage extends Component {
   }
 
   onBackPress = () => {
-    console.log(Actions.currentScene);
     const currentScene = Actions.currentScene;
-    // TODO :: Need to refactoring cause it needs to add everywhere.
-    // Do not use string, define in constant.js and use enum instead or make check function.
+    
     if (currentScene === '_main' || currentScene === 'main') {
       return false;
     }
@@ -67,8 +65,6 @@ export default class MainPage extends Component {
             <Scene
               key="MoodPalette"
               component={MoodPalette}
-            // hideNavBar={false}
-            // navBar={ColourPaletteBar}
             />
             <Scene key="addPost" component={AddPost} />
           </Stack>

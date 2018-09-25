@@ -18,16 +18,11 @@ export default class Yearly extends Component {
     this.diaryStore = this.rootStore.diaryStore;
     this.accountStore = this.rootStore.accountStore;
     this.user = this.accountStore.user;
-    // this.selectedPalette = this.rootStore.moodPaletteList[
-    //   this.accountStore.currentPaletteID
-    // ];
     this.markedDateArray = [];
     this.year = this.diaryStore.currentYear;
   }
 
   componentWillMount() {
-    console.log(this.diaryStore.moodCounter);
-    console.log('&&&&&&&&&&&', this.year);
     this.diaryStore.createMonthlyData();
   }
 
@@ -82,7 +77,6 @@ export default class Yearly extends Component {
     } = selectedPalette.moodColors;
 
     if (item.moods !== '') {
-      console.log('month!!!!!!!!!!!', item.month);
       return (
         <TouchableOpacity
           key={item.key}
@@ -106,6 +100,7 @@ export default class Yearly extends Component {
         </TouchableOpacity>
       );
     }
+
     return (
       <TouchableOpacity
         key={item.month}
@@ -124,8 +119,6 @@ export default class Yearly extends Component {
   }
 
   render() {
-    console.log('datasaurce', this.diaryStore.dataSourceNew);
-
     const selectedPalette = this.rootStore.moodPaletteList[
       this.accountStore.currentPaletteID
     ];
