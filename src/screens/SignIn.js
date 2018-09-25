@@ -7,10 +7,12 @@ import {
     TouchableOpacity,
     Dimensions,
     ActivityIndicator,
-    Keyboard
+    Keyboard,
+    Image
 } from 'react-native';
 import { observer, inject } from 'mobx-react';
 import ResetEmailDialog from '../components/ResetEmailDialog';
+import icon from '../../resource/mood_jar_icon.png';
 
 const { width } = Dimensions.get('window');
 // const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -90,6 +92,15 @@ export default class SignIn extends Component {
     render() {
         return (
             <View style={{ flex: 1 }}>
+                <View
+                    style={{ flex: 4, paddingTop: 30, flexDirection: 'row', justifyContent: 'center', alignItems: 'center', backgroundColor: '#F5FCFF' }}
+                >
+                    <Image
+                        source={require('../../resource/mood_jar_icon.png')}
+                        style={{ width: 60, height: '70%' }}
+                        resizeMode='contain'
+                    />
+                </View>
                 <View style={styles.textInputContainer}>
                     <Text style={styles.textStyle}>Email</Text>
                     <TextInput
@@ -125,10 +136,11 @@ export default class SignIn extends Component {
                             />
                         </View>
                     ) : null}
-                    <TouchableOpacity onPress={() => {
-                        Keyboard.dismiss();
-                        this.isDone();
-                    }}
+                    <TouchableOpacity
+                        onPress={() => {
+                            Keyboard.dismiss();
+                            this.isDone();
+                        }}
                     >
                         <View style={styles.signInButtonStyle}>
                             <Text>{this.state.isSignUpMode ? 'Sign Up' : 'Sign In'}</Text>
