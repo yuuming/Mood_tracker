@@ -7,7 +7,8 @@ import {
     TouchableOpacity,
     Dimensions,
     ActivityIndicator,
-    Keyboard
+    Keyboard,
+    Image
 } from 'react-native';
 import { observer, inject } from 'mobx-react';
 import ResetEmailDialog from '../components/ResetEmailDialog';
@@ -60,13 +61,13 @@ export default class SignIn extends Component {
             return;
         }
 
-        // if (!emailRegex.test(email)) {
-        //     alert('email is wrong');
-        //     return;
-        // } else if (!passwordRegex.test(password)) {
-        //     alert('password is wrong');
-        //     return;
-        // }
+        if (!emailRegex.test(email)) {
+            alert('email is wrong');
+            return;
+        } else if (!passwordRegex.test(password)) {
+            alert('password is wrong');
+            return;
+        }
 
         if (isSignUpMode && password === confirmedPassword) {
             this.accountStore.signUp(email, password);
@@ -90,6 +91,15 @@ export default class SignIn extends Component {
     render() {
         return (
             <View style={{ flex: 1 }}>
+                <View
+                    style={{ flex: 4, paddingTop: 30, flexDirection: 'row', justifyContent: 'center', alignItems: 'center', backgroundColor: '#F5FCFF' }}
+                >
+                    <Image
+                        source={require('../../resource/mood_jar_icon.png')}
+                        style={{ width: 60, height: '70%' }}
+                        resizeMode='contain'
+                    />
+                </View>
                 <View style={styles.textInputContainer}>
                     <Text style={styles.textStyle}>Email</Text>
                     <TextInput
@@ -125,10 +135,11 @@ export default class SignIn extends Component {
                             />
                         </View>
                     ) : null}
-                    <TouchableOpacity onPress={() => {
-                        Keyboard.dismiss();
-                        this.isDone();
-                    }}
+                    <TouchableOpacity
+                        onPress={() => {
+                            Keyboard.dismiss();
+                            this.isDone();
+                        }}
                     >
                         <View style={styles.signInButtonStyle}>
                             <Text>{this.state.isSignUpMode ? 'Sign Up' : 'Sign In'}</Text>
