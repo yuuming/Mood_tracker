@@ -42,7 +42,12 @@ export default class DiaryStore {
 
   @action
   updateMoodCounter(year, month, mood) {
-    if (this.moodCounter[year][month]) {
+    if (!this.moodCounter[year] || !this.moodCounter[year][month]) {
+      this.moodCounter[year] = {};
+      this.moodCounter[year][month] = {};
+      this.moodCounter[year][month].moods = {};
+      this.moodCounter[year][month].moods[mood] = 1;
+    } else {
       this.moodCounter[year][month].moods[mood] =
         this.moodCounter[year][month].moods[mood] + 1;
       this.moodCounter[year][month].moods[this.originalMood] =
@@ -96,7 +101,7 @@ export default class DiaryStore {
     this.dataSourceNew = [];
     this.dataSource = [];
     let stringMonth;
-    
+
     for (i = 1; i <= 12; i++) {
       if (i.toString().length === 1) {
         stringMonth = `0${i.toString()}`;
