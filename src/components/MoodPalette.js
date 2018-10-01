@@ -99,6 +99,7 @@ export default class MoodPalette extends Component {
 
   renderMoodImage = ({ item }) => (
     <TouchableOpacity
+      activeOpacity={1}
       key={item.name}
       onPress={() => {
         this.setState({
@@ -193,7 +194,6 @@ const styles = StyleSheet.create({
   },
   selectedItemContainerAndroid: {
     flex: 1,
-    color: '#fff',
     marginHorizontal: 8,
     marginVertical: 8,
     fontSize: 5,
