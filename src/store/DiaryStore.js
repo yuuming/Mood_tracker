@@ -106,13 +106,15 @@ export default class DiaryStore {
       if (i.toString().length === 1) {
         stringMonth = `0${i.toString()}`;
       } else {
-        stringMonth = i;
+        stringMonth = `${i}`;
       }
+
       const obj1 = {
         key: `${this.currentYear + stringMonth}`,
         month: stringMonth,
-        moods: ''
+        moods: this.moodCounter[this.currentYear][stringMonth] || ''
       };
+
       this.dataSourceNew.push(obj1);
     }
 
