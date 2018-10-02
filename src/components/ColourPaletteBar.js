@@ -63,22 +63,23 @@ export default class ColourPaletteBar extends Component {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#ffffff',
-    height: 64,
+    height: 50,
     paddingTop: Platform.OS === 'ios' ? 10 : 0,
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between'
+    justifyContent: 'center'
   },
   doneButtonFont: {
     paddingRight: 14,
     minWidth: 32,
     minHeight: 32,
-    fontSize: 18
+    fontSize: 24
   },
   doneButton: {
     flex: 1,
     flexDirection: 'row',
-    justifyContent: 'flex-end'
+    justifyContent: 'flex-end',
+    alignItems: 'center',
   },
   backButton: {
     flex: 1,
