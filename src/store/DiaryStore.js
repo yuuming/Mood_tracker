@@ -112,7 +112,7 @@ export default class DiaryStore {
       const obj1 = {
         key: `${this.currentYear + stringMonth}`,
         month: stringMonth,
-        moods: this.moodCounter[this.currentYear][stringMonth] || ''
+        moods: ''
       };
 
       this.dataSourceNew.push(obj1);

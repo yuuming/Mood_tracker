@@ -97,7 +97,7 @@ export default class YearlyBar extends Component {
     }
     return (
       // for android
-      <View style={{ flex: 1, padding: 35 }}>
+      <View style={{ flex: 1, paddingLeft: 15, paddingRight: 15 }}>
         <ModalSelector
           data={yearSourceArray}
           initValue={this.currentYear}
@@ -118,11 +118,13 @@ export default class YearlyBar extends Component {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#ffffff',
-    height: 84,
+    height: 50,
     paddingTop: Platform.OS === 'ios' ? 10 : 0,
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    borderBottomWidth: 0.5, 
+    borderColor: '#cfcfcf',
   },
   backButton: {
     flex: 1,

@@ -29,17 +29,11 @@ export default class MoodPalette extends Component {
     this.stringSpace = '\xa0\xa0';
 
     this.state = {
-      selectedPaletteID: this.props.rootStore.accountStore.currentPaletteID,
-      selectedPaletteName: null
-    };
-  }
-
-  componentWillMount() {
-    this.setState({
+      selectedPaletteID: this.accountStore.currentPaletteID,
       selectedPaletteName: this.moodPaletteListWithId[
-        this.state.selectedPaletteID
+        this.accountStore.currentPaletteID
       ].name
-    });
+    };
   }
 
   shadowStyle(item) {
@@ -99,6 +93,7 @@ export default class MoodPalette extends Component {
 
   renderMoodImage = ({ item }) => (
     <TouchableOpacity
+      activeOpacity={1}
       key={item.name}
       onPress={() => {
         this.setState({
@@ -193,10 +188,8 @@ const styles = StyleSheet.create({
   },
   selectedItemContainerAndroid: {
     flex: 1,
-    color: '#fff',
     marginHorizontal: 8,
     marginVertical: 8,
-    fontSize: 5,
     backgroundColor: '#fff',
     borderBottomRightRadius: 8,
     borderBottomLeftRadius: 8,
