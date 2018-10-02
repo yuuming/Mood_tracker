@@ -46,9 +46,9 @@ const styles = StyleSheet.create({
   colourPalette: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    height: 50,
+    height: 60,
     borderBottomWidth: 0.5,
-    borderColor: '#cfcfcf'
+    borderColor: '#cfcfcf',
   },
   paletteTextStyle: {
     fontSize: 14,

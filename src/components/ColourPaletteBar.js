@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
     paddingRight: 14,
     minWidth: 32,
     minHeight: 32,
-    fontSize: 24
+    fontSize: 20
   },
   doneButton: {
     flex: 1,
