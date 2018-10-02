@@ -29,17 +29,11 @@ export default class MoodPalette extends Component {
     this.stringSpace = '\xa0\xa0';
 
     this.state = {
-      selectedPaletteID: this.props.rootStore.accountStore.currentPaletteID,
-      selectedPaletteName: null
-    };
-  }
-
-  componentWillMount() {
-    this.setState({
+      selectedPaletteID: this.accountStore.currentPaletteID,
       selectedPaletteName: this.moodPaletteListWithId[
-        this.state.selectedPaletteID
+        this.accountStore.currentPaletteID
       ].name
-    });
+    };
   }
 
   shadowStyle(item) {
@@ -196,7 +190,6 @@ const styles = StyleSheet.create({
     flex: 1,
     marginHorizontal: 8,
     marginVertical: 8,
-    fontSize: 5,
     backgroundColor: '#fff',
     borderBottomRightRadius: 8,
     borderBottomLeftRadius: 8,
