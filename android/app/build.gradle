@@ -76,8 +76,12 @@ project.ext.react = [
     entryFile: "index.js"
 ]
 
-apply from: "../../node_modules/react-native/react.gradle"
+project.ext.vectoricons = [
+    iconFontNames: [ 'MaterialIcons.ttf', 'FontAwesome.ttf', 'Foundation.ttf', 'Ionicons.ttf' ]
+]
 
+apply from: "../../node_modules/react-native/react.gradle"
+apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"
 /**
  * Set this to true to create two separate APKs instead of one:
  *   - An APK that only works on ARM devices
@@ -94,17 +98,27 @@ def enableSeparateBuildPerCPUArchitecture = false
 def enableProguardInReleaseBuilds = false
 
 android {
-    compileSdkVersion 23
+    compileSdkVersion 27
     buildToolsVersion '27.0.3'
 
     defaultConfig {
         applicationId "com.mood_tracker"
-        minSdkVersion 16
-        targetSdkVersion 22
-        versionCode 1
-        versionName "1.0"
+        minSdkVersion 21
+        targetSdkVersion 26
+        versionCode 5
+        versionName "1.0.5"
         ndk {
             abiFilters "armeabi-v7a", "x86"
+        }
+    }
+    signingConfigs {
+        release {
+            if (project.hasProperty('MYAPP_RELEASE_STORE_FILE')) {
+                storeFile file(MYAPP_RELEASE_STORE_FILE)
+                storePassword MYAPP_RELEASE_STORE_PASSWORD
+                keyAlias MYAPP_RELEASE_KEY_ALIAS
+                keyPassword MYAPP_RELEASE_KEY_PASSWORD
+            }
         }
     }
     splits {
@@ -119,6 +133,7 @@ android {
         release {
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+            signingConfig signingConfigs.release
         }
     }
     // applicationVariants are e.g. debug, release
@@ -136,15 +151,24 @@ android {
     }
 }
 
+configurations.all {
+    resolutionStrategy {
+        force 'org.webkit:android-jsc:r224109'
+    }
+}
+
 dependencies {
+    compile project(':react-native-vector-icons')
     compile(project(':react-native-firebase')) {
         transitive = false
     }
     compile fileTree(dir: "libs", include: ["*.jar"])
     compile "com.android.support:appcompat-v7:23.0.1"
     compile "com.facebook.react:react-native:+"  // From node_modules
-    compile 'com.google.firebase:firebase-core:16.0.0'
-    implementation "com.google.firebase:firebase-auth:15.1.0"
+    compile 'com.google.firebase:firebase-core:15.0.0'
+    compile 'com.google.firebase:firebase-firestore:15.0.0'
+    implementation "com.google.firebase:firebase-auth:15.0.0"
+    compile project(':react-native-smart-splashscreen')
 
 }
 
