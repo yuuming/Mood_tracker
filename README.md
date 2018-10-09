@@ -1,4 +1,6 @@
-# MOOD JAR
+# MOOD JAR  
+
+![mood_main](https://user-images.githubusercontent.com/26515369/46645213-b16b3380-cb38-11e8-8ec6-21f98bfdfa16.jpg)  
 
 ## Avairable in Google Play Store
 
@@ -20,4 +22,16 @@ ex) When user select the sad mood colour, this app shows a little cute devil whi
 - Trello / Slack
 - Cloud Firestore
 - Mobx for state management
-- XD for design
+- XD for design  
+
+## Login / Sigh Up page  
+  
+![mood001](https://user-images.githubusercontent.com/26515369/46645728-2a6b8a80-cb3b-11e8-9203-acd8f467b01a.gif)  
+
+## Mood Palette page    
+
+User can choose beautiful mood palette from palette page. They can change it anytime they want.  
+  
+ ![mood002](https://user-images.githubusercontent.com/26515369/46645768-5edf4680-cb3b-11e8-9437-2f2cf9391ed7.gif)  
+ 
+ 
