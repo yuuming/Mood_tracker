@@ -8,7 +8,7 @@
 
 ## Introduction
 
-- This is a small project written in React Native.
+- This is a small project written in React Native for both iOS and Android ( currntly only avairable for Android).
 - We're inspired by a mood tracker on paper from Pinterest and made a decision to make it happen on mobile devices.
 - 'Mood & Colors' is our concept, stem from our belief that colors represent and affect our many diffrenet kinds of emotions.
 
