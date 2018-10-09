@@ -1,10 +1,8 @@
 # MOOD JAR
 
-##Avairable in Google Play Store
+## Avairable in Google Play Store
 
-<a href="https://play.google.com/store/apps/details?id=com.mood_tracker"><img class="moodIcon disp-block"
-                src="img/portfolio/playstore-icon.png"></a>
-![mood_main](https://user-images.githubusercontent.com/26515369/46645213-b16b3380-cb38-11e8-8ec6-21f98bfdfa16.jpg)
+[MOOD JAR GOOGLE PLAY STORE](https://play.google.com/store/apps/details?id=com.mood_tracker) 
 
 ## Introduction
 
