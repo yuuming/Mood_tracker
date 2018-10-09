@@ -34,4 +34,23 @@ User can choose beautiful mood palette from palette page. They can change it any
   
  ![mood002](https://user-images.githubusercontent.com/26515369/46645768-5edf4680-cb3b-11e8-9437-2f2cf9391ed7.gif)  
  
+ ## Diary page / Year page   
  
+User can save their mood of the day and make a comments like a diary.  
+
+User can see yearly page which shows the range of moods for each months.  
+  
+![mood003](https://user-images.githubusercontent.com/26515369/46645957-44599d00-cb3c-11e8-95c1-42062dc9157e.gif)  
+
+## Style to check the diary  
+
+User can read their past diary with mood with calendar style or FlatList style.  
+
+![mood005](https://user-images.githubusercontent.com/26515369/46646010-9b5f7200-cb3c-11e8-9ee2-cb2b0dae1a69.gif)  
+
+
+
+
+
+
+
